@@ -8,4 +8,4 @@ IV. Install RSTUDIO<br />
 V. Data Anlaysis with R<br />
 * At home
 #### Homework
-[hw1.html](https://bourbon0212.github.io/NTU-CS-X/hw1.html)
+[hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)
