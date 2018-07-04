@@ -6,11 +6,4 @@ ID：B06208001<br />
 Department：臺大地理一<br />
 Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞，期望在這門課提升自己的實力！
 ## Schedule
-### Week1
-#### Progress
-* In class<br />
-I. Create an Github account<br />
-II. Install Github Desktop<br />
-III. Create a repository<br />
-IV. Install RSTUDIO<br />
-V. Data Anlaysis with R<br />
+### [Week1](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week1)
