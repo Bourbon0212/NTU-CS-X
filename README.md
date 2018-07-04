@@ -1,4 +1,4 @@
-# 2018 NTU CS+X
+﻿# 2018 NTU CS+X
 ## Announcement
 Course：106學年度夏季學院【資料科學程式設計】<br />
 Student：龔泓愷<br /> 
@@ -11,5 +11,6 @@ Intro：嗨，大家好，我是龔泓愷，興趣試看看3C相關科技新聞�
 * In class<br />
 I. Create an Github account<br />
 II. Install Github Desktop<br />
-III. Install RSTUDIO<br />
-IV. Data Anlaysis with R<br />
+III. Create a repository<br />
+IV. Install RSTUDIO<br />
+V. Data Anlaysis with R<br />
