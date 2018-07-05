@@ -1,59 +1,59 @@
 ---
 title: "R Basic"
 author: "Bourbon0212"
-date: "2018/7/4—¥"
+date: "2018/7/4"
 output: html_document
 ---
 
-## ¹Bºâ
+## é‹ç®—
 
 ```{r eval=TRUE}
-3 + 3 #¥[ªk
-3 - 3 #´îªk
-3 * 3 #­¼ªk
-3 / 3 #°£ªk
-3 %% 3 #¾l¼Æ
+3 + 3 #åŠ æ³•
+3 - 3 #æ¸›æ³•
+3 * 3 #ä¹˜æ³•
+3 / 3 #é™¤æ³•
+3 %% 3 #é¤˜æ•¸
 ```
 
-## ÅÜ¼Æ
+## è®Šæ•¸
 
-ÅÜ¼ÆºØÃş¡G    
+è®Šæ•¸ç¨®é¡ï¼š    
 ```{r eval=TRUE}
 class(3.5)   
 class(3L) #Capital 'L' after an integer forces it to be stored as an integer.
 class(TRUE)    
 class('R studio')    
 ```
-ÅÜ¼Æ¹Bºâ¡G
+è®Šæ•¸é‹ç®—ï¼š
 ```{r error=TRUE}
 3.5 + 3L
 3.5 + 'three'
 ```
-¤£¦P«¬§OªºÅÜ¼Æ«¬ºA¤§¶¡ªº¬Y¨Ç¾Ş§@¬O¤£³Q¤¹³\ªº¡A¨Ò¦p¼Æ¦r»P¦r¦ê¬Û¥[¡C
+ä¸åŒå‹åˆ¥çš„è®Šæ•¸å‹æ…‹ä¹‹é–“çš„æŸäº›æ“ä½œæ˜¯ä¸è¢«å…è¨±çš„ï¼Œä¾‹å¦‚æ•¸å­—èˆ‡å­—ä¸²ç›¸åŠ ã€‚
 
-## ¦V¶q
-¦V¶q¹Bºâ¡G
+## å‘é‡
+å‘é‡é‹ç®—ï¼š
 ```{r}
 vector1 <- c(100,300,500)
 vector2 <- c(200,200,-100)
-vector3 <- vector1 + vector2 #¦V¶q¯àª½±µ¶i¦æ¹Bºâ
-total <- sum(vector3) #¨Ï¥Îsum¦V¶q¥[Á`
-mean <- mean(vector3) #¨Ï¥Îmean­pºâ¥­§¡­È
+vector3 <- vector1 + vector2 #å‘é‡èƒ½ç›´æ¥é€²è¡Œé‹ç®—
+total <- sum(vector3) #ä½¿ç”¨sumå‘é‡åŠ ç¸½
+mean <- mean(vector3) #ä½¿ç”¨meanè¨ˆç®—å¹³å‡å€¼
 vector3
 total
 mean
 ```
-¦V¶q©R¦W¡G
+å‘é‡å‘½åï¼š
 ```{r}
-names(vector3) <- c('America','England','Japan') #¥Înames´À¦V¶q©R¦W
+names(vector3) <- c('America','England','Japan') #ç”¨namesæ›¿å‘é‡å‘½å
 vector3
 ```
-¦V¶q¿ï¨ú¡G
+å‘é‡é¸å–ï¼š
 ```{r}
 selection <- vector3 > 350
-selection #ª½±µ¤ñ¤j¤p¦^¶ÇÅŞ¿è­È
-select_vec1 <- vector3[selection] #¨Ï¥Î¤¤¬A¸¹¶i¦æ¿ï¨ú
+selection #ç›´æ¥æ¯”å¤§å°å›å‚³é‚è¼¯å€¼
+select_vec1 <- vector3[selection] #ä½¿ç”¨ä¸­æ‹¬è™Ÿé€²è¡Œé¸å–
 select_vec1
-select_vec2 <- vector3[1:2] # ¤]¯à¥H¤Ş¼Æ¦ì¸m¿ï¨ú¡Aª`·N1¬O²Ä¤@¶µ¡C
+select_vec2 <- vector3[1:2] # ä¹Ÿèƒ½ä»¥å¼•æ•¸ä½ç½®é¸å–ï¼Œæ³¨æ„1æ˜¯ç¬¬ä¸€é …ã€‚
 select_vec2
 ```{r}
