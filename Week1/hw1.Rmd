@@ -9,7 +9,9 @@ output: html_document
     + [變數](#1.2)
     + [向量](#1.3)
     + [矩陣](#1.4)
-
+    + [因素向量](#1.5)
+    + [資料框](#1.6)
+    
 * [Intermediate R](#2)
 * [Introduction to the tidyverse](#3)
 
@@ -106,3 +108,53 @@ worldwide <- rowSums(star_wars_matrix)
 all_wars_matrix <- cbind(star_wars_matrix, worldwide)
 all_wars_matrix
 ```
+矩陣選取：
+使用[列,欄]，來選取，連續選取以冒號連結，全選留白。
+```{r}
+#選出全部電影的非美國票房收入
+non_us_all <- all_wars_matrix[,2]
+non_us_all
+#選出前兩部電影的非美國票房收入
+non_us_some <- all_wars_matrix[1:2,2]
+non_us_some
+```
+
+<h3 id = '1.5'></h3>
+## 因素向量
+因素向量是用來儲存類別型變數的統計資料，類別型變數與連續型變數最主要的差異在於類別型變數有類別個數的上限，而連續型變數則會有無窮多的個數。用factor顯示級別。
+```{r}
+#無法在類別之間比較好壞的【名目類別型變數】，如：動物。
+animals_vector <- c("Elephant", "Giraffe", "Donkey", "Horse")
+factor_animals_vector <- factor(animals_vector)
+factor_animals_vector
+
+#天生有比較特性的【順序類別型變數】，如：溫度。
+temperature_vector <- c("High", "Low", "High","Low", "Medium")
+factor_temperature_vector <- factor(temperature_vector, order = TRUE, levels = c("Low", "Medium", "High"))
+factor_temperature_vector
+```
+級別命名：
+```{r}
+survey_vector <- c("M", "F", "F", "M", "M")
+factor_survey_vector <- factor(survey_vector)
+#使用levels重新命名級別，，預設以字母排序
+levels(factor_survey_vector) <- c('Female', 'Male')
+factor_survey_vector
+#使用summary產出摘要，注意summary(survey_vector)結果不同
+summary(survey_vector)
+summary(factor_survey_vector)
+```
+選取比較：
+```{r}
+#使用factor建立順序類別
+speed_vector <- c("fast", "slow", "slow", "fast", "insane")
+factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "fast", "insane"))
+#選出資料
+da2 <- factor_speed_vector[2]
+da5 <- factor_speed_vector[5]
+#資料分析師 2 是否比資料分析師 5 快？
+da2 > da5
+```
+
+<h3 id = '1.6'></h3>
+## 資料框
