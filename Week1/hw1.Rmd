@@ -4,7 +4,19 @@ author: "Bourbon0212"
 date: "2018/7/4"
 output: html_document
 ---
+* [Introduction to R](#1)
+    + [運算](#1.1)
+    + [變數](#1.2)
+    + [向量](#1.3)
+    + [矩陣](#1.4)
 
+* [Intermediate R](#2)
+* [Introduction to the tidyverse](#3)
+
+<h2 id = '1'></h2>
+# Introduction to R
+
+<h3 id = '1.1'></h3>
 ## 運算
 
 ```{r eval=TRUE}
@@ -15,6 +27,7 @@ output: html_document
 3 %% 3 #餘數
 ```
 
+<h3 id = '1.2'></h3>
 ## 變數
 
 變數種類：    
@@ -31,6 +44,7 @@ class('R studio')
 ```
 不同型別的變數型態之間的某些操作是不被允許的，例如數字與字串相加。
 
+<h3 id = '1.3'></h3>
 ## 向量
 向量運算：
 ```{r}
@@ -54,6 +68,41 @@ selection <- vector3 > 350
 selection #直接比大小回傳邏輯值
 select_vec1 <- vector3[selection] #使用中括號進行選取
 select_vec1
-select_vec2 <- vector3[1:2] # 也能以引數位置選取，注意1是第一項。
+select_vec2 <- vector3[1:2] #也能以引數位置選取，注意1是第一項。
 select_vec2
+```
+
+<h3 id = '1.4'></h3>
+## 矩陣
+建立矩陣：
 ```{r}
+#星際大戰票房
+new_hope <- c(460.998, 314.4)
+empire_strikes <- c(290.475, 247.900)
+return_jedi <- c(309.306, 165.8)
+#宣告 box_office
+box_office <- c(new_hope, empire_strikes, return_jedi)
+#建立 star_wars_matrix
+star_wars_matrix <- matrix(box_office, byrow = T, nrow = 3) 
+#一個具有 3 列(narrow = 3)的矩陣，數值(box_office)依序以列(byrow = TRUE)方向填入
+star_wars_matrix
+```
+矩陣命名：
+```{r}
+#用來命名的向量 region 與 titles
+region <- c("US", "non-US")
+titles <- c("A New Hope", "The Empire Strikes Back", "Return of the Jedi")
+#colnames是欄命名function
+colnames(star_wars_matrix) <- region
+#rownames是列命名function
+rownames(star_wars_matrix) <- titles
+star_wars_matrix
+```
+運算合併：
+```{r}
+#rowSums列總和(colSums欄總和)
+worldwide <- rowSums(star_wars_matrix)
+#cbind欄合併(rbind列合併)
+all_wars_matrix <- cbind(star_wars_matrix, worldwide)
+all_wars_matrix
+```
