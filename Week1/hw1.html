@@ -386,11 +386,9 @@ my_list</code></pre>
 ## Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</code></pre>
 <p>清單選擇：</p>
 <pre class="r"><code>#運用[[]]選出清單中的特定資料，再使用[]選出該指定資料的內容
-my_list[['df']][2]</code></pre>
-<pre><code>##               cyl
-## Mazda RX4       6
-## Mazda RX4 Wag   6
-## Datsun 710      4</code></pre>
+my_list[['df']][2,]</code></pre>
+<pre><code>##               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</code></pre>
 <ul>
 <li><a href="#0">回目錄</a></li>
 </ul>
