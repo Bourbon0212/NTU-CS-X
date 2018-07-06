@@ -4,6 +4,7 @@ author: "Bourbon0212"
 date: "2018/7/4"
 output: html_document
 ---
+<h2 id = '0'></h2>
 * [Introduction to R](#1)
     + [運算](#1.1)
     + [變數](#1.2)
@@ -11,6 +12,7 @@ output: html_document
     + [矩陣](#1.4)
     + [因素向量](#1.5)
     + [資料框](#1.6)
+    + [清單](#1.7)   
     
 * [Intermediate R](#2)
 * [Introduction to the tidyverse](#3)
@@ -94,17 +96,17 @@ star_wars_matrix
 #用來命名的向量 region 與 titles
 region <- c("US", "non-US")
 titles <- c("A New Hope", "The Empire Strikes Back", "Return of the Jedi")
-#colnames是欄命名function
+#colnames()是欄命名function
 colnames(star_wars_matrix) <- region
-#rownames是列命名function
+#rownames()是列命名function
 rownames(star_wars_matrix) <- titles
 star_wars_matrix
 ```
 運算合併：
 ```{r}
-#rowSums列總和(colSums欄總和)
+#rowSums()列總和(colSums()欄總和)
 worldwide <- rowSums(star_wars_matrix)
-#cbind欄合併(rbind列合併)
+#cbind()欄合併(rbind()列合併)
 all_wars_matrix <- cbind(star_wars_matrix, worldwide)
 all_wars_matrix
 ```
@@ -137,16 +139,16 @@ factor_temperature_vector
 ```{r}
 survey_vector <- c("M", "F", "F", "M", "M")
 factor_survey_vector <- factor(survey_vector)
-#使用levels重新命名級別，，預設以字母排序
+#使用levels()重新命名級別，，預設以字母排序
 levels(factor_survey_vector) <- c('Female', 'Male')
 factor_survey_vector
-#使用summary產出摘要，注意summary(survey_vector)結果不同
+#使用summary()產出摘要，注意summary(survey_vector)結果不同
 summary(survey_vector)
 summary(factor_survey_vector)
 ```
 選取比較：
 ```{r}
-#使用factor建立順序類別
+#使用factor()建立順序類別
 speed_vector <- c("fast", "slow", "slow", "fast", "insane")
 factor_speed_vector <- factor(speed_vector, ordered = TRUE, levels = c("slow", "fast", "insane"))
 #選出資料
@@ -158,3 +160,31 @@ da2 > da5
 
 <h3 id = '1.6'></h3>
 ## 資料框
+矩陣中所有的元素都是相同類型的，資料框中將觀測值儲存為列，將變數儲存為欄，通常包含了不同類型的資料。
+使用data.frame()將多個等長度向量組成資料框。選取內容方式與矩陣相同，但[]內可直接打列欄名稱，或以$連接。
+```{r}
+head(mtcars)#head()用來顯示dataframe的前六項
+tail(mtcars)#tail()用來顯示dataframe的後六項
+str(mtcars)#str()用來快速了解dataframe結構
+mtcars$qsec#選取資料框內容以$連接欄列名稱
+subset(mtcars, subset = qsec > 20)#使用subset()設定篩選條件
+```
+
+<h3 id = '1.7'></h3>
+## 清單
+清單可以蒐集多樣性的物件，包含矩陣、向量、資料框甚至清單，這些物件甚至不需要跟彼此相關。
+你可以將清單視為一種超級資料類型，基本上你可以將任何資訊都儲存在清單中！
+```{r}
+#使用list()組合各種資料，同時分別命名
+my_vector <- 1:10
+my_matrix <- matrix(1:9, ncol = 3)
+my_df <- mtcars[1:3,]
+my_list <- list(vec = my_vector, mat = my_matrix, df = my_df)
+my_list
+```
+清單選擇：
+```{r}
+#運用[[]]選出清單中的特定資料，再使用[]選出該指定資料的內容
+my_list[['df']][2]
+```
+* [回目錄](#0)
