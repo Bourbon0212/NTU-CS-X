@@ -15,6 +15,8 @@ output: html_document
     + [清單](#1.7)   
     
 * [Intermediate R](#2)
+    + [Conditionals and Control Flow](#2.1)
+
 * [Introduction to the tidyverse](#3)
 
 <h2 id = '1'></h2>
@@ -188,3 +190,33 @@ my_list
 my_list[['df']][2,]
 ```
 * [回目錄](#0)
+
+<h2 id = '2'></h2>
+# Intermediate R
+
+<h3 id = '2.1'></h3>
+## Conditionals and Control Flow
+Logical Operators：
+```{r}
+c(T, T, F) & c(T, F, F)
+c(T, T, F) | c(T, F, F)
+!c(T, T, F)
+c(T, T, F) && c(T, F, F)#注意&和&&結果不同，&&只回傳第一組比較值
+c(T, T, F) || c(T, F, F)#同上
+```
+Conditional Statements：
+```{r}
+number = 4
+if (number < 10) {
+  if (number < 5) {
+    result <- "extra small"
+  } else {
+    result <- "small"
+  }
+} else if (number < 100) {
+  result <- "medium"
+} else {
+  result <- "large"
+}
+print(result)
+```

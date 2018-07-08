@@ -141,7 +141,10 @@ $(document).ready(function () {
 <li><a href="#1.6">資料框</a></li>
 <li><a href="#1.7">清單</a></li>
 </ul></li>
-<li><a href="#2">Intermediate R</a></li>
+<li><a href="#2">Intermediate R</a>
+<ul>
+<li><a href="#2.1">Conditionals and Control Flow</a></li>
+</ul></li>
 <li><a href="#3">Introduction to the tidyverse</a></li>
 </ul>
 <h2 id="1">
@@ -392,6 +395,42 @@ my_list[['df']][2,]</code></pre>
 <ul>
 <li><a href="#0">回目錄</a></li>
 </ul>
+<h2 id="2">
+</h2>
+</div>
+</div>
+<div id="intermediate-r" class="section level1">
+<h1>Intermediate R</h1>
+<h3 id="2.1">
+</h3>
+<div id="conditionals-and-control-flow" class="section level2">
+<h2>Conditionals and Control Flow</h2>
+<p>Logical Operators：</p>
+<pre class="r"><code>c(T, T, F) &amp; c(T, F, F)</code></pre>
+<pre><code>## [1]  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>c(T, T, F) | c(T, F, F)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>!c(T, T, F)</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>c(T, T, F) &amp;&amp; c(T, F, F)#注意&amp;和&amp;&amp;結果不同，&amp;&amp;只回傳第一組比較值</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>c(T, T, F) || c(T, F, F)#同上</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Conditional Statements：</p>
+<pre class="r"><code>number = 4
+if (number &lt; 10) {
+  if (number &lt; 5) {
+    result &lt;- &quot;extra small&quot;
+  } else {
+    result &lt;- &quot;small&quot;
+  }
+} else if (number &lt; 100) {
+  result &lt;- &quot;medium&quot;
+} else {
+  result &lt;- &quot;large&quot;
+}
+print(result)</code></pre>
+<pre><code>## [1] &quot;extra small&quot;</code></pre>
 </div>
 </div>
 
