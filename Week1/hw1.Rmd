@@ -22,7 +22,11 @@ output: html_document
     + [Utilities](#2.5)
 
 * [Introduction to the tidyverse](#3)
-
+    + [Data wrangling](#3.1)
+    + [Data visualization](#3.2)
+    + [Grouping and summarizing](#3.3)
+    + [Types of visualizations](#3.4)
+    
 <h2 id = '1'></h2>
 # **Introduction to R**
 
@@ -374,3 +378,106 @@ vapply(list(runif (10), runif (10)),
 
 <h3 id = '2.5'></h3>
 ## Utilities
+
+**Useful Functions**    
+
+* Mathematical utilities    
+
+    + abs(): Calculate the absolute value.    
+    + sum(): Calculate the sum of all the values in a data structure.   
+    + mean(): Calculate the arithmetic mean.    
+    + round(): Round the values to 0 decimal places by default.   
+<br>
+* Data Utilities    
+
+    + seq(): Generate sequences, by specifying the from, to, and by arguments.
+    + rep(): Replicate elements of vectors and lists.
+    + sort(): Sort a vector in ascending order. Works on numerics, but also on character strings and logicals.
+    + rev(): Reverse the elements in a data structures for which reversal is defined.
+    + str(): Display the structure of any R object.
+    + append(): Merge vectors or lists.
+    + is.*(): Check for the class of an R object.
+    + as.*(): Convert an R object from one class to another.
+    + unlist(): Flatten (possibly embedded) lists to produce a vector.
+    
+```{r}
+seq1 = seq(1, 7, by = 2)
+rep1 = rep(seq1, times = 2)
+sort1 = sort(rep1, decreasing = T)
+rev1 = rev(sort1)
+append1 = append(sort1, rev1)
+append1
+```
+
+**Regular Expressions**
+
+* Grep**l** & Grep
+    + grepl(): Returns TRUE when a pattern is found in the corresponding character string.
+    + grep(): Returns a vector of indices of the character strings that contains the pattern.
+    + Use '^'and '$' to match the content located in the start and end of a string, respectively.
+```{r}
+emails <- c("john.doe@ivyleague.edu", "education@world.gov", "dalai.lama@peace.org",
+            "invalid.edu", "quant@bigdatacollege.edu", "cookie.monster@sesame.tv", "kiara@@fakemail.edu")
+#"@.*\\.edu$"代表"@"開頭，".edu"結尾，其中".*"表任何字串，"\\."表真的"."
+hits =grep(emails, pattern = '@.*\\.edu$')
+emails[hits]
+```
+
+* Sub & **G**sub
+    + sub(): Specify a 'replacement' replace a 'pattern', and it only replaces the first match.
+    + gsub(): Replaces all matches.
+    
+```{r}
+#sub(pattern, replacement, object)
+sub("@.*\\.edu$", "@datacamp.edu", emails)
+awards <- c("Won 1 Oscar.",
+  "Won 1 Oscar. Another 9 wins & 24 nominations.",
+  "1 win and 2 nominations.",
+  "2 wins & 3 nominations.",
+  "Nominated for 2 Golden Globes. 1 more win & 2 nominations.",
+  "4 wins & 1 nomination.")
+sub(".*\\s([0-9]+)\\snomination.*$", "\\1", awards)
+```
+
+* Times and Dates   
+
+    + Sys.**D**ate(): To know the date.   
+    + Sys.**t**ime(): To know the time.   
+    + Unclass(): See Date/time under the hood.    
+    + The 1st of January in 1970 is the common origin for representing times and dates in a wide range of programming languages.    
+    
+```{r}
+str1 <- "2012-03-15"
+class(str1)
+date1 <- as.Date(str1, format = '%Y-%m-%d')
+class(date1)
+str2 <- "2012-3-12 14:23:08"
+class(str2)
+time2 <- as.POSIXct(str2, format = '%Y-%m-%d %H:%M:%S')
+class(time2)
+format(time2, '%I:%M%p')
+#Calculations with Dates & Times
+as.Date("2015-03-12") - as.Date("2015-02-27")
+birth <- as.POSIXct("1879-03-14 14:37:23")
+death <- as.POSIXct("1955-04-18 03:47:12")
+einstein <- death - birth
+einstein
+```
+* [回目錄](#0)
+
+<h2 id = '3'></h2>
+# **Introduction to the tidyverse**
+
+<h3 id = '3.1'></h3>
+## Data wrangling
+
+<h3 id = '3.2'></h3>
+## Data visualization
+
+<h3 id = '3.3'></h3>
+## Grouping and summarizing
+
+<h3 id = '3.4'></h3>
+## Types of visualizations
+
+* [回目錄](#0)
