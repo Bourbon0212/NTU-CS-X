@@ -298,7 +298,7 @@ rcount
 args(mean)
 linkedin <- c(16, 9, 13, 5, NA, 17, 14)
 facebook <- c(17, NA, 5, 16, 8, 13, 14)
-mean(abs(linkedin - facebook),na.rm = T)
+mean(abs(linkedin - facebook),na.rm = T)#na.rm決定是否排除NA
 ```
 
 **Writing Functions**

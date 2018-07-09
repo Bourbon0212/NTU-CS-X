@@ -534,7 +534,7 @@ rcount</code></pre>
 <pre><code>## NULL</code></pre>
 <pre class="r"><code>linkedin &lt;- c(16, 9, 13, 5, NA, 17, 14)
 facebook &lt;- c(17, NA, 5, 16, 8, 13, 14)
-mean(abs(linkedin - facebook),na.rm = T)</code></pre>
+mean(abs(linkedin - facebook),na.rm = T)#na.rm決定是否排除NA</code></pre>
 <pre><code>## [1] 4.8</code></pre>
 <p><strong>Writing Functions</strong></p>
 <pre class="r"><code>two_dice &lt;- function() {
@@ -544,7 +544,7 @@ mean(abs(linkedin - facebook),na.rm = T)</code></pre>
   dice1 + dice2
 }
 two_dice()#每次的結果不同</code></pre>
-<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 6</code></pre>
 <p><strong>R Packages</strong></p>
 <ul>
 <li>Where do built in functions like mean() and list() come from?<br />
@@ -631,17 +631,17 @@ search()</code></pre>
        function(x) c(min = min(x), mean = mean(x), max = max(x)))</code></pre>
 <pre><code>## [[1]]
 ##        min       mean        max 
-## 0.03232984 0.59046924 0.91238858 
+## 0.04325214 0.48326889 0.90555049 
 ## 
 ## [[2]]
-##       min      mean       max 
-## 0.1098819 0.4967279 0.9914791</code></pre>
+##          min         mean          max 
+## 0.0005667782 0.4478104229 0.9294449256</code></pre>
 <pre class="r"><code>sapply(list(runif (10), runif (10)), 
        function(x) c(min = min(x), mean = mean(x), max = max(x)), USE.NAMES = T)</code></pre>
 <pre><code>##           [,1]      [,2]
-## min  0.2949623 0.3008840
-## mean 0.7079343 0.6491659
-## max  0.9990499 0.9072113</code></pre>
+## min  0.1222185 0.1082421
+## mean 0.5177592 0.5571549
+## max  0.8849593 0.9409429</code></pre>
 <p><strong>Vapply</strong></p>
 <ul>
 <li>vapply(list/vector, function, format)<br />
@@ -655,10 +655,10 @@ search()</code></pre>
 #'3' refers to length.
 vapply(list(runif (10), runif (10)), 
        function(x) c(min = min(x), mean = mean(x), max = max(x)), numeric(3))</code></pre>
-<pre><code>##             [,1]       [,2]
-## min  0.002378136 0.08360337
-## mean 0.434598815 0.42184699
-## max  0.985659223 0.86210975</code></pre>
+<pre><code>##            [,1]       [,2]
+## min  0.08296861 0.04098542
+## mean 0.36557015 0.55445236
+## max  0.81150322 0.95682111</code></pre>
 <h3 id="2.5">
 </h3>
 </div>
