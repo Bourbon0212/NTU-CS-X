@@ -18,12 +18,13 @@ output: html_document
     + [Conditionals and Control Flow](#2.1)
     + [Loops](#2.2)
     + [Functions](#2.3)
-    + [The Apply Family](#2.4)
+    + [Lapply, Sapply & Vapply](#2.4)
+    + [Utilities](#2.5)
 
 * [Introduction to the tidyverse](#3)
 
 <h2 id = '1'></h2>
-# Introduction to R
+# **Introduction to R**
 
 <h3 id = '1.1'></h3>
 ## Arithmetic
@@ -39,14 +40,14 @@ output: html_document
 <h3 id = '1.2'></h3>
 ## Variables
 
-變數種類：    
+**變數種類**    
 ```{r eval=TRUE}
 class(3.5)   
 class(3L) #Capital 'L' after an integer forces it to be stored as an integer.
 class(TRUE)    
 class('R studio')    
 ```
-變數運算：
+**變數運算**
 ```{r error=TRUE}
 3.5 + 3L
 3.5 + 'three'
@@ -55,7 +56,7 @@ class('R studio')
 
 <h3 id = '1.3'></h3>
 ## Vector
-向量運算：
+**向量運算**
 ```{r}
 vector1 <- c(100,300,500)
 vector2 <- c(200,200,-100)
@@ -66,12 +67,12 @@ vector3
 total
 mean
 ```
-向量命名：
+**向量命名**
 ```{r}
 names(vector3) <- c('America','England','Japan') #用names替向量命名
 vector3
 ```
-向量選取：
+**向量選取**
 ```{r}
 selection <- vector3 > 350
 selection #直接比大小回傳邏輯值
@@ -83,7 +84,7 @@ select_vec2
 
 <h3 id = '1.4'></h3>
 ## Matrix
-建立矩陣：
+**建立矩陣**
 ```{r}
 #星際大戰票房
 new_hope <- c(460.998, 314.4)
@@ -96,7 +97,7 @@ star_wars_matrix <- matrix(box_office, byrow = T, nrow = 3)
 #一個具有 3 列(narrow = 3)的矩陣，數值(box_office)依序以列(byrow = TRUE)方向填入
 star_wars_matrix
 ```
-矩陣命名：
+**矩陣命名**
 ```{r}
 #用來命名的向量 region 與 titles
 region <- c("US", "non-US")
@@ -107,7 +108,7 @@ colnames(star_wars_matrix) <- region
 rownames(star_wars_matrix) <- titles
 star_wars_matrix
 ```
-運算合併：
+**運算合併**
 ```{r}
 #rowSums()列總和(colSums()欄總和)
 worldwide <- rowSums(star_wars_matrix)
@@ -115,7 +116,7 @@ worldwide <- rowSums(star_wars_matrix)
 all_wars_matrix <- cbind(star_wars_matrix, worldwide)
 all_wars_matrix
 ```
-矩陣選取：
+**矩陣選取**
 使用[列,欄]，來選取，連續選取以冒號連結，全選留白。
 ```{r}
 #選出全部電影的非美國票房收入
@@ -140,7 +141,7 @@ temperature_vector <- c("High", "Low", "High","Low", "Medium")
 factor_temperature_vector <- factor(temperature_vector, order = TRUE, levels = c("Low", "Medium", "High"))
 factor_temperature_vector
 ```
-級別命名：
+**級別命名**
 ```{r}
 survey_vector <- c("M", "F", "F", "M", "M")
 factor_survey_vector <- factor(survey_vector)
@@ -151,7 +152,7 @@ factor_survey_vector
 summary(survey_vector)
 summary(factor_survey_vector)
 ```
-選取比較：
+**選取比較**
 ```{r}
 #使用factor()建立順序類別
 speed_vector <- c("fast", "slow", "slow", "fast", "insane")
@@ -187,7 +188,7 @@ my_df <- mtcars[1:3,]
 my_list <- list(vec = my_vector, mat = my_matrix, df = my_df)
 my_list
 ```
-清單選擇：
+**清單選擇**
 ```{r}
 #運用[[]]選出清單中的特定資料，再使用[]選出該指定資料的內容
 my_list[['df']][2,]
@@ -195,12 +196,12 @@ my_list[['df']][2,]
 * [回目錄](#0)
 
 <h2 id = '2'></h2>
-# Intermediate R
+# **Intermediate R**
 
 <h3 id = '2.1'></h3>
 ## Conditionals and Control Flow
 
-Logical Operators：
+**Logical Operators**
 ```{r}
 T > F#TRUE == 1，FALSE == 0
 c(T, T, F) & c(T, F, F)#and
@@ -209,7 +210,7 @@ c(T, T, F) | c(T, F, F)#or
 c(T, T, F) && c(T, F, F)#注意&和&&結果不同，&&只回傳第一組比較值
 c(T, T, F) || c(T, F, F)#同上
 ```
-Conditional Statements：
+**Conditional Statements**    
 注意if對齊，以及if位置層級關係。
 ```{r}
 number = 4
@@ -229,8 +230,8 @@ print(result)
 
 <h3 id = '2.2'></h3>
 ## Loops
-Indefinite Loops：While
-無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。
+**Indefinite Loops**    
+While，無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。
 ```{r}
 i <- 1
 while (i <= 10) {
@@ -241,7 +242,8 @@ while (i <= 10) {
   i <- i + 1
 }
 ```
-Definite Loops：For，兩種寫法。
+**Definite Loops**    
+For，兩種寫法。
 ```{r}
 nyc <- list(pop = 8405837, 
             boroughs = c("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island"), 
@@ -255,7 +257,7 @@ for (i in 1:length(nyc)) {
   print(nyc[[i]])
 }
 ```
-For loops for Matrix：    
+**For loops for Matrix**    
 使用print()、paste()重組句子。
 ```{r}
 ttt <- matrix(c('O',NA,'X',NA,'O','O','X',NA,'X'), nrow = 3, byrow = T)#建構矩陣
@@ -266,7 +268,7 @@ for (i in 1) {#只抓出第一列
   }
 }
 ```
-抓句中字母：
+**抓句中字母**
 ```{r}
 rquote <- "rSTUDIO needs lots of practice!"
 chars <- strsplit(rquote, split = "")[[1]]#strspilt()將句子裁切，""中放裁切條件
@@ -295,7 +297,7 @@ facebook <- c(17, NA, 5, 16, 8, 13, 14)
 mean(abs(linkedin - facebook),na.rm = T)
 ```
 
-Writing Functions：
+**Writing Functions**
 ```{r}
 two_dice <- function() {
   possibilities <- 1:6
@@ -306,7 +308,7 @@ two_dice <- function() {
 two_dice()#每次的結果不同
 ```
 
-R Packages：   
+**R Packages**   
 
 * Where do built in functions like mean() and list() come from?   
 * R Packages > install.packages("ggvis") > library("ggvis")   
@@ -322,4 +324,53 @@ search()
 ```
 
 <h3 id = '2.4'></h3>
-## The Apply Family
+## Lapply, Sapply & Vapply
+
+**Lapply**   
+
+* lapply(list/vector, function)     
+* Apply function over list or vector.
+* Always returns a **list**.   
+* unlist(lapply()) to return a vector.    
+
+```{r}
+nyc
+lapply(nyc, class)
+unlist(lapply(nyc, class))
+lapply(list(1,2,3), function(x, factor) {#Using anonymous functions
+  x * factor
+}
+, factor = 3)
+```
+
+**Sapply**    
+
+* sapply(list/vector, function)   
+* Apply function over list or vector.
+* Returns an **array** that is a simplified version of lapply().   
+* Similar to unlist(lapply()).
+* The 'vector-version' of a list of NULL's would simply be a NULL. (一串NULL等於一個NULL)   
+
+```{r}
+lapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)))
+sapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)), USE.NAMES = T)
+```
+
+**Vapply**    
+
+* vapply(list/vector, function, format)   
+* Apply function over list or vector.   
+* **explicitly specify** output format.
+
+```{r}
+#numeric(3) is the format here.
+#numeric refers to classes of variables.
+#'3' refers to length.
+vapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)), numeric(3))
+```
+
+<h3 id = '2.5'></h3>
+## Utilities

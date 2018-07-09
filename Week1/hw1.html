@@ -146,14 +146,15 @@ $(document).ready(function () {
 <li><a href="#2.1">Conditionals and Control Flow</a></li>
 <li><a href="#2.2">Loops</a></li>
 <li><a href="#2.3">Functions</a></li>
-<li><a href="#2.4">The Apply Family</a></li>
+<li><a href="#2.4">Lapply, Sapply &amp; Vapply</a></li>
+<li><a href="#2.5">Utilities</a></li>
 </ul></li>
 <li><a href="#3">Introduction to the tidyverse</a></li>
 </ul>
 <h2 id="1">
 </h2>
 <div id="introduction-to-r" class="section level1">
-<h1>Introduction to R</h1>
+<h1><strong>Introduction to R</strong></h1>
 <h3 id="1.1">
 </h3>
 <div id="arithmetic" class="section level2">
@@ -173,7 +174,7 @@ $(document).ready(function () {
 </div>
 <div id="variables" class="section level2">
 <h2>Variables</h2>
-<p>變數種類：</p>
+<p><strong>變數種類</strong></p>
 <pre class="r"><code>class(3.5)   </code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>class(3L) #Capital 'L' after an integer forces it to be stored as an integer.</code></pre>
@@ -182,7 +183,7 @@ $(document).ready(function () {
 <pre><code>## [1] &quot;logical&quot;</code></pre>
 <pre class="r"><code>class('R studio')    </code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<p>變數運算：</p>
+<p><strong>變數運算</strong></p>
 <pre class="r"><code>3.5 + 3L</code></pre>
 <pre><code>## [1] 6.5</code></pre>
 <pre class="r"><code>3.5 + 'three'</code></pre>
@@ -193,7 +194,7 @@ $(document).ready(function () {
 </div>
 <div id="vector" class="section level2">
 <h2>Vector</h2>
-<p>向量運算：</p>
+<p><strong>向量運算</strong></p>
 <pre class="r"><code>vector1 &lt;- c(100,300,500)
 vector2 &lt;- c(200,200,-100)
 vector3 &lt;- vector1 + vector2 #向量能直接進行運算
@@ -205,12 +206,12 @@ vector3</code></pre>
 <pre><code>## [1] 1200</code></pre>
 <pre class="r"><code>mean</code></pre>
 <pre><code>## [1] 400</code></pre>
-<p>向量命名：</p>
+<p><strong>向量命名</strong></p>
 <pre class="r"><code>names(vector3) &lt;- c('America','England','Japan') #用names替向量命名
 vector3</code></pre>
 <pre><code>## America England   Japan 
 ##     300     500     400</code></pre>
-<p>向量選取：</p>
+<p><strong>向量選取</strong></p>
 <pre class="r"><code>selection &lt;- vector3 &gt; 350
 selection #直接比大小回傳邏輯值</code></pre>
 <pre><code>## America England   Japan 
@@ -228,7 +229,7 @@ select_vec2</code></pre>
 </div>
 <div id="matrix" class="section level2">
 <h2>Matrix</h2>
-<p>建立矩陣：</p>
+<p><strong>建立矩陣</strong></p>
 <pre class="r"><code>#星際大戰票房
 new_hope &lt;- c(460.998, 314.4)
 empire_strikes &lt;- c(290.475, 247.900)
@@ -243,7 +244,7 @@ star_wars_matrix</code></pre>
 ## [1,] 460.998 314.4
 ## [2,] 290.475 247.9
 ## [3,] 309.306 165.8</code></pre>
-<p>矩陣命名：</p>
+<p><strong>矩陣命名</strong></p>
 <pre class="r"><code>#用來命名的向量 region 與 titles
 region &lt;- c(&quot;US&quot;, &quot;non-US&quot;)
 titles &lt;- c(&quot;A New Hope&quot;, &quot;The Empire Strikes Back&quot;, &quot;Return of the Jedi&quot;)
@@ -256,7 +257,7 @@ star_wars_matrix</code></pre>
 ## A New Hope              460.998  314.4
 ## The Empire Strikes Back 290.475  247.9
 ## Return of the Jedi      309.306  165.8</code></pre>
-<p>運算合併：</p>
+<p><strong>運算合併</strong></p>
 <pre class="r"><code>#rowSums()列總和(colSums()欄總和)
 worldwide &lt;- rowSums(star_wars_matrix)
 #cbind()欄合併(rbind()列合併)
@@ -266,7 +267,7 @@ all_wars_matrix</code></pre>
 ## A New Hope              460.998  314.4   775.398
 ## The Empire Strikes Back 290.475  247.9   538.375
 ## Return of the Jedi      309.306  165.8   475.106</code></pre>
-<p>矩陣選取： 使用[列,欄]，來選取，連續選取以冒號連結，全選留白。</p>
+<p><strong>矩陣選取</strong> 使用[列,欄]，來選取，連續選取以冒號連結，全選留白。</p>
 <pre class="r"><code>#選出全部電影的非美國票房收入
 non_us_all &lt;- all_wars_matrix[,2]
 non_us_all</code></pre>
@@ -295,7 +296,7 @@ factor_temperature_vector &lt;- factor(temperature_vector, order = TRUE, levels 
 factor_temperature_vector</code></pre>
 <pre><code>## [1] High   Low    High   Low    Medium
 ## Levels: Low &lt; Medium &lt; High</code></pre>
-<p>級別命名：</p>
+<p><strong>級別命名</strong></p>
 <pre class="r"><code>survey_vector &lt;- c(&quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;)
 factor_survey_vector &lt;- factor(survey_vector)
 #使用levels()重新命名級別，，預設以字母排序
@@ -310,7 +311,7 @@ summary(survey_vector)</code></pre>
 <pre class="r"><code>summary(factor_survey_vector)</code></pre>
 <pre><code>## Female   Male 
 ##      2      3</code></pre>
-<p>選取比較：</p>
+<p><strong>選取比較</strong></p>
 <pre class="r"><code>#使用factor()建立順序類別
 speed_vector &lt;- c(&quot;fast&quot;, &quot;slow&quot;, &quot;slow&quot;, &quot;fast&quot;, &quot;insane&quot;)
 factor_speed_vector &lt;- factor(speed_vector, ordered = TRUE, levels = c(&quot;slow&quot;, &quot;fast&quot;, &quot;insane&quot;))
@@ -390,7 +391,7 @@ my_list</code></pre>
 ## Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 ## Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 ## Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</code></pre>
-<p>清單選擇：</p>
+<p><strong>清單選擇</strong></p>
 <pre class="r"><code>#運用[[]]選出清單中的特定資料，再使用[]選出該指定資料的內容
 my_list[['df']][2,]</code></pre>
 <pre><code>##               mpg cyl disp  hp drat    wt  qsec vs am gear carb
@@ -403,12 +404,12 @@ my_list[['df']][2,]</code></pre>
 </div>
 </div>
 <div id="intermediate-r" class="section level1">
-<h1>Intermediate R</h1>
+<h1><strong>Intermediate R</strong></h1>
 <h3 id="2.1">
 </h3>
 <div id="conditionals-and-control-flow" class="section level2">
 <h2>Conditionals and Control Flow</h2>
-<p>Logical Operators：</p>
+<p><strong>Logical Operators</strong></p>
 <pre class="r"><code>T &gt; F#TRUE == 1，FALSE == 0</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>c(T, T, F) &amp; c(T, F, F)#and</code></pre>
@@ -421,7 +422,8 @@ my_list[['df']][2,]</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>c(T, T, F) || c(T, F, F)#同上</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<p>Conditional Statements： 注意if對齊，以及if位置層級關係。</p>
+<p><strong>Conditional Statements</strong><br />
+注意if對齊，以及if位置層級關係。</p>
 <pre class="r"><code>number = 4
 if (number &lt; 10) {
   if (number &lt; 5) {
@@ -441,7 +443,8 @@ print(result)</code></pre>
 </div>
 <div id="loops" class="section level2">
 <h2>Loops</h2>
-<p>Indefinite Loops：While 無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。</p>
+<p><strong>Indefinite Loops</strong><br />
+While，無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。</p>
 <pre class="r"><code>i &lt;- 1
 while (i &lt;= 10) {
   print(3*i)
@@ -458,7 +461,8 @@ while (i &lt;= 10) {
 ## [1] 18
 ## [1] 21
 ## [1] 24</code></pre>
-<p>Definite Loops：For，兩種寫法。</p>
+<p><strong>Definite Loops</strong><br />
+For，兩種寫法。</p>
 <pre class="r"><code>nyc &lt;- list(pop = 8405837, 
             boroughs = c(&quot;Manhattan&quot;, &quot;Bronx&quot;, &quot;Brooklyn&quot;, &quot;Queens&quot;, &quot;Staten Island&quot;), 
             capital = FALSE)
@@ -478,7 +482,7 @@ for (i in 1:length(nyc)) {
 ## [1] &quot;Manhattan&quot;     &quot;Bronx&quot;         &quot;Brooklyn&quot;      &quot;Queens&quot;       
 ## [5] &quot;Staten Island&quot;
 ## [1] FALSE</code></pre>
-<p>For loops for Matrix：<br />
+<p><strong>For loops for Matrix</strong><br />
 使用print()、paste()重組句子。</p>
 <pre class="r"><code>ttt &lt;- matrix(c('O',NA,'X',NA,'O','O','X',NA,'X'), nrow = 3, byrow = T)#建構矩陣
 ttt</code></pre>
@@ -494,7 +498,7 @@ ttt</code></pre>
 <pre><code>## [1] &quot;On row 1 and column 1 the board contains O&quot;
 ## [1] &quot;On row 1 and column 2 the board contains NA&quot;
 ## [1] &quot;On row 1 and column 3 the board contains X&quot;</code></pre>
-<p>抓句中字母：</p>
+<p><strong>抓句中字母</strong></p>
 <pre class="r"><code>rquote &lt;- &quot;rSTUDIO needs lots of practice!&quot;
 chars &lt;- strsplit(rquote, split = &quot;&quot;)[[1]]#strspilt()將句子裁切，&quot;&quot;中放裁切條件
 rcount &lt;- 0
@@ -526,7 +530,7 @@ rcount</code></pre>
 facebook &lt;- c(17, NA, 5, 16, 8, 13, 14)
 mean(abs(linkedin - facebook),na.rm = T)</code></pre>
 <pre><code>## [1] 4.8</code></pre>
-<p>Writing Functions：</p>
+<p><strong>Writing Functions</strong></p>
 <pre class="r"><code>two_dice &lt;- function() {
   possibilities &lt;- 1:6
   dice1 &lt;- sample(possibilities, size = 1)#sample()隨機選數字
@@ -534,8 +538,8 @@ mean(abs(linkedin - facebook),na.rm = T)</code></pre>
   dice1 + dice2
 }
 two_dice()#每次的結果不同</code></pre>
-<pre><code>## [1] 4</code></pre>
-<p>R Packages：</p>
+<pre><code>## [1] 7</code></pre>
+<p><strong>R Packages</strong></p>
 <ul>
 <li>Where do built in functions like mean() and list() come from?<br />
 </li>
@@ -550,7 +554,9 @@ two_dice()#每次的結果不同</code></pre>
 <li>Now you can use these pre-compiled functions.</li>
 </ul>
 <pre class="r"><code>install.packages('ggplot2')</code></pre>
-<pre><code>## Error in contrib.url(repos, &quot;source&quot;): trying to use CRAN without setting a mirror</code></pre>
+<pre><code>## Warning in install.packages(&quot;ggplot2&quot;): 'lib = &quot;C:/Program Files/R/R-3.5.1/
+## library&quot;' is not writable</code></pre>
+<pre><code>## Error in install.packages(&quot;ggplot2&quot;): unable to install packages</code></pre>
 <pre class="r"><code>library(ggplot2)
 search()</code></pre>
 <pre><code>##  [1] &quot;.GlobalEnv&quot;        &quot;package:ggplot2&quot;   &quot;package:stats&quot;    
@@ -560,8 +566,98 @@ search()</code></pre>
 <h3 id="2.4">
 </h3>
 </div>
-<div id="the-apply-family" class="section level2">
-<h2>The Apply Family</h2>
+<div id="lapply-sapply-vapply" class="section level2">
+<h2>Lapply, Sapply &amp; Vapply</h2>
+<p><strong>Lapply</strong></p>
+<ul>
+<li>lapply(list/vector, function)<br />
+</li>
+<li>Apply function over list or vector.</li>
+<li>Always returns a <strong>list</strong>.<br />
+</li>
+<li>unlist(lapply()) to return a vector.</li>
+</ul>
+<pre class="r"><code>nyc</code></pre>
+<pre><code>## $pop
+## [1] 8405837
+## 
+## $boroughs
+## [1] &quot;Manhattan&quot;     &quot;Bronx&quot;         &quot;Brooklyn&quot;      &quot;Queens&quot;       
+## [5] &quot;Staten Island&quot;
+## 
+## $capital
+## [1] FALSE</code></pre>
+<pre class="r"><code>lapply(nyc, class)</code></pre>
+<pre><code>## $pop
+## [1] &quot;numeric&quot;
+## 
+## $boroughs
+## [1] &quot;character&quot;
+## 
+## $capital
+## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code>unlist(lapply(nyc, class))</code></pre>
+<pre><code>##         pop    boroughs     capital 
+##   &quot;numeric&quot; &quot;character&quot;   &quot;logical&quot;</code></pre>
+<pre class="r"><code>lapply(list(1,2,3), function(x, factor) {#Using anonymous functions
+  x * factor
+}
+, factor = 3)</code></pre>
+<pre><code>## [[1]]
+## [1] 3
+## 
+## [[2]]
+## [1] 6
+## 
+## [[3]]
+## [1] 9</code></pre>
+<p><strong>Sapply</strong></p>
+<ul>
+<li>sapply(list/vector, function)<br />
+</li>
+<li>Apply function over list or vector.</li>
+<li>Returns an <strong>array</strong> that is a simplified version of lapply().<br />
+</li>
+<li>Similar to unlist(lapply()).</li>
+<li>The ‘vector-version’ of a list of NULL’s would simply be a NULL. (一串NULL等於一個NULL)</li>
+</ul>
+<pre class="r"><code>lapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)))</code></pre>
+<pre><code>## [[1]]
+##       min      mean       max 
+## 0.1293610 0.4491326 0.9438974 
+## 
+## [[2]]
+##        min       mean        max 
+## 0.05704025 0.46488315 0.93957280</code></pre>
+<pre class="r"><code>sapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)), USE.NAMES = T)</code></pre>
+<pre><code>##           [,1]       [,2]
+## min  0.1101395 0.01409098
+## mean 0.5048033 0.32465764
+## max  0.7737752 0.87250906</code></pre>
+<p><strong>Vapply</strong></p>
+<ul>
+<li>vapply(list/vector, function, format)<br />
+</li>
+<li>Apply function over list or vector.<br />
+</li>
+<li><strong>explicitly specify</strong> output format.</li>
+</ul>
+<pre class="r"><code>#numeric(3) is the format here.
+#numeric refers to classes of variables.
+#'3' refers to length.
+vapply(list(runif (10), runif (10)), 
+       function(x) c(min = min(x), mean = mean(x), max = max(x)), numeric(3))</code></pre>
+<pre><code>##            [,1]        [,2]
+## min  0.00740878 0.004096713
+## mean 0.54245881 0.535160130
+## max  0.99255597 0.992187793</code></pre>
+<h3 id="2.5">
+</h3>
+</div>
+<div id="utilities" class="section level2">
+<h2>Utilities</h2>
 </div>
 </div>
 
