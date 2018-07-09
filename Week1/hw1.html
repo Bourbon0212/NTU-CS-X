@@ -133,17 +133,20 @@ $(document).ready(function () {
 <ul>
 <li><a href="#1">Introduction to R</a>
 <ul>
-<li><a href="#1.1">運算</a></li>
-<li><a href="#1.2">變數</a></li>
-<li><a href="#1.3">向量</a></li>
-<li><a href="#1.4">矩陣</a></li>
-<li><a href="#1.5">因素向量</a></li>
-<li><a href="#1.6">資料框</a></li>
-<li><a href="#1.7">清單</a></li>
+<li><a href="#1.1">Arithmetic</a></li>
+<li><a href="#1.2">Variables</a></li>
+<li><a href="#1.3">Vector</a></li>
+<li><a href="#1.4">Matrix</a></li>
+<li><a href="#1.5">Factor Vector</a></li>
+<li><a href="#1.6">Dataframe</a></li>
+<li><a href="#1.7">List</a></li>
 </ul></li>
 <li><a href="#2">Intermediate R</a>
 <ul>
 <li><a href="#2.1">Conditionals and Control Flow</a></li>
+<li><a href="#2.2">Loops</a></li>
+<li><a href="#2.3">Functions</a></li>
+<li><a href="#2.4">The Apply Family</a></li>
 </ul></li>
 <li><a href="#3">Introduction to the tidyverse</a></li>
 </ul>
@@ -153,8 +156,8 @@ $(document).ready(function () {
 <h1>Introduction to R</h1>
 <h3 id="1.1">
 </h3>
-<div class="section level2">
-<h2>運算</h2>
+<div id="arithmetic" class="section level2">
+<h2>Arithmetic</h2>
 <pre class="r"><code>3 + 3 #加法</code></pre>
 <pre><code>## [1] 6</code></pre>
 <pre class="r"><code>3 - 3 #減法</code></pre>
@@ -168,8 +171,8 @@ $(document).ready(function () {
 <h3 id="1.2">
 </h3>
 </div>
-<div class="section level2">
-<h2>變數</h2>
+<div id="variables" class="section level2">
+<h2>Variables</h2>
 <p>變數種類：</p>
 <pre class="r"><code>class(3.5)   </code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
@@ -188,8 +191,8 @@ $(document).ready(function () {
 <h3 id="1.3">
 </h3>
 </div>
-<div class="section level2">
-<h2>向量</h2>
+<div id="vector" class="section level2">
+<h2>Vector</h2>
 <p>向量運算：</p>
 <pre class="r"><code>vector1 &lt;- c(100,300,500)
 vector2 &lt;- c(200,200,-100)
@@ -223,8 +226,8 @@ select_vec2</code></pre>
 <h3 id="1.4">
 </h3>
 </div>
-<div class="section level2">
-<h2>矩陣</h2>
+<div id="matrix" class="section level2">
+<h2>Matrix</h2>
 <p>建立矩陣：</p>
 <pre class="r"><code>#星際大戰票房
 new_hope &lt;- c(460.998, 314.4)
@@ -277,8 +280,8 @@ non_us_some</code></pre>
 <h3 id="1.5">
 </h3>
 </div>
-<div class="section level2">
-<h2>因素向量</h2>
+<div id="factor-vector" class="section level2">
+<h2>Factor Vector</h2>
 <p>因素向量是用來儲存類別型變數的統計資料，類別型變數與連續型變數最主要的差異在於類別型變數有類別個數的上限，而連續型變數則會有無窮多的個數。用factor顯示級別。</p>
 <pre class="r"><code>#無法在類別之間比較好壞的【名目類別型變數】，如：動物。
 animals_vector &lt;- c(&quot;Elephant&quot;, &quot;Giraffe&quot;, &quot;Donkey&quot;, &quot;Horse&quot;)
@@ -320,8 +323,8 @@ da2 &gt; da5</code></pre>
 <h3 id="1.6">
 </h3>
 </div>
-<div class="section level2">
-<h2>資料框</h2>
+<div id="dataframe" class="section level2">
+<h2>Dataframe</h2>
 <p>矩陣中所有的元素都是相同類型的，資料框中將觀測值儲存為列，將變數儲存為欄，通常包含了不同類型的資料。 使用data.frame()將多個等長度向量組成資料框。選取內容方式與矩陣相同，但[]內可直接打列欄名稱，或以$連接。</p>
 <pre class="r"><code>head(mtcars)#head()用來顯示dataframe的前六項</code></pre>
 <pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
@@ -364,8 +367,8 @@ da2 &gt; da5</code></pre>
 <h3 id="1.7">
 </h3>
 </div>
-<div class="section level2">
-<h2>清單</h2>
+<div id="list" class="section level2">
+<h2>List</h2>
 <p>清單可以蒐集多樣性的物件，包含矩陣、向量、資料框甚至清單，這些物件甚至不需要跟彼此相關。 你可以將清單視為一種超級資料類型，基本上你可以將任何資訊都儲存在清單中！</p>
 <pre class="r"><code>#使用list()組合各種資料，同時分別命名
 my_vector &lt;- 1:10
@@ -406,17 +409,19 @@ my_list[['df']][2,]</code></pre>
 <div id="conditionals-and-control-flow" class="section level2">
 <h2>Conditionals and Control Flow</h2>
 <p>Logical Operators：</p>
-<pre class="r"><code>c(T, T, F) &amp; c(T, F, F)</code></pre>
+<pre class="r"><code>T &gt; F#TRUE == 1，FALSE == 0</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>c(T, T, F) &amp; c(T, F, F)#and</code></pre>
 <pre><code>## [1]  TRUE FALSE FALSE</code></pre>
-<pre class="r"><code>c(T, T, F) | c(T, F, F)</code></pre>
+<pre class="r"><code>c(T, T, F) | c(T, F, F)#or</code></pre>
 <pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
-<pre class="r"><code>!c(T, T, F)</code></pre>
+<pre class="r"><code>!c(T, T, F)#not</code></pre>
 <pre><code>## [1] FALSE FALSE  TRUE</code></pre>
 <pre class="r"><code>c(T, T, F) &amp;&amp; c(T, F, F)#注意&amp;和&amp;&amp;結果不同，&amp;&amp;只回傳第一組比較值</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>c(T, T, F) || c(T, F, F)#同上</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<p>Conditional Statements：</p>
+<p>Conditional Statements： 注意if對齊，以及if位置層級關係。</p>
 <pre class="r"><code>number = 4
 if (number &lt; 10) {
   if (number &lt; 5) {
@@ -431,6 +436,132 @@ if (number &lt; 10) {
 }
 print(result)</code></pre>
 <pre><code>## [1] &quot;extra small&quot;</code></pre>
+<h3 id="2.2">
+</h3>
+</div>
+<div id="loops" class="section level2">
+<h2>Loops</h2>
+<p>Indefinite Loops：While 無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。</p>
+<pre class="r"><code>i &lt;- 1
+while (i &lt;= 10) {
+  print(3*i)
+  if (3*i%%8 == 0) {
+    break
+  }
+  i &lt;- i + 1
+}</code></pre>
+<pre><code>## [1] 3
+## [1] 6
+## [1] 9
+## [1] 12
+## [1] 15
+## [1] 18
+## [1] 21
+## [1] 24</code></pre>
+<p>Definite Loops：For，兩種寫法。</p>
+<pre class="r"><code>nyc &lt;- list(pop = 8405837, 
+            boroughs = c(&quot;Manhattan&quot;, &quot;Bronx&quot;, &quot;Brooklyn&quot;, &quot;Queens&quot;, &quot;Staten Island&quot;), 
+            capital = FALSE)
+# Loop version 1
+for (p in nyc) {
+  print(p)
+}</code></pre>
+<pre><code>## [1] 8405837
+## [1] &quot;Manhattan&quot;     &quot;Bronx&quot;         &quot;Brooklyn&quot;      &quot;Queens&quot;       
+## [5] &quot;Staten Island&quot;
+## [1] FALSE</code></pre>
+<pre class="r"><code># Loop version 2
+for (i in 1:length(nyc)) {
+  print(nyc[[i]])
+}</code></pre>
+<pre><code>## [1] 8405837
+## [1] &quot;Manhattan&quot;     &quot;Bronx&quot;         &quot;Brooklyn&quot;      &quot;Queens&quot;       
+## [5] &quot;Staten Island&quot;
+## [1] FALSE</code></pre>
+<p>For loops for Matrix：<br />
+使用print()、paste()重組句子。</p>
+<pre class="r"><code>ttt &lt;- matrix(c('O',NA,'X',NA,'O','O','X',NA,'X'), nrow = 3, byrow = T)#建構矩陣
+ttt</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] &quot;O&quot;  NA   &quot;X&quot; 
+## [2,] NA   &quot;O&quot;  &quot;O&quot; 
+## [3,] &quot;X&quot;  NA   &quot;X&quot;</code></pre>
+<pre class="r"><code>for (i in 1) {#只抓出第一列
+  for (j in 1:ncol(ttt)) {
+    print(paste(&quot;On row&quot;, i ,&quot;and column&quot;, j ,&quot;the board contains&quot; ,ttt[i,j]))
+  }
+}</code></pre>
+<pre><code>## [1] &quot;On row 1 and column 1 the board contains O&quot;
+## [1] &quot;On row 1 and column 2 the board contains NA&quot;
+## [1] &quot;On row 1 and column 3 the board contains X&quot;</code></pre>
+<p>抓句中字母：</p>
+<pre class="r"><code>rquote &lt;- &quot;rSTUDIO needs lots of practice!&quot;
+chars &lt;- strsplit(rquote, split = &quot;&quot;)[[1]]#strspilt()將句子裁切，&quot;&quot;中放裁切條件
+rcount &lt;- 0
+for (char in chars) {
+  if(char == 'r') {
+    rcount = rcount + 1
+  }
+  if(char == 'u') {
+    break
+  }
+}
+rcount</code></pre>
+<pre><code>## [1] 2</code></pre>
+<h3 id="2.3">
+</h3>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<ul>
+<li>Functions work like a black box.<br />
+</li>
+<li>Argument matching：By position or by name.</li>
+<li>Function arguments can have defaults.</li>
+<li>Use help(), args() for more details.</li>
+</ul>
+<pre class="r"><code>args(mean)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>linkedin &lt;- c(16, 9, 13, 5, NA, 17, 14)
+facebook &lt;- c(17, NA, 5, 16, 8, 13, 14)
+mean(abs(linkedin - facebook),na.rm = T)</code></pre>
+<pre><code>## [1] 4.8</code></pre>
+<p>Writing Functions：</p>
+<pre class="r"><code>two_dice &lt;- function() {
+  possibilities &lt;- 1:6
+  dice1 &lt;- sample(possibilities, size = 1)#sample()隨機選數字
+  dice2 &lt;- sample(possibilities, size = 1)
+  dice1 + dice2
+}
+two_dice()#每次的結果不同</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>R Packages：</p>
+<ul>
+<li>Where do built in functions like mean() and list() come from?<br />
+</li>
+<li>R Packages &gt; install.packages(“ggvis”) &gt; library(“ggvis”)<br />
+</li>
+<li>require(“ggvis”) loads the package, too.<br />
+</li>
+<li>require a package uninstalled &gt; FALSE.<br />
+</li>
+<li>To look at the currently attached packages &gt; search()<br />
+</li>
+<li>Now you can use these pre-compiled functions.</li>
+</ul>
+<pre class="r"><code>install.packages('ggplot2')</code></pre>
+<pre><code>## Error in contrib.url(repos, &quot;source&quot;): trying to use CRAN without setting a mirror</code></pre>
+<pre class="r"><code>library(ggplot2)
+search()</code></pre>
+<pre><code>##  [1] &quot;.GlobalEnv&quot;        &quot;package:ggplot2&quot;   &quot;package:stats&quot;    
+##  [4] &quot;package:graphics&quot;  &quot;package:grDevices&quot; &quot;package:utils&quot;    
+##  [7] &quot;package:datasets&quot;  &quot;package:methods&quot;   &quot;Autoloads&quot;        
+## [10] &quot;package:base&quot;</code></pre>
+<h3 id="2.4">
+</h3>
+</div>
+<div id="the-apply-family" class="section level2">
+<h2>The Apply Family</h2>
 </div>
 </div>
 

@@ -6,16 +6,19 @@ output: html_document
 ---
 <h2 id = '0'></h2>
 * [Introduction to R](#1)
-    + [運算](#1.1)
-    + [變數](#1.2)
-    + [向量](#1.3)
-    + [矩陣](#1.4)
-    + [因素向量](#1.5)
-    + [資料框](#1.6)
-    + [清單](#1.7)   
+    + [Arithmetic](#1.1)
+    + [Variables](#1.2)
+    + [Vector](#1.3)
+    + [Matrix](#1.4)
+    + [Factor Vector](#1.5)
+    + [Dataframe](#1.6)
+    + [List](#1.7)   
     
 * [Intermediate R](#2)
     + [Conditionals and Control Flow](#2.1)
+    + [Loops](#2.2)
+    + [Functions](#2.3)
+    + [The Apply Family](#2.4)
 
 * [Introduction to the tidyverse](#3)
 
@@ -23,7 +26,7 @@ output: html_document
 # Introduction to R
 
 <h3 id = '1.1'></h3>
-## 運算
+## Arithmetic
 
 ```{r eval=TRUE}
 3 + 3 #加法
@@ -34,7 +37,7 @@ output: html_document
 ```
 
 <h3 id = '1.2'></h3>
-## 變數
+## Variables
 
 變數種類：    
 ```{r eval=TRUE}
@@ -51,7 +54,7 @@ class('R studio')
 不同型別的變數型態之間的某些操作是不被允許的，例如數字與字串相加。
 
 <h3 id = '1.3'></h3>
-## 向量
+## Vector
 向量運算：
 ```{r}
 vector1 <- c(100,300,500)
@@ -79,7 +82,7 @@ select_vec2
 ```
 
 <h3 id = '1.4'></h3>
-## 矩陣
+## Matrix
 建立矩陣：
 ```{r}
 #星際大戰票房
@@ -124,7 +127,7 @@ non_us_some
 ```
 
 <h3 id = '1.5'></h3>
-## 因素向量
+## Factor Vector
 因素向量是用來儲存類別型變數的統計資料，類別型變數與連續型變數最主要的差異在於類別型變數有類別個數的上限，而連續型變數則會有無窮多的個數。用factor顯示級別。
 ```{r}
 #無法在類別之間比較好壞的【名目類別型變數】，如：動物。
@@ -161,7 +164,7 @@ da2 > da5
 ```
 
 <h3 id = '1.6'></h3>
-## 資料框
+## Dataframe
 矩陣中所有的元素都是相同類型的，資料框中將觀測值儲存為列，將變數儲存為欄，通常包含了不同類型的資料。
 使用data.frame()將多個等長度向量組成資料框。選取內容方式與矩陣相同，但[]內可直接打列欄名稱，或以$連接。
 ```{r}
@@ -173,7 +176,7 @@ subset(mtcars, subset = qsec > 20)#使用subset()設定篩選條件
 ```
 
 <h3 id = '1.7'></h3>
-## 清單
+## List
 清單可以蒐集多樣性的物件，包含矩陣、向量、資料框甚至清單，這些物件甚至不需要跟彼此相關。
 你可以將清單視為一種超級資料類型，基本上你可以將任何資訊都儲存在清單中！
 ```{r}
@@ -196,15 +199,18 @@ my_list[['df']][2,]
 
 <h3 id = '2.1'></h3>
 ## Conditionals and Control Flow
+
 Logical Operators：
 ```{r}
-c(T, T, F) & c(T, F, F)
-c(T, T, F) | c(T, F, F)
-!c(T, T, F)
+T > F#TRUE == 1，FALSE == 0
+c(T, T, F) & c(T, F, F)#and
+c(T, T, F) | c(T, F, F)#or
+!c(T, T, F)#not
 c(T, T, F) && c(T, F, F)#注意&和&&結果不同，&&只回傳第一組比較值
 c(T, T, F) || c(T, F, F)#同上
 ```
 Conditional Statements：
+注意if對齊，以及if位置層級關係。
 ```{r}
 number = 4
 if (number < 10) {
@@ -220,3 +226,100 @@ if (number < 10) {
 }
 print(result)
 ```
+
+<h3 id = '2.2'></h3>
+## Loops
+Indefinite Loops：While
+無窮迴圈，記得加入跳出迴圈條件，或是使用break結束。
+```{r}
+i <- 1
+while (i <= 10) {
+  print(3*i)
+  if (3*i%%8 == 0) {
+    break
+  }
+  i <- i + 1
+}
+```
+Definite Loops：For，兩種寫法。
+```{r}
+nyc <- list(pop = 8405837, 
+            boroughs = c("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island"), 
+            capital = FALSE)
+# Loop version 1
+for (p in nyc) {
+  print(p)
+}
+# Loop version 2
+for (i in 1:length(nyc)) {
+  print(nyc[[i]])
+}
+```
+For loops for Matrix：    
+使用print()、paste()重組句子。
+```{r}
+ttt <- matrix(c('O',NA,'X',NA,'O','O','X',NA,'X'), nrow = 3, byrow = T)#建構矩陣
+ttt
+for (i in 1) {#只抓出第一列
+  for (j in 1:ncol(ttt)) {
+    print(paste("On row", i ,"and column", j ,"the board contains" ,ttt[i,j]))
+  }
+}
+```
+抓句中字母：
+```{r}
+rquote <- "rSTUDIO needs lots of practice!"
+chars <- strsplit(rquote, split = "")[[1]]#strspilt()將句子裁切，""中放裁切條件
+rcount <- 0
+for (char in chars) {
+  if(char == 'r') {
+    rcount = rcount + 1
+  }
+  if(char == 'u') {
+    break
+  }
+}
+rcount
+```
+
+<h3 id = '2.3'></h3>
+## Functions
+* Functions work like a black box.    
+* Argument matching：By position or by name.
+* Function arguments can have defaults.
+* Use help(), args() for more details.
+```{r}
+args(mean)
+linkedin <- c(16, 9, 13, 5, NA, 17, 14)
+facebook <- c(17, NA, 5, 16, 8, 13, 14)
+mean(abs(linkedin - facebook),na.rm = T)
+```
+
+Writing Functions：
+```{r}
+two_dice <- function() {
+  possibilities <- 1:6
+  dice1 <- sample(possibilities, size = 1)#sample()隨機選數字
+  dice2 <- sample(possibilities, size = 1)
+  dice1 + dice2
+}
+two_dice()#每次的結果不同
+```
+
+R Packages：   
+
+* Where do built in functions like mean() and list() come from?   
+* R Packages > install.packages("ggvis") > library("ggvis")   
+* require("ggvis") loads the package, too.    
+* require a package uninstalled > FALSE.    
+* To look at the currently attached packages > search()   
+* Now you can use these pre-compiled functions.   
+
+```{r error = T}
+install.packages('ggplot2')
+library(ggplot2)
+search()
+```
+
+<h3 id = '2.4'></h3>
+## The Apply Family
