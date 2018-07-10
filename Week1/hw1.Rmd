@@ -10,7 +10,7 @@ output: html_document
     + [Variables](#1.2)
     + [Vector](#1.3)
     + [Matrix](#1.4)
-    + [Factor Vector](#1.5)
+    + [Factor](#1.5)
     + [Dataframe](#1.6)
     + [List](#1.7)   
     
@@ -132,7 +132,7 @@ non_us_some
 ```
 
 <h3 id = '1.5'></h3>
-## Factor Vector
+## Factor
 因素向量是用來儲存類別型變數的統計資料，類別型變數與連續型變數最主要的差異在於類別型變數有類別個數的上限，而連續型變數則會有無窮多的個數。用factor顯示級別。
 ```{r}
 #無法在類別之間比較好壞的【名目類別型變數】，如：動物。
@@ -552,7 +552,7 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp, color = continent, size = gdpPe
 
 **Faceting**    
 
-* facet_wrap(~*),'~' is on the upper left of ypur keyboard which means 'separate by'.
+* **facet_wrap(~*)**,'~' is on the upper left of ypur keyboard which means 'separate by'.
 * Separate graphs respectively for easier understanding.    
 
 ```{r}
@@ -565,7 +565,7 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
 <h3 id = '3.3'></h3>
 ## Grouping and summarizing
 
-**Summarzie**     
+**Summarzie()**     
 
 * Summarize(): Turns many rows into one.    
 
@@ -576,7 +576,7 @@ gapminder %>%
   summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
 ```
 
-**Group_by**    
+**Group_by()**    
 
 * Group_by(): Using before summarize() turns group into one row each.     
 
@@ -595,7 +595,7 @@ gapminder %>%
 by_year_continent <- gapminder %>%
                         group_by(year, continent) %>%
                         summarize(medianGdpPercap = median(gdpPercap))
-
+by_year_continent
 #Plot the change in medianGdpPercap in each continent over time 
 ggplot(by_year_continent, aes(x= year, y = medianGdpPercap,color = continent)) +
   geom_point() +
@@ -604,5 +604,52 @@ ggplot(by_year_continent, aes(x= year, y = medianGdpPercap,color = continent)) +
 
 <h3 id = '3.4'></h3>
 ## Types of visualizations
+
+**Line Plot**     
+* Use geom_line() to plot a line plot.    
+
+```{r}
+#Continue with the plot above.
+#Create a line plot showing the change in medianGdpPercap by continent over time
+ggplot(by_year_continent, aes(x = year, y = medianGdpPercap, color = continent)) +
+  geom_line() +
+  expand_limits(y = 0)
+```
+
+**Bar Plot**
+* Use geom_col() to plot a bar plot.    
+```{r}
+#Summarize the median gdpPercap by year and continent in 1952
+by_continent = gapminder %>%
+  filter(year == 1952) %>%
+  group_by(continent) %>%
+  summarize(medianGdpPercap = median(gdpPercap))
+by_continent
+#Create a bar plot showing medianGdp by continent
+ggplot(by_continent, aes(x = continent, y = medianGdpPercap)) +
+  geom_col()
+```
+
+**Histogram**    
+* Use geom_histogram() to plot a histogram.   
+
+```{r}
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+#Create a histogram of population (pop), with x on a log scale
+ggplot(gapminder_1952, aes(x = pop)) +
+  geom_histogram() +
+  scale_x_log10()
+```
+
+**Boxplot**   
+* Use geom_boxplot() to plot a boxplot.   
+```{r}
+#ggtitle() for adding title for the plot.
+ggplot(gapminder_1952, aes(x = continent, y = gdpPercap)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  ggtitle("Comparing GDP per capita across continents")
+```
 
 * [回目錄](#0)
