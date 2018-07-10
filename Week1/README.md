@@ -6,7 +6,7 @@ II. Install Github Desktop<br />
 III. Create a repository<br />
 IV. Install RSTUDIO<br />
 V. Datacamp Lessons<br />
-* At home
+* At home<br />
 I. Introduction to R<br />
 II. Intermediate R<br />
 III. Introduction to the Tidyverse<br />
