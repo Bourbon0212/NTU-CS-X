@@ -513,9 +513,9 @@ gapminder %>%
 ```
 
 <h3 id = '3.2'></h3>
-## Data visualization
+## Data Visualization
 
-**GGPLOT2 for visualization**
+**GGPLOT2 for Visualization**
 
 ```{r}
 library(ggplot2)
@@ -540,7 +540,7 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
 #It's now easier to see that there isn't a correlation between population and life expectancy.
 ```
 
-**Additional aesthetics**   
+**Additional Aesthetics**   
 
 * Use color & size for more information.    
 
@@ -563,7 +563,7 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
 ```
 
 <h3 id = '3.3'></h3>
-## Grouping and summarizing
+## Grouping and Summarizing
 
 **Summarzie()**     
 
@@ -586,7 +586,7 @@ gapminder %>%
   summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
 ```
 
-**Visualizing summarized data**   
+**Visualizing Summarized Data**   
 
 *  expand_limits(y = 0): Make sure y-axis starts with 0.    
 
@@ -603,7 +603,7 @@ ggplot(by_year_continent, aes(x= year, y = medianGdpPercap,color = continent)) +
 ```
 
 <h3 id = '3.4'></h3>
-## Types of visualizations
+## Types of Visualizations
 
 **Line Plot**     
 * Use geom_line() to plot a line plot.    
