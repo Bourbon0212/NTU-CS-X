@@ -321,8 +321,8 @@ two_dice()#每次的結果不同
 * To look at the currently attached packages > search()   
 * Now you can use these pre-compiled functions.   
 
-```{r error = T}
-install.packages('ggplot2')
+```{r}
+if(!require(ggplot2))install.packages("ggplot2",repos = "http://cran.us.r-project.org")
 library(ggplot2)
 search()
 ```
@@ -471,8 +471,96 @@ einstein
 <h3 id = '3.1'></h3>
 ## Data wrangling
 
+**Load Packages**
+```{r}
+#install.packages("gapminder")
+if(!require(gapminder))install.packages("gapminder",repos = "http://cran.us.r-project.org")
+library(gapminder)
+if(!require(dplyr))install.packages("dplyr",repos = "http://cran.us.r-project.org")
+library(dplyr)
+```
+
+**Filter()**    
+
+* The gapminder itself is unchanged.    
+
+```{r}
+# Filter for China in 2002
+gapminder %>%
+  filter(country == 'China', year == 2002)
+```
+
+**Arrange()**     
+
+* The gapminder itself is unchanged.    
+* Arrange() give you a new, sorted dataset.     
+* Combining multiple steps with the %>% operator.     
+
+```{r}
+gapminder %>%
+  filter(year == 1957) %>%
+  arrange(desc(pop))
+```
+
+**Mutate()**    
+
+* Using mutuate() to change & add an variable.   
+```{r}
+gapminder %>%
+  filter(year == 2007) %>%
+  mutate(GDP = pop * gdpPercap) %>%
+  arrange(desc(GDP))
+```
+
 <h3 id = '3.2'></h3>
 ## Data visualization
+
+**GGPLOT2 for visualization**
+
+```{r}
+library(ggplot2)
+gapminder_1952 <- gapminder %>%
+  filter(year == 1952)
+#Create a scatter plot with pop on the x-axis and lifeExp on the y-axis
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
+  geom_point()
+```
+
+**Log Scales**    
+
+* To see more details in those dense region on the plot.    
+* Put x or y on the log scale.    
+* For log10(), the same distance now represents 10 times more.    
+
+```{r}
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10()
+#Compare these two graphs, Notice the points are more spread out on the x-axis in this graph.
+#It's now easier to see that there isn't a correlation between population and life expectancy.
+```
+
+**Additional aesthetics**   
+
+* Use color & size for more information.    
+
+```{r}
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp, color = continent, size = gdpPercap)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+**Faceting**    
+
+* facet_wrap(~*),'~' is on the upper left of ypur keyboard which means 'separate by'.
+* Separate graphs respectively for easier understanding.    
+
+```{r}
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10() +
+  facet_wrap(~ continent)
+```
 
 <h3 id = '3.3'></h3>
 ## Grouping and summarizing
