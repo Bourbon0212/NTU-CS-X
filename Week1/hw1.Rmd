@@ -21,7 +21,7 @@ output: html_document
     + [Lapply, Sapply & Vapply](#2.4)
     + [Utilities](#2.5)
 
-* [Introduction to the tidyverse](#3)
+* [Introduction to the Tidyverse](#3)
     + [Data wrangling](#3.1)
     + [Data visualization](#3.2)
     + [Grouping and summarizing](#3.3)
@@ -466,7 +466,7 @@ einstein
 * [回目錄](#0)
 
 <h2 id = '3'></h2>
-# **Introduction to the tidyverse**
+# **Introduction to the Tidyverse**
 
 <h3 id = '3.1'></h3>
 ## Data wrangling
@@ -494,7 +494,7 @@ gapminder %>%
 
 * The gapminder itself is unchanged.    
 * Arrange() give you a new, sorted dataset.     
-* Combining multiple steps with the %>% operator.     
+* **Combining multiple steps with the '%>%' operator.**     
 
 ```{r}
 gapminder %>%
@@ -564,6 +564,43 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
 
 <h3 id = '3.3'></h3>
 ## Grouping and summarizing
+
+**Summarzie**     
+
+* Summarize(): Turns many rows into one.    
+
+```{r}
+# Filter for 1957 then summarize the median life expectancy and the maximum GDP per capita
+gapminder %>%
+  filter(year == 1957) %>%
+  summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+```
+
+**Group_by**    
+
+* Group_by(): Using before summarize() turns group into one row each.     
+
+```{r}
+gapminder %>%
+  group_by(year, continent) %>%
+  summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+```
+
+**Visualizing summarized data**   
+
+*  expand_limits(y = 0): Make sure y-axis starts with 0.    
+
+```{r}
+#Summarize medianGdpPercap within each continent within each year: by_year_continent
+by_year_continent <- gapminder %>%
+                        group_by(year, continent) %>%
+                        summarize(medianGdpPercap = median(gdpPercap))
+
+#Plot the change in medianGdpPercap in each continent over time 
+ggplot(by_year_continent, aes(x= year, y = medianGdpPercap,color = continent)) +
+  geom_point() +
+  expand_limits(y = 0)
+```
 
 <h3 id = '3.4'></h3>
 ## Types of visualizations
