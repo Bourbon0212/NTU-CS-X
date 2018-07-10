@@ -22,10 +22,10 @@ output: html_document
     + [Utilities](#2.5)
 
 * [Introduction to the Tidyverse](#3)
-    + [Data wrangling](#3.1)
-    + [Data visualization](#3.2)
-    + [Grouping and summarizing](#3.3)
-    + [Types of visualizations](#3.4)
+    + [Data Wrangling](#3.1)
+    + [Data Visualization](#3.2)
+    + [Grouping and Summarizing](#3.3)
+    + [Types of Visualizations](#3.4)
     
 <h2 id = '1'></h2>
 # **Introduction to R**
@@ -469,7 +469,7 @@ einstein
 # **Introduction to the Tidyverse**
 
 <h3 id = '3.1'></h3>
-## Data wrangling
+## Data Wrangling
 
 **Load Packages**
 ```{r}

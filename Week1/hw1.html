@@ -151,10 +151,10 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="#3">Introduction to the Tidyverse</a>
 <ul>
-<li><a href="#3.1">Data wrangling</a></li>
-<li><a href="#3.2">Data visualization</a></li>
-<li><a href="#3.3">Grouping and summarizing</a></li>
-<li><a href="#3.4">Types of visualizations</a></li>
+<li><a href="#3.1">Data Wrangling</a></li>
+<li><a href="#3.2">Data Visualization</a></li>
+<li><a href="#3.3">Grouping and Summarizing</a></li>
+<li><a href="#3.4">Types of Visualizations</a></li>
 </ul></li>
 </ul>
 <h2 id="1">
@@ -544,7 +544,7 @@ mean(abs(linkedin - facebook),na.rm = T)#na.rm決定是否排除NA</code></pre>
   dice1 + dice2
 }
 two_dice()#每次的結果不同</code></pre>
-<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 9</code></pre>
 <p><strong>R Packages</strong></p>
 <ul>
 <li>Where do built in functions like mean() and list() come from?<br />
@@ -629,17 +629,17 @@ search()</code></pre>
        function(x) c(min = min(x), mean = mean(x), max = max(x)))</code></pre>
 <pre><code>## [[1]]
 ##        min       mean        max 
-## 0.05864122 0.40545090 0.86666078 
+## 0.07767816 0.53065848 0.88179181 
 ## 
 ## [[2]]
-##       min      mean       max 
-## 0.1589564 0.4973800 0.8742253</code></pre>
+##        min       mean        max 
+## 0.01267226 0.33962657 0.70323721</code></pre>
 <pre class="r"><code>sapply(list(runif (10), runif (10)), 
        function(x) c(min = min(x), mean = mean(x), max = max(x)), USE.NAMES = T)</code></pre>
-<pre><code>##           [,1]       [,2]
-## min  0.1272097 0.00975065
-## mean 0.6024941 0.44263765
-## max  0.9650720 0.96617528</code></pre>
+<pre><code>##            [,1]      [,2]
+## min  0.08425783 0.1613363
+## mean 0.47839729 0.6424316
+## max  0.93221915 0.8882490</code></pre>
 <p><strong>Vapply</strong></p>
 <ul>
 <li>vapply(list/vector, function, format)<br />
@@ -653,10 +653,10 @@ search()</code></pre>
 #'3' refers to length.
 vapply(list(runif (10), runif (10)), 
        function(x) c(min = min(x), mean = mean(x), max = max(x)), numeric(3))</code></pre>
-<pre><code>##           [,1]      [,2]
-## min  0.0304844 0.3370006
-## mean 0.3987764 0.7584094
-## max  0.8655851 0.9689315</code></pre>
+<pre><code>##            [,1]       [,2]
+## min  0.02470416 0.03212606
+## mean 0.34824805 0.46075605
+## max  0.74353783 0.89784199</code></pre>
 <h3 id="2.5">
 </h3>
 </div>
@@ -779,7 +779,7 @@ einstein</code></pre>
 <h3 id="3.1">
 </h3>
 <div id="data-wrangling" class="section level2">
-<h2>Data wrangling</h2>
+<h2>Data Wrangling</h2>
 <p><strong>Load Packages</strong></p>
 <pre class="r"><code>#install.packages(&quot;gapminder&quot;)
 if(!require(gapminder))install.packages(&quot;gapminder&quot;,repos = &quot;http://cran.us.r-project.org&quot;)</code></pre>
