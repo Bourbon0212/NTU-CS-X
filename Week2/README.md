@@ -4,4 +4,4 @@
 
 * At home
 #### Homework
-* [hw2(Part1).html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw2_part1.html)
+* [hw2(Part1).html](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part1.html)
