@@ -22,6 +22,7 @@ ggplot(iris, aes(x = Petal.Width)) +
   geom_histogram(bins = 30) +
   facet_wrap(~ Species)
 
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
   geom_point()
 
 ggplot(iris, aes(x = Petal.Length, y = Petal.Width)) +
