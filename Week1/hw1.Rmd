@@ -606,7 +606,8 @@ ggplot(by_year_continent, aes(x= year, y = medianGdpPercap,color = continent)) +
 ## Types of Visualizations
 
 **Line Plot**     
-* Use geom_line() to plot a line plot.    
+
+* Use geom_line() to plot a line plot.        
 
 ```{r}
 #Continue with the plot above.
@@ -616,8 +617,10 @@ ggplot(by_year_continent, aes(x = year, y = medianGdpPercap, color = continent))
   expand_limits(y = 0)
 ```
 
-**Bar Plot**
+**Bar Plot**    
+
 * Use geom_col() to plot a bar plot.    
+
 ```{r}
 #Summarize the median gdpPercap by year and continent in 1952
 by_continent = gapminder %>%
@@ -631,6 +634,7 @@ ggplot(by_continent, aes(x = continent, y = medianGdpPercap)) +
 ```
 
 **Histogram**    
+
 * Use geom_histogram() to plot a histogram.   
 
 ```{r}
@@ -643,7 +647,9 @@ ggplot(gapminder_1952, aes(x = pop)) +
 ```
 
 **Boxplot**   
-* Use geom_boxplot() to plot a boxplot.   
+
+* Use geom_boxplot() to plot a boxplot.     
+
 ```{r}
 #ggtitle() for adding title for the plot.
 ggplot(gapminder_1952, aes(x = continent, y = gdpPercap)) +
