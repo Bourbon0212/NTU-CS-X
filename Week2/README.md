@@ -1,7 +1,7 @@
 ### Week2
 #### Progress
 * In class<br />
-I. Watch TED Videos about 'Data Visualizing'.
+I. Watch TED Videos about 'Data Visualizing'.   
 II. Using R to plot graphs.
 * At home
 #### Homework
