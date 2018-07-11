@@ -1,0 +1,87 @@
+---
+title: "Data Visualization"
+author: "Bourbon0212"
+date: "2018年7月11日"
+output: html_document
+---
+```{r}
+library(ggplot2)
+#Sepal萼片，Petal花瓣，Species
+head(iris)
+```
+
+## 單變數：類別
+```{r}
+library(dplyr)
+ggplot(iris, aes(x = Species)) +
+  geom_bar()
+```
+
+## 單變數：連續
+```{r}
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(bins = 30) +
+  facet_wrap(~ Species)
+
+ggplot(iris, aes(x = Sepal.Width)) +
+  geom_histogram(bins = 30) +
+  facet_wrap(~ Species)
+
+ggplot(iris, aes(x = Petal.Length)) +
+  geom_histogram(bins = 30) +
+  facet_wrap(~ Species)
+
+ggplot(iris, aes(x = Petal.Width)) +
+  geom_histogram(bins = 30) +
+  facet_wrap(~ Species)
+```
+
+## 雙變數：連續 vs. 連續
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point()
+
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width)) +
+  geom_point()
+```
+
+## 雙變數：連續 vs. 離散
+```{r}
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_boxplot()
+
+ggplot(iris, aes(x = Species, y = Sepal.Width)) +
+  geom_boxplot()
+
+ggplot(iris, aes(x = Species, y = Petal.Length)) +
+  geom_boxplot()
+
+ggplot(iris, aes(x = Species, y = Petal.Width)) +
+  geom_boxplot()
+```
+
+## 多變數
+```{r}
+iris1 = iris %>%
+  mutate(Sepal.Size = Sepal.Length * Sepal.Width, Petal.Size = Petal.Length * Petal.Width)
+head(iris1)
+
+ggplot(iris1, aes(x = Sepal.Length, y = Sepal.Width, color = Species, size = Petal.Size)) +
+  geom_point()
+
+ggplot(iris1, aes(x = Petal.Length, y = Petal.Width, color = Species, size = Sepal.Size)) +
+  geom_point()
+```
+
+## GGMAP
+```{r}
+if(!require(ggmap))install.packages("ggmap",repos = "http://cran.us.r-project.org")
+if(!require(readr))install.packages("readr",repos = "http://cran.us.r-project.org")
+library(ggmap)
+library(readr)
+map <- get_map(location = c(lon = 121.5521599, lat = 25.0592136),
+  zoom = 12, language = "zh-TW", maptype = "toner-lite")
+
+WGS <- read_csv('C:/Users/dx788/Documents/WGS.csv')
+ggmap(map) + geom_point(aes(x = X_WGS, y = Y_WGS, color = 'red'), data = WGS) + ggtitle('臺北市部分住宅竊盜點位資訊')
+```
