@@ -1,7 +1,7 @@
 ---
 title: "Exploratory Data Analysis"
 author: "Bourbon0212"
-date: "2018年7月13日"
+date: "2018/7/13"
 output: html_document
 ---
 <h2 id = '0'></h2>
@@ -53,19 +53,286 @@ library(ggplot2)
 ggplot(comics, aes(x = gender, fill = align)) + 
   geom_bar(position = "dodge") + #Decide whether to stack the graph or not.
   theme(axis.text.x = element_text(angle = 0 ))#Decide the element text of x axis displaying angle.
-```
-Besides counts graphs, we can also make proportional graphs.    
+```   
+
+Besides counts graphs, we can also make proportional graphs.        
 ```{r}
 tab <- table(comics$align, comics$gender)
 options(scipen = 999, digits = 3) # Print fewer digits
 prop.table(tab)     #Joint proportions
 prop.table(tab, 2)  #'2' means Conditional on columns, '1' means Condintional on rows.
 ```
+By adding position = "fill" to geom_bar(), you are saying you want the bars to fill the entire height of the plotting window, thus displaying proportions and not raw counts.   
+```{r}
+ggplot(comics, aes(x = align, fill = gender)) + 
+  geom_bar(position = 'fill') +
+  ylab("proportion")#Rename y axis.
+```
+
+**Distribution of One Categorical Variable**    
+Notice the difference between geom_bar() & geom_col(). geom_bar() is **ONE** variable graph. However geom_col is **TWO** variable graph.    
+* Use facet_wrap(~*) to breakdown a barchart.
+```{r}
+#Change the order of the levels in align
+comics$align <- factor(comics$align, 
+                       levels = c('Bad', 'Neutral', 'Good'))
+#Create plot of align
+ggplot(comics, aes(x = align)) + 
+  geom_bar()
+#Plot of alignment broken down by gender
+ggplot(comics, aes(x = align)) + 
+  geom_bar() +
+  facet_wrap(~ gender)
+```
 <h2 id = '2'></h2>
 # **Numerical Data**    
+
+**Faceted Histogram**
+```{r message = FALSE}
+library(readr)
+cars <- read_csv('https://assets.datacamp.com/production/course_1796/datasets/cars04.csv')
+cars[1,]
+```
+```{r warning = FALSE}
+#Filter cars with 4, 6, 8 cylinders
+common_cyl <- filter(cars, ncyl %in% c(4, 6, 8))
+#Create box plots of city mpg by ncyl
+ggplot(common_cyl, aes(x = as.factor(ncyl), y = city_mpg)) +
+  geom_boxplot()
+#Create overlaid density plots for same data
+ggplot(common_cyl, aes(x = city_mpg, fill = as.factor(ncyl))) +
+  geom_density(alpha = .3)
+```
+
+According to this graph, we can conclude that:    
+
++ The highest mileage cars have 4 cylinders.    
++ The typical 4 cylinder car gets better mileage than the typical 6 cylinder car, which gets better mileage than the typical 8 cylinder car.    
++ Most of the 4 cylinder cars get better mileage than even the most efficient 8 cylinder cars.    
++ The variability in mileage of 8 cylinder cars seem much smaller than that of 4 cylinder cars.   
+
+**Distribution of One Numerical Variable**    
+```{r warning = FALSE, message = FALSE}
+#Create hist of horsepwr
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram() +
+  ggtitle('horsepower')
+#Create hist of horsepwr for affordable cars
+cars %>% 
+  filter(msrp < 25000) %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram() +
+  xlim(c(90, 550)) +
+  ggtitle('horsepower')
+```
+
+Compare these two graphs, notice that afordable cars tend to has less horesepower. NO cars in the less expensive range exceed 250 horsepower.
+
+**BinWidth**    
+As binwidth becomes larger, the graphh becomes smoother. It's crucial to derermine how large is the binwidth.
+```{r warning = FALSE, message = FALSE}
+#Create hist of horsepwr with binwidth of 3
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 3) +
+  ggtitle('Horsepower binwidth = 3')
+#Change binwidth to 30
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 30) +
+  ggtitle('Horsepower binwidth = 30')
+#Change binwidth to 60
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 60) +
+  ggtitle('Horsepower binwidth = 60')
+```
+
+**Density & BoxPlots**    
+
+* Reviews: **[Boxplots](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.4)**    
+Both density plots and box plots display the central tendency and spread of the data, but the box plot is more robust to **outliers**.
+```{r warning = FALSE, message = FALSE}
+#Exclude outliers from data
+cars_no_out <- cars %>%
+  filter(msrp < 100000)
+#Construct box plot of msrp using the reduced dataset
+cars_no_out %>%
+  ggplot(aes(x = 1, y = msrp)) +
+  geom_boxplot()
+#Create plot of city_mpg
+cars %>% 
+  ggplot(aes(x = 1, y = city_mpg)) +
+  geom_boxplot()
+#Create plot of width
+cars %>% 
+  ggplot(aes(x = width)) +
+  geom_density()
+```
+
+Because the city_mpg variable has a much wider range with its outliers, it's best to display its distribution as a box plot.     
+
+**Higher Dimensions**
+```{r warning = FALSE, message = FALSE}
+common_cyl %>%
+  ggplot(aes(x = hwy_mpg)) +
+  geom_histogram() +
+  facet_grid(ncyl ~ suv) +
+  ggtitle('ncyl&suv')
+```
+
+Across both SUVs and non-SUVs, mileage tends to decrease as the number of cylinders increases according to the picture.   
 
 <h2 id = '3'></h2>
 # **Numerical Summaries**    
 
+**Center Measures: Mean, Median &Mode**     
+
+* Reviews: **[Grouping and Summarizing](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.3)**    
+
+```{r}
+library(gapminder)
+#Compute groupwise mean and median lifeExp
+gap2007 <- filter(gapminder, year == 2007)
+gap2007 %>%
+  group_by(continent) %>%
+  summarize(mean(lifeExp),
+            median(lifeExp))
+#Generate box plots of lifeExp for each continent
+gap2007 %>%
+  ggplot(aes(x = continent, y = lifeExp)) +
+  geom_boxplot()
+```
+
+**Variance Measures: sd, var,diff & IQR**   
+
+* sd(): Calculate **Standard Deviation**.   
+* var(): Calculate **Variance** which equals to sd squared. ```sum((x - mean(x))^2)/(n-1)```    
+* diff(range()): Calculate **Range**    
+* IQR(): Calculate **Interquartile Range**    
+Like mean and standard deviation, median and IQR measure the central tendency and spread, respectively, but are robust to outliers and non-normal data.   
+```{r}
+#Compute groupwise measures of spread
+gap2007 %>%
+  group_by(continent) %>%
+  summarize(sd(lifeExp),
+            IQR(lifeExp),
+            n())
+#Generate overlaid density plots
+gap2007 %>%
+  ggplot(aes(x = lifeExp, fill = continent)) +
+  geom_density(alpha = 0.3)#alpha is about the transparency.
+```
+
+**Shapes & Transformation**
+```{r}
+#Create density plot of population
+gap2007 %>%
+  ggplot(aes(x = pop)) +
+  geom_density()
+#Create density plot of log(pop)
+gap2007 %>%
+  ggplot(aes(x = log(pop))) +
+  geom_density()
+```
+
+The difference is much easier to see on a log scale.    
+
+**Outliers**    
+```{r}
+#Outliers
+gap_asia <- gap2007 %>%
+  filter(continent == 'Asia') %>%
+  mutate(is_outlier = lifeExp < 50)
+#Create box plot of lifeExp with outliers
+gap_asia %>%
+  ggplot(aes(x = 1, y = lifeExp)) +
+  geom_boxplot()
+#Create box plot of lifeExp without outliers
+gap_asia %>%
+  filter(!is_outlier) %>%
+  ggplot(aes(x = 1, y = lifeExp)) +
+  geom_boxplot()
+```
+
 <h2 id = '4'></h2>
 # **Case Study**
+
+**Spam & Num_char**
+```{r  warning = FALSE, message = FALSE}
+library(openintro)
+head(email, 3)
+#Compute summary statistics
+email %>%
+  group_by(spam) %>%
+  summarize(median(num_char), IQR(num_char))
+#Create plot
+email %>%
+  mutate(log_num_char = log(num_char)) %>%
+  ggplot(aes(x = spam, y = log_num_char, group = spam)) +
+  geom_boxplot()
+```
+
+According to the graphs, the median length of not-spam emails is greater than that of spam emails.    
+
+**Spam & exclaim_mess**
+
+```{r  warning = FALSE, message = FALSE}
+#Compute center and spread for exclaim_mess by spam
+email %>%
+  group_by(spam) %>%
+  summarize(median(exclaim_mess), IQR(exclaim_mess))
+#Create plot for spam and exclaim_mess
+email %>%
+  mutate(log_exclaim_mess = log(exclaim_mess)) %>%
+  ggplot(aes(x = log_exclaim_mess)) +
+  geom_histogram() + 
+  facet_wrap(~ spam)
+#Create plot of proportion of spam by image
+email %>%
+  mutate(has_image = image > 0) %>%
+  ggplot(aes(x = has_image, fill = spam, group = spam)) +
+  geom_bar(position = 'fill')
+```
+
+Obviously, an email without an image is more likely to be not-spam than spam.   
+
+**Strategy for Testing**
+```{r}
+#Test if images count as attachments
+sum(email$image > email$attach)
+```
+
+Since image is never greater than attach, we can infer that images are counted as attachments.    
+
+**Question 1: **    
+For emails containing the word "dollar", does the typical spam email contain a greater number of occurrences of the word than the typical non-spam email?   
+Create a summary statistic that answers this question.    
+```{r}
+email %>%
+  filter(dollar > 0) %>%
+  group_by(spam) %>%
+  summarize(median(dollar))
+```
+
+**Question 2: **    
+If you encounter an email with greater than 10 occurrences of the word "dollar", is it more likely to be spam or not-spam?    
+Create a barchart that answers this question.   
+```{r}
+email %>%
+  filter(dollar > 10) %>%
+  ggplot(aes(x = spam)) +
+  geom_bar()
+```
+
+**Spam & NUmbers**
+```{r}
+# Reorder levels
+email$number = factor(email$number, order = T, levels = c('none','small','big'))
+
+# Construct plot of number
+ggplot(email, aes(x = number)) +
+  geom_bar() +
+  facet_wrap(~spam)
+```
