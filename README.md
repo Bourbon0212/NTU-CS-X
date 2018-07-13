@@ -12,3 +12,8 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 * [hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)   
 * [hw2(Part1).html + BONUS](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part1.html)    
 * [hw2(Part2).html](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part2.html)
+## Notes
+### [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)
+### [Intermediate R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2)
+### [Introduction to the Tidyverse](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3)
+### [Exploratory_Data_Analysis](https://bourbon0212.github.io/NTU-CS-X/Week2/Exploratory_Data_Analysis.html)
