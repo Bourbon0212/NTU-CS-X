@@ -1,0 +1,71 @@
+---
+title: "Exploratory Data Analysis"
+author: "Bourbon0212"
+date: "2018年7月13日"
+output: html_document
+---
+<h2 id = '0'></h2>
+* [Categorical Data](#1)    
+* [Numerical Data](#2)    
+* [Numerical Summaries](#3)    
+* [Case Study](#4)
+
+<h2 id = '1'></h2>
+# **Categorical Data**    
+
+**Contingency Table**   
+
+* Reviews: **[Factors](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1.5)**   
+* Reviews: **[Dataframe](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1.6)**   
+* levels(): To show the levels of the factors.   
+* Use '$' to select a specific row or column.   
+* table(): To generate 'Contingency table'.   
+```{r message = F}
+library(readr)
+comics <- read_csv('https://assets.datacamp.com/production/course_1796/datasets/comics.csv')
+comics[1,]
+levels(comics$align)
+table(comics$align, comics$gender)
+```
+**Dropping Levels**   
+
+The contingency table from the last exercise revealed that there are some levels that have very low counts.   
+
+* Reviews: **[filter()](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.1)** for **Data Wrangling**    
+* droplevels(): Drops levels that don't exist in a dataset.   
+
+Notice that after dropping levels, 'Reformed Criminals' doesn't exist anymore.    
+```{r message = F}
+library(dplyr)
+#Remove align level
+comics <- comics %>%
+  filter(align != 'Reformed Criminals') %>%
+  droplevels()
+table(comics$align, comics$gender)
+```
+**Graph: Side-by-side Barcharts**   
+
+While a contingency table represents the counts numerically, it's often more useful to represent them graphically.  
+
+* Reviews: **[ggplot()](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.2)** for **Data Visualization**   
+```{r message = F}
+library(ggplot2)
+ggplot(comics, aes(x = gender, fill = align)) + 
+  geom_bar(position = "dodge") + #Decide whether to stack the graph or not.
+  theme(axis.text.x = element_text(angle = 0 ))#Decide the element text of x axis displaying angle.
+```
+Besides counts graphs, we can also make proportional graphs.    
+```{r}
+tab <- table(comics$align, comics$gender)
+options(scipen = 999, digits = 3) # Print fewer digits
+prop.table(tab)     #Joint proportions
+prop.table(tab, 2)  #'2' means Conditional on columns, '1' means Condintional on rows.
+```
+<h2 id = '2'></h2>
+# **Numerical Data**    
+
+<h2 id = '3'></h2>
+# **Numerical Summaries**    
+
+<h2 id = '4'></h2>
+# **Case Study**
