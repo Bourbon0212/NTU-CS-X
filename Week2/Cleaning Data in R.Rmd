@@ -1,0 +1,41 @@
+---
+title: "Cleaning Data in R"
+author: "Bourbon0212"
+date: "2018年7月14日"
+output: html_document
+---
+<h2 id = '0'></h2>
+* [Exploring Raw Data](#1)    
+* [Tidying Data](#2)    
+* [Preparing Data for Analysis](#3)    
+* [Case Study](#4)
+
+<h2 id = '1'></h2>
+# **Exploring Raw Data**    
+
+**Functions Helping Understanding Raw Data**    
+
+* **class()**: Class of data object.    
+* **dim()**: Dimensions of data.    
+* **names()**: Cloumn names.    
+* **str()**: Preview of data with helpful details.    
+* **glimpse()**: Better version of str() from ```dplyr```
+* **summary()**: Summary of data.   
+
+```{r}
+bmi <- read.csv('https://assets.datacamp.com/production/repositories/34/datasets/a0a569ebbb34500d11979eba95360125127e6434/bmi_clean.csv')
+class(bmi)
+dim(bmi)
+names(bmi)
+```
+
+<h2 id = '2'></h2>
+# **Tidying Data**
+
+
+<h2 id = '3'></h2>
+# **Preparing Data for Analysis**
+
+
+<h2 id = '4'></h2>
+# **Case Study**
