@@ -20,22 +20,227 @@ output: html_document
 * **names()**: Cloumn names.    
 * **str()**: Preview of data with helpful details.    
 * **glimpse()**: Better version of str() from ```dplyr```
-* **summary()**: Summary of data.   
+* **summary()**: Summary of data.     
+* **head(,```row```)**: Allow you to quickly see the top a dataset. The default of ```row``` = 6.   
+* **tail(,```row```)**: Allow you to quickly see the bottom a dataset. The default of ```row``` = 6.    
+* **hist(```dataframe$column```)**: Visualize data with histogram.
+* **plot(```dataframe$column```, ```dataframe$column```)**: Visualize data as a series of (x, y) coordinates on a two-dimensional plane with scatter plot.
 
-```{r}
+```{r message = F}
 bmi <- read.csv('https://assets.datacamp.com/production/repositories/34/datasets/a0a569ebbb34500d11979eba95360125127e6434/bmi_clean.csv')
+#Getting a feel for your data
 class(bmi)
 dim(bmi)
 names(bmi)
+#Viewing the structure of your data.
+str(bmi)
+library(dplyr)
+glimpse(bmi)
+summary(bmi)
+#Histogram of BMIs from 2008
+hist(bmi$Y2008)
+#Scatter plot comparing BMIs from 1980 to those from 2008
+plot(bmi$Y1980, bmi$Y2008)
 ```
 
 <h2 id = '2'></h2>
 # **Tidying Data**
 
+**Principles of Tidy Data**   
+
+* Observation as rows.    
+* Variables as columns.   
+* One type of observational unit per table.
+Otherwise, it's a messy data.
+
+**Common Symptoms of Messy Data**   
+
+* Column headers are values, not variable names. -> gather()    
+* Variables are stored in both rows & columns. -> spread()    
+* Multiple variables are stored in one column. -> separate()    
+* A single observational unit is stored in multiple tables.   
+* Multiple types of observational units are stored in the same table.
+
+**Tidyr: Gather & Spread**    
+
+* **gather(```wide_df, my_key, my_val, -col```)**: Gather columns to key-value pairs. Makes wide datasets long.    
+* **spread(```long_df, my_key, my_val```)**: Spread key-value pairs to columns. Makes long datasets wide.    
+
+```{r}
+library(tidyr)
+bmi_long <- gather(bmi, year, bmi_val, -Country)
+head(bmi_long)
+bmi_wide <- spread(bmi_long, year, bmi_val)
+head(bmi_wide)
+```
+Compare bmi, bmi_long & bmi_wide, notice that bmi_wide and bmi are indeed the same.     
+
+**Tidyr: Separate & Unite**   
+
+* **separate(```data, col, into(c("col1", "col2")), sep = '*'```)**: Separate one column into multiple.    
+* **unite(```data, col, ...(bare names of columns), sep = '*'```)**: Unite multiple columns into one.   
 
 <h2 id = '3'></h2>
 # **Preparing Data for Analysis**
 
+**Types Conversion**    
+
+* **class()**: Class of data object.    
+* **as.```class```()**: Change the class of a object.   
+* **library(lubridate)**: A package deal with date & time.```y```, ```m```, ```d```, ```h```, ```m```, ```s```, which stand for year, month, day, hour, minute, and second, respectively.   
+
+```{r message = F}
+library(lubridate)
+students <- read.csv('https://assets.datacamp.com/production/repositories/34/datasets/f75a87dbbdf2cf79e2286f97b2af22146cb717b1/students_with_dates.csv')
+str(students$dob)
+str(students$Grades)
+students$Grades <- as.character(students$Grades)
+students$dob <- ymd(students$dob)
+str(students$dob)
+str(students$Grades)
+```
+
+**String Manipulation**    
+
+* ```stringr```:    
+
+    + **str_trim()**: Triming leading & trailing white space.   
+    + **str_pad()**: Pad string with additional characters.   
+    + **str_detect(```input```,```str```)**: Detect a pattern.    
+    + **str_replace(```input```,```replaced str```,```new str```)**: Find & replace a pattern.
+    + Reviews: **[Grepl & Grep](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2.5)** in ```base``` for detecting string.   
+    + Reviews: **[Sub & gsub](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2.5)** in ```base``` for repalcing string.   
+* ```base```:   
+    + **tolower()**: Make all lowercase.    
+    + **toupper()**: Make all uppercase.    
+    
+```{r message = F}
+library(stringr)
+str_trim(c("   Filip ", "Nick  ", " Jonathan"))
+str_pad(c("23485W", "8823453Q", "994Z"), width = 9, side = "left", pad = "0")
+head(students$dob)
+head(str_detect(students$dob, '1997'))
+str(students$sex)
+students$sex <- str_replace(students$sex, 'F', 'Female')
+students$sex <- str_replace(students$sex, 'M', 'Male')
+str(students$sex)
+```
+
+**Missing & Special Values**    
+
+* **is.na()**: If missing values are properly coded as ```NA```, this function will help you find them.   
+* **any(is.na())** Like asking the question "Are there any NA values in my dataset?".   
+* **complete.cases()**: See which rows have no missing values.    
+* **na.omit()**: Remove all rows with any missing values.
+
+**Outliers & Obvious Errors**   
+
+A simple **histogram** or **boxplot**, displaying the distribution of a variable's values across all the observations can be key to identifying potential outliers as early as possible.    
+```{r}
+hist(students$absences)
+boxplot(students$absences)
+```
 
 <h2 id = '4'></h2>
 # **Case Study**
+
+* Understanding the structure of your data.   
+* Looking at your data.   
+* Tidy your data.
+* Finally, visualizing your data.   
+
+So, let's start with understanding the structure of your data.  
+```{r}
+weather <- readRDS('D:/Downloads/weather.rds')
+#Verify that weather is a data.frame.
+class(weather)
+#Check the dimensions.
+dim(weather)
+#View the column names.
+names(weather)
+```
+
+Then, we're going to looking at your data.    
+```{r}
+#View the structure of the data.
+str(weather)
+#Look at the structure using dplyr's glimpse().
+library(dplyr)
+glimpse(weather)
+#View a summary of the data.
+summary(weather)
+#Take a closer look of your data.
+head(weather)
+```
+Well done! Not surprisingly, this dataset is pretty messy…for now :)    
+It's time to tidy it up!    
+```{r}
+# Gather the columns
+library(tidyr)
+weather2 <- gather(weather, day, value, X1:X31, na.rm = TRUE)#na.rm決定是否排除NA
+head(weather2)
+#First remove column of row names
+weather2 <- weather2[, -1]#'-1' means to remove col1.
+#Spread the data
+weather3 <- spread(weather2, measure, value)
+#View the head
+head(weather3)
+#Remove X's from day column
+weather3$day <- str_replace(weather3$day, 'X', '')
+#Unite the year, month, and day columns
+weather4 <- unite(weather3, date, year, month, day, sep = "-")
+#Convert date column to proper date format using lubridates's ymd()
+weather4$date <- ymd(weather4$date)
+#Rearrange columns using dplyr's select()
+weather5 <- select(weather4, date, Events, CloudCover:WindDirDegrees)
+#View the head of 
+head(weather5)
+```
+And now, it's time for strange & missing values.
+```{r}
+#Search for strange values in PrecipitationIn
+## View the structure of weather5
+str(weather5)
+#Examine the first 20 rows of weather5. Are most of the characters numeric?
+head(weather5, 20)
+weather5$PrecipitationIn <- str_replace(weather5$PrecipitationIn, 'T', '0')
+#Or using sub(): 'weather5$PrecipitationIn <- sub('T', 0, weather5$PrecipitationIn)'
+#Convert characters to numerics
+weather6 <- mutate_at(weather5, vars(CloudCover:WindDirDegrees), funs(as.numeric))
+#check the dataset
+str(weather6)
+summary(weather6)
+```
+Look at the summary, besides strange values in PrecipitationIn, there are also proplem in Max.Gust.SpeedMPH, Max.Humidity & Mean.VisibilityMiles.
+```{r}
+#Find indices of NAs in Max.Gust.SpeedMPH
+#Count missing values
+sum(is.na(weather6))
+ind <- which(is.na(weather6$Max.Gust.SpeedMPH))
+#Look at the full rows for records missing Max.Gust.SpeedMPH
+weather6[ind, ]
+#It's unclear why these values are missing and there doesn't appear to be any obvious pattern to their missingness, so we'll leave them alone for now. 
+
+#Search for extreme values in Max.Humidity
+ind <- which(weather6$Max.Humidity >= 1000)
+#Look at the data for that day
+weather6[ind, ]
+#Change 1000 to 100
+weather6$Max.Humidity[ind] <- 100
+
+#Look at summary of Mean.VisibilityMiles
+summary(weather6$Mean.VisibilityMiles)
+#Get index of row with -1 value
+ind <- which(weather6$Mean.VisibilityMiles == -1)
+#Look at full row
+weather6[ind, ]
+#Set Mean.VisibilityMiles to the appropriate value
+weather6$Mean.VisibilityMiles[ind] <- 10
+```
+Finally, let's have a final look of our data.
+```{r}
+#Replace empty cells in events column
+weather6$Events[weather6$Events == ""] = 'None'
+#Print the first 6 rows of weather6
+head(weather6)
+```
