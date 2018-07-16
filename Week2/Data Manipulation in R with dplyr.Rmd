@@ -1,0 +1,98 @@
+---
+title: "Data Manipulation in R with dplyr"
+author: "Bourbon0212"
+date: "2018年7月16日"
+output: html_document
+---
+
+* [Introduction to dplyr & tbls](#1)    
+* [Select & Mutate](#2)    
+* [Filter & Arrange](#3)    
+* [Summarise & the Pipe Operator](#4)
+* [Group_by & Working with Databases](#5)
+
+<h2 id = '1'></h2>
+# **Introduction to dplyr & tbls**
+Before we start the section, we should load the package```dplyr``` which includes all the useful functions we need now.   
+A tbl (pronounced tibble) is just a special kind of data.frame. They make your data easier to look at, but also easier to work with. On top of this, it is straightforward to derive a tbl from a data.frame structure using ```tbl_df()```.   
+Notice:  dplyr verbs **don't** adapt the data unless you explicitly assign the result to a new variable.    
+In ```dplyr```, we have five useful functions to manipulate data:         
+
+* **Variables**   
+
+    + **select()**: Removes columns from a dataset.   
+    + **mutate()**: Uses data to build new columns of values.   
+* **Observations**    
+
+    + **filter()**: Removes rows from a dataset.   
+    + **arrange()**: Reorders rows in a dataset.    
+* **Groups**    
+
+    + **summarize()**: Calculates summary statistics.    
+    
+* Reviews: **[Data Wrangling](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.1)** in **[Introduction to the Tidyverse](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3)**   
+```{r message = F}
+library(dplyr)
+library(hflights)
+hflights <- tbl_df(hflights)
+#Take a look at hflights.
+hflights
+#Using a LUT(look up table) change labels of hflights.
+lut <- c("AA" = "American", "AS" = "Alaska", "B6" = "JetBlue", "CO" = "Continental", 
+         "DL" = "Delta", "OO" = "SkyWest", "UA" = "United", "US" = "US_Airways", 
+         "WN" = "Southwest", "EV" = "Atlantic_Southeast", "F9" = "Frontier", 
+         "FL" = "AirTran", "MQ" = "American_Eagle", "XE" = "ExpressJet", "YV" = "Mesa")
+hflights$Carrier <- lut[hflights$UniqueCarrier]
+lut <- c("A" = "carrier", "B" = "weather", "C" = "FFA", "D" = "security", "E" = "not cancelled")
+hflights$Code <- lut[hflights$CancellationCode]
+#Check your results by glimpsing at them.
+glimpse(hflights)
+```
+
+<h2 id = '1'></h2>
+# **Select & Mutate**     
+
+## Select & its Helper Functions    
+
+* **select(```df```,```cols to select```,```...```)**: Removes columns from a dataset.   
+
+    + Use ```:``` to select a range of variables and ```-``` to exclude some variables.      
+    + Use both variable's names as well as integer indexes.   
+    + ```select()``` does not change the data frame it is called on; you have to explicitly assign the result of ```select()``` to a variable to store the result.   
+
+* **Helper functions for variable selection**   
+Pay attention here: When you refer to columns directly inside ```select()```, you don't use quotes.
+    + **starts_with("X")**: every name that starts with "X".    
+    + **ends_with("X")**: every name that ends with "X".    
+    + **contains("X")**: every name that contains "X".    
+    + **matches("X")**: every name that matches "X", where "X" can be a regular expression.   
+    + **num_range("x", 1:5)**: the variables named ```x01```, ```x02```, ```x03```, ```x04``` and ```x05```.    
+    + **one_of(x)**: every name that appears in x, which should be a character vector.    
+    
+```{r}
+#Using ':' & '-' to make a consice selection.
+select(hflights,Year:Diverted, - (DepTime:AirTime))
+#Using helper function for a consice selection.
+select(hflights, contains('Time'), contains('Delay'))
+#Select four columns of hflights related to delay for data analysis later.
+select(hflights, 10:13)
+```
+
+## Mutate   
+* **mutate(```df```,```new col name = expressions```)**: Uses data to build new columns of values.    
+```{r}
+#Add multiple variables using mutate
+m2 <- mutate(hflights, TotalTaxi = TaxiIn + TaxiOut, ActualGroundTime = ActualElapsedTime - AirTime, Diff = TotalTaxi - ActualGroundTime)
+m2
+```
+
+<h2 id = '1'></h2>
+# **Filter & Arrange**  
+* **filter(```df```, ```logical test```)**: Filters out rows from a dataset based on their contents.    
+
+<h2 id = '1'></h2>
+# **Summarise & the Pipe Operator**  
+
+
+<h2 id = '1'></h2>
+# **Group_by & Working with Databases**  
