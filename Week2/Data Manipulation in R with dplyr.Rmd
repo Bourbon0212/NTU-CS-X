@@ -49,7 +49,7 @@ hflights$Code <- lut[hflights$CancellationCode]
 glimpse(hflights)
 ```
 
-<h2 id = '1'></h2>
+<h2 id = '2'></h2>
 # **Select & Mutate**     
 
 ## Select & its Helper Functions    
@@ -86,7 +86,7 @@ m2 <- mutate(hflights, TotalTaxi = TaxiIn + TaxiOut, ActualGroundTime = ActualEl
 m2
 ```
 
-<h2 id = '1'></h2>
+<h2 id = '3'></h2>
 # **Filter & Arrange**    
 
 ## Filter, Logical & Boolean Operator   
@@ -114,7 +114,7 @@ filter(hflights, Cancelled == 1 & DepDelay > 0)
 arrange(hflights, UniqueCarrier, desc(DepDelay))
 ```
 
-<h2 id = '1'></h2>
+<h2 id = '4'></h2>
 # **Summarise & the Pipe Operator**  
 
 ##Summarise & dplyr Aggregate Functions
@@ -150,7 +150,7 @@ hflights %>%
             max_dist = max(Distance))
 ```
 
-<h2 id = '1'></h2>
+<h2 id = '5'></h2>
 # **Group_by & Working with Databases**     
 
 ## Group_by
