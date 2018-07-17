@@ -20,3 +20,4 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 * [Exploratory Data Analysis](https://bourbon0212.github.io/NTU-CS-X/Week2/Exploratory_Data_Analysis.html)
 * [Cleaning Data in R](https://bourbon0212.github.io/NTU-CS-X/Week2/Cleaning_Data_in_R.html)
 * [Data Manipulation in R with dplyr](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Manipulation_in_R_with_dplyr.html)
+* [Data Visualization with ggplot2 (I).html](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html)
