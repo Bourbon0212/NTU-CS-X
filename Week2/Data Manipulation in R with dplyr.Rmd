@@ -15,7 +15,7 @@ output: html_document
 # **Introduction to dplyr & tbls**
 Before we start the section, we should load the package```dplyr``` which includes all the useful functions we need now.   
 A tbl (pronounced tibble) is just a special kind of data.frame. They make your data easier to look at, but also easier to work with. On top of this, it is straightforward to derive a tbl from a data.frame structure using ```tbl_df()```.   
-Notice:  dplyr verbs **don't** adapt the data unless you explicitly assign the result to a new variable.    
+Notice:  dplyr verbs **don't** adapt the data unless you explicitly assign the result to a new variable except ```summarise()```.    
 In ```dplyr```, we have five useful functions to manipulate data:         
 
 * **Variables**   
@@ -87,12 +87,121 @@ m2
 ```
 
 <h2 id = '1'></h2>
-# **Filter & Arrange**  
+# **Filter & Arrange**    
+
+## Filter, Logical & Boolean Operator   
+
 * **filter(```df```, ```logical test```)**: Filters out rows from a dataset based on their contents.    
+    + Besides common logical operatoers, ```x %in% c(a, b, c)```, ```TRUE``` if ```x``` is in the vector ```c(a, b, c)```   
+    + Using Boolean Operators: ```&```, ```|``` and ```!```, for 'and', 'or' and 'not' respectively.    
+    
+```{r}
+#All flights where taxiing took longer than flying.
+filter(hflights, (TaxiIn + TaxiOut) > AirTime)
+#All flights flown by one of JetBlue, Southwest, or Delta.
+filter(hflights, UniqueCarrier %in% c("JetBlue", "Southwest", "Delta"))
+#All flights that were cancelled after being delayed.
+filter(hflights, Cancelled == 1 & DepDelay > 0)
+```
+
+## Arrange    
+
+* **Arrange(```df```,```col name to arrange by```,```col name of the next tie breaker```)**: Reorders rows in a dataset.    
+    + By default, ```arrange()``` arranges the rows from smallest to largest.     
+    + Use ```desc()``` to reverse this behavior.    
+```{r}
+#Arrange according to carrier and decreasing departure delays
+arrange(hflights, UniqueCarrier, desc(DepDelay))
+```
 
 <h2 id = '1'></h2>
 # **Summarise & the Pipe Operator**  
 
+##Summarise & dplyr Aggregate Functions
+
+* **summarise(```df```, ```new col name = expression```)**: Use your data to create a new dataset of summary statistics that describe the data.   
+* Reviews: **[summarize()](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.3)** seems that there isn't much difference between ```summarise()``` & ```summarize()```
+* **dplyr Aggregate Functions**
+    + **first(x)**: The first element of vector ```x```.
+    + **last(x)**: The last element of vector ```x```.
+    + **nth(x, n)**: The nth element of vector ```x```.
+    + **n()**: The number of rows in the data.frame or group of observations that ```summarise()``` describes.
+    + **n_distinct(x)**: The number of unique values in vector ```x```.
+
+```{r}
+#Generate summarizing statistics for hflights
+summarise(hflights,
+          n_obs = n(),
+          n_carrier = n_distinct(hflights$UniqueCarrier),
+          n_dest = n_distinct(hflights$Dest))
+```
+
+## The Pipe Operator: Chaining your functions
+
+* **object %>% function(____, arg2, arg3, ...) -> object %>% function(arg2, arg3, ...)**
+```{r}
+#Chain together mutate(), filter() and summarise()
+hflights %>%
+  mutate(RealTime = ActualElapsedTime + 100, mph = Distance / RealTime * 60) %>%
+  filter(!is.na(mph), mph < 70) %>%
+  summarize(n_less = n(),
+            n_dest = n_distinct(Dest),
+            min_dist = min(Distance),
+            max_dist = max(Distance))
+```
 
 <h2 id = '1'></h2>
-# **Group_by & Working with Databases**  
+# **Group_by & Working with Databases**     
+
+## Group_by
+* **group_by(```df```,```col to group by```): Define groups within your data set. when calling ```summarise()```, summarising statistics are calculated for the different groups separately.    
+* **rank()**: Takes a group of values and calculates the rank of each value within the group.     
+**Question 1**    
+How many airplanes only flew to one destination?    
+```{r}
+hflights %>%
+  group_by(TailNum) %>% #TaulNum是班機編號
+  summarise(ndest = n_distinct(Dest)) %>%
+  filter(ndest == 1) %>%
+  summarise(nplanes = n())
+```
+**Question 2**
+Find the most visited destination for each carrier.
+```{r}
+hflights %>%
+  group_by(UniqueCarrier, Dest) %>%
+  summarise(n = n()) %>%
+  mutate(rank = rank(desc(n))) %>%
+  filter(rank == 1)
+```
+## Working with Databases using dplyr
+
+* **tbl_df()**: Change dataframe to tbl.    
+* **tbl_dt()**: Change data table to tbl.    
+* **tbl()**: Change database to tbl.    
+
+```{r message = F, warning=FALSE}
+library(dbplyr)
+library(RMySQL)
+library(DBI)
+#Set up a connection to the mysql database
+my_db <- src_mysql(dbname = "dplyr", 
+                   host = "courses.csrrinzqubik.us-east-1.rds.amazonaws.com", 
+                   port = 3306, 
+                   user = "student",
+                   password = "datacamp")
+
+#Reference a table within that source: nycflights
+nycflights <- tbl(my_db, "dplyr")
+
+#glimpse at nycflights
+glimpse(nycflights)
+
+#Ordered, grouped summary of nycflights
+nycflights %>%
+  group_by(carrier) %>%
+  summarize(n_flights = n(),
+            avg_delay = mean(arr_delay)) %>%
+  arrange(avg_delay)%>%
+  head()
+```

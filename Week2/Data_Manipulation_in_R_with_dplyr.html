@@ -144,7 +144,7 @@ $(document).ready(function () {
 <h1><strong>Introduction to dplyr &amp; tbls</strong></h1>
 <p>Before we start the section, we should load the package<code>dplyr</code> which includes all the useful functions we need now.<br />
 A tbl (pronounced tibble) is just a special kind of data.frame. They make your data easier to look at, but also easier to work with. On top of this, it is straightforward to derive a tbl from a data.frame structure using <code>tbl_df()</code>.<br />
-Notice: dplyr verbs <strong>don’t</strong> adapt the data unless you explicitly assign the result to a new variable.<br />
+Notice: dplyr verbs <strong>don’t</strong> adapt the data unless you explicitly assign the result to a new variable except <code>summarise()</code>.<br />
 In <code>dplyr</code>, we have five useful functions to manipulate data:</p>
 <ul>
 <li><p><strong>Variables</strong></p>
@@ -341,19 +341,258 @@ m2</code></pre>
 </div>
 <div id="filter-arrange" class="section level1">
 <h1><strong>Filter &amp; Arrange</strong></h1>
+<div id="filter-logical-boolean-operator" class="section level2">
+<h2>Filter, Logical &amp; Boolean Operator</h2>
 <ul>
-<li><strong>filter(<code>df</code>, <code>logical test</code>)</strong>: Filters out rows from a dataset based on their contents.</li>
+<li><strong>filter(<code>df</code>, <code>logical test</code>)</strong>: Filters out rows from a dataset based on their contents.
+<ul>
+<li>Besides common logical operatoers, <code>x %in% c(a, b, c)</code>, <code>TRUE</code> if <code>x</code> is in the vector <code>c(a, b, c)</code><br />
+</li>
+<li>Using Boolean Operators: <code>&amp;</code>, <code>|</code> and <code>!</code>, for ‘and’, ‘or’ and ‘not’ respectively.</li>
+</ul></li>
 </ul>
+<pre class="r"><code>#All flights where taxiing took longer than flying.
+filter(hflights, (TaxiIn + TaxiOut) &gt; AirTime)</code></pre>
+<pre><code>## # A tibble: 1,389 x 23
+##     Year Month DayofMonth DayOfWeek DepTime ArrTime UniqueCarrier
+##    &lt;int&gt; &lt;int&gt;      &lt;int&gt;     &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt;        
+##  1  2011     1         24         1     731     904 AA           
+##  2  2011     1         30         7    1959    2132 AA           
+##  3  2011     1         24         1    1621    1749 AA           
+##  4  2011     1         10         1     941    1113 AA           
+##  5  2011     1         31         1    1301    1356 CO           
+##  6  2011     1         31         1    2113    2215 CO           
+##  7  2011     1         31         1    1434    1539 CO           
+##  8  2011     1         31         1     900    1006 CO           
+##  9  2011     1         30         7    1304    1408 CO           
+## 10  2011     1         30         7    2004    2128 CO           
+## # ... with 1,379 more rows, and 16 more variables: FlightNum &lt;int&gt;,
+## #   TailNum &lt;chr&gt;, ActualElapsedTime &lt;int&gt;, AirTime &lt;int&gt;, ArrDelay &lt;int&gt;,
+## #   DepDelay &lt;int&gt;, Origin &lt;chr&gt;, Dest &lt;chr&gt;, Distance &lt;int&gt;,
+## #   TaxiIn &lt;int&gt;, TaxiOut &lt;int&gt;, Cancelled &lt;int&gt;, CancellationCode &lt;chr&gt;,
+## #   Diverted &lt;int&gt;, Carrier &lt;chr&gt;, Code &lt;chr&gt;</code></pre>
+<pre class="r"><code>#All flights flown by one of JetBlue, Southwest, or Delta.
+filter(hflights, UniqueCarrier %in% c(&quot;JetBlue&quot;, &quot;Southwest&quot;, &quot;Delta&quot;))</code></pre>
+<pre><code>## # A tibble: 0 x 23
+## # ... with 23 variables: Year &lt;int&gt;, Month &lt;int&gt;, DayofMonth &lt;int&gt;,
+## #   DayOfWeek &lt;int&gt;, DepTime &lt;int&gt;, ArrTime &lt;int&gt;, UniqueCarrier &lt;chr&gt;,
+## #   FlightNum &lt;int&gt;, TailNum &lt;chr&gt;, ActualElapsedTime &lt;int&gt;,
+## #   AirTime &lt;int&gt;, ArrDelay &lt;int&gt;, DepDelay &lt;int&gt;, Origin &lt;chr&gt;,
+## #   Dest &lt;chr&gt;, Distance &lt;int&gt;, TaxiIn &lt;int&gt;, TaxiOut &lt;int&gt;,
+## #   Cancelled &lt;int&gt;, CancellationCode &lt;chr&gt;, Diverted &lt;int&gt;,
+## #   Carrier &lt;chr&gt;, Code &lt;chr&gt;</code></pre>
+<pre class="r"><code>#All flights that were cancelled after being delayed.
+filter(hflights, Cancelled == 1 &amp; DepDelay &gt; 0)</code></pre>
+<pre><code>## # A tibble: 40 x 23
+##     Year Month DayofMonth DayOfWeek DepTime ArrTime UniqueCarrier
+##    &lt;int&gt; &lt;int&gt;      &lt;int&gt;     &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt;        
+##  1  2011     1         26         3    1926      NA CO           
+##  2  2011     1         11         2    1100      NA US           
+##  3  2011     1         19         3    1811      NA XE           
+##  4  2011     1          7         5    2028      NA XE           
+##  5  2011     2          4         5    1638      NA AA           
+##  6  2011     2          8         2    1057      NA CO           
+##  7  2011     2          2         3     802      NA XE           
+##  8  2011     2          9         3     904      NA XE           
+##  9  2011     2          1         2    1508      NA OO           
+## 10  2011     3         31         4    1016      NA CO           
+## # ... with 30 more rows, and 16 more variables: FlightNum &lt;int&gt;,
+## #   TailNum &lt;chr&gt;, ActualElapsedTime &lt;int&gt;, AirTime &lt;int&gt;, ArrDelay &lt;int&gt;,
+## #   DepDelay &lt;int&gt;, Origin &lt;chr&gt;, Dest &lt;chr&gt;, Distance &lt;int&gt;,
+## #   TaxiIn &lt;int&gt;, TaxiOut &lt;int&gt;, Cancelled &lt;int&gt;, CancellationCode &lt;chr&gt;,
+## #   Diverted &lt;int&gt;, Carrier &lt;chr&gt;, Code &lt;chr&gt;</code></pre>
+</div>
+<div id="arrange" class="section level2">
+<h2>Arrange</h2>
+<ul>
+<li><strong>Arrange(<code>df</code>,<code>col name to arrange by</code>,<code>col name of the next tie breaker</code>)</strong>: Reorders rows in a dataset.
+<ul>
+<li>By default, <code>arrange()</code> arranges the rows from smallest to largest.<br />
+</li>
+<li>Use <code>desc()</code> to reverse this behavior.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>#Arrange according to carrier and decreasing departure delays
+arrange(hflights, UniqueCarrier, desc(DepDelay))</code></pre>
+<pre><code>## # A tibble: 227,496 x 23
+##     Year Month DayofMonth DayOfWeek DepTime ArrTime UniqueCarrier
+##    &lt;int&gt; &lt;int&gt;      &lt;int&gt;     &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt;        
+##  1  2011    12         12         1     650     808 AA           
+##  2  2011    11         19         6    1752    1910 AA           
+##  3  2011    12         22         4    1728    1848 AA           
+##  4  2011    10         23         7    2305       2 AA           
+##  5  2011     9         27         2    1206    1300 AA           
+##  6  2011     3         17         4    1647    1747 AA           
+##  7  2011     6         21         2     955    1315 AA           
+##  8  2011     5         20         5    2359     130 AA           
+##  9  2011     4         19         2    2023    2142 AA           
+## 10  2011     5         12         4    2133      53 AA           
+## # ... with 227,486 more rows, and 16 more variables: FlightNum &lt;int&gt;,
+## #   TailNum &lt;chr&gt;, ActualElapsedTime &lt;int&gt;, AirTime &lt;int&gt;, ArrDelay &lt;int&gt;,
+## #   DepDelay &lt;int&gt;, Origin &lt;chr&gt;, Dest &lt;chr&gt;, Distance &lt;int&gt;,
+## #   TaxiIn &lt;int&gt;, TaxiOut &lt;int&gt;, Cancelled &lt;int&gt;, CancellationCode &lt;chr&gt;,
+## #   Diverted &lt;int&gt;, Carrier &lt;chr&gt;, Code &lt;chr&gt;</code></pre>
 <h2 id="1">
 </h2>
+</div>
 </div>
 <div id="summarise-the-pipe-operator" class="section level1">
 <h1><strong>Summarise &amp; the Pipe Operator</strong></h1>
+<div id="summarise-dplyr-aggregate-functions" class="section level2">
+<h2>Summarise &amp; dplyr Aggregate Functions</h2>
+<ul>
+<li><strong>summarise(<code>df</code>, <code>new col name = expression</code>)</strong>: Use your data to create a new dataset of summary statistics that describe the data.<br />
+</li>
+<li>Reviews: <strong><a href="https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#3.3">summarize()</a></strong> seems that there isn’t much difference between <code>summarise()</code> &amp; <code>summarize()</code></li>
+<li><strong>dplyr Aggregate Functions</strong>
+<ul>
+<li><strong>first(x)</strong>: The first element of vector <code>x</code>.</li>
+<li><strong>last(x)</strong>: The last element of vector <code>x</code>.</li>
+<li><strong>nth(x, n)</strong>: The nth element of vector <code>x</code>.</li>
+<li><strong>n()</strong>: The number of rows in the data.frame or group of observations that <code>summarise()</code> describes.</li>
+<li><strong>n_distinct(x)</strong>: The number of unique values in vector <code>x</code>.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>#Generate summarizing statistics for hflights
+summarise(hflights,
+          n_obs = n(),
+          n_carrier = n_distinct(hflights$UniqueCarrier),
+          n_dest = n_distinct(hflights$Dest))</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##    n_obs n_carrier n_dest
+##    &lt;int&gt;     &lt;int&gt;  &lt;int&gt;
+## 1 227496        15    116</code></pre>
+</div>
+<div id="the-pipe-operator-chaining-your-functions" class="section level2">
+<h2>The Pipe Operator: Chaining your functions</h2>
+<ul>
+<li><strong>object %&gt;% function(____, arg2, arg3, …) -&gt; object %&gt;% function(arg2, arg3, …)</strong></li>
+</ul>
+<pre class="r"><code>#Chain together mutate(), filter() and summarise()
+hflights %&gt;%
+  mutate(RealTime = ActualElapsedTime + 100, mph = Distance / RealTime * 60) %&gt;%
+  filter(!is.na(mph), mph &lt; 70) %&gt;%
+  summarize(n_less = n(),
+            n_dest = n_distinct(Dest),
+            min_dist = min(Distance),
+            max_dist = max(Distance))</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   n_less n_dest min_dist max_dist
+##    &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1   6726     13       79      305</code></pre>
 <h2 id="1">
 </h2>
 </div>
+</div>
 <div id="group_by-working-with-databases" class="section level1">
 <h1><strong>Group_by &amp; Working with Databases</strong></h1>
+<div id="group_by" class="section level2">
+<h2>Group_by</h2>
+<ul>
+<li>**group_by(<code>df</code>,<code>col to group by</code>): Define groups within your data set. when calling <code>summarise()</code>, summarising statistics are calculated for the different groups separately.<br />
+</li>
+<li><strong>rank()</strong>: Takes a group of values and calculates the rank of each value within the group.<br />
+<strong>Question 1</strong><br />
+How many airplanes only flew to one destination?</li>
+</ul>
+<pre class="r"><code>hflights %&gt;%
+  group_by(TailNum) %&gt;% #TaulNum是班機編號
+  summarise(ndest = n_distinct(Dest)) %&gt;%
+  filter(ndest == 1) %&gt;%
+  summarise(nplanes = n())</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   nplanes
+##     &lt;int&gt;
+## 1    1526</code></pre>
+<p><strong>Question 2</strong> Find the most visited destination for each carrier.</p>
+<pre class="r"><code>hflights %&gt;%
+  group_by(UniqueCarrier, Dest) %&gt;%
+  summarise(n = n()) %&gt;%
+  mutate(rank = rank(desc(n))) %&gt;%
+  filter(rank == 1)</code></pre>
+<pre><code>## # A tibble: 15 x 4
+## # Groups:   UniqueCarrier [15]
+##    UniqueCarrier Dest      n  rank
+##    &lt;chr&gt;         &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;
+##  1 AA            DFW    2105     1
+##  2 AS            SEA     365     1
+##  3 B6            JFK     695     1
+##  4 CO            EWR    3924     1
+##  5 DL            ATL    2396     1
+##  6 EV            DTW     851     1
+##  7 F9            DEN     837     1
+##  8 FL            ATL    2029     1
+##  9 MQ            DFW    2424     1
+## 10 OO            COS    1335     1
+## 11 UA            SFO     643     1
+## 12 US            CLT    2212     1
+## 13 WN            DAL    8243     1
+## 14 XE            CRP    3175     1
+## 15 YV            CLT      71     1</code></pre>
+</div>
+<div id="working-with-databases-using-dplyr" class="section level2">
+<h2>Working with Databases using dplyr</h2>
+<ul>
+<li><strong>tbl_df()</strong>: Change dataframe to tbl.<br />
+</li>
+<li><strong>tbl_dt()</strong>: Change data table to tbl.<br />
+</li>
+<li><strong>tbl()</strong>: Change database to tbl.</li>
+</ul>
+<pre class="r"><code>library(dbplyr)
+library(RMySQL)
+library(DBI)
+#Set up a connection to the mysql database
+my_db &lt;- src_mysql(dbname = &quot;dplyr&quot;, 
+                   host = &quot;courses.csrrinzqubik.us-east-1.rds.amazonaws.com&quot;, 
+                   port = 3306, 
+                   user = &quot;student&quot;,
+                   password = &quot;datacamp&quot;)
+
+#Reference a table within that source: nycflights
+nycflights &lt;- tbl(my_db, &quot;dplyr&quot;)
+
+#glimpse at nycflights
+glimpse(nycflights)</code></pre>
+<pre><code>## Observations: ??
+## Variables: 17
+## $ id        &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1...
+## $ year      &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013...
+## $ month     &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ day       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ dep_time  &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 55...
+## $ dep_delay &lt;int&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2,...
+## $ arr_time  &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 8...
+## $ arr_delay &lt;int&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7,...
+## $ carrier   &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;...
+## $ tailnum   &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N...
+## $ flight    &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301...
+## $ origin    &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LG...
+## $ dest      &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IA...
+## $ air_time  &lt;int&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149...
+## $ distance  &lt;int&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 73...
+## $ hour      &lt;int&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6...
+## $ minute    &lt;int&gt; 17, 33, 42, 44, 54, 54, 55, 57, 57, 58, 58, 58, 58, ...</code></pre>
+<pre class="r"><code>#Ordered, grouped summary of nycflights
+nycflights %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(n_flights = n(),
+            avg_delay = mean(arr_delay)) %&gt;%
+  arrange(avg_delay)%&gt;%
+  head()</code></pre>
+<pre><code>## # Source:     lazy query [?? x 3]
+## # Database:   mysql 5.6.34-log
+## #   [student@courses.csrrinzqubik.us-east-1.rds.amazonaws.com:/dplyr]
+## # Ordered by: avg_delay
+##   carrier n_flights avg_delay
+##   &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AS            714    -9.86 
+## 2 HA            342    -6.92 
+## 3 AA          32729     0.356
+## 4 DL          48110     1.63 
+## 5 VX           5162     1.75 
+## 6 US          20536     2.06</code></pre>
+</div>
 </div>
 
 
