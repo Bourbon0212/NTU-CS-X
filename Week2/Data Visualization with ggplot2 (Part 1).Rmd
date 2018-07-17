@@ -5,3 +5,133 @@ date: "2018年7月17日"
 output: html_document
 ---
 
+* [Introduction](#1)    
+* [Data](#2)    
+* [Aesthetics](#3)    
+* [Geometries](#4)
+* [qplot and wrap-up](#5)
+
+<h2 id = '1'></h2>
+# **Introduction**
+
+## Exploratory & Explanatory
+
+* Explore: Confirm & Analysis -> Data
+* Explain: Inform & Persuade  -> Reader
+
+## Explore ggplot2
+Compare teo graphs below, see what's the difference.
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(x = cyl, y = mpg)) +
+  geom_point()
+ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+  geom_point()
+```
+
+The first plot is not quite right, because ggplot2 treats ```cyl``` as a continuous variable, and it gives the impression that there is such a thing as a 5 or 7-cylinder car, which there is not.   
+After turnig adding ```factor```, ggplot2 now treats ```cyl``` as a ```factor```. This time the x-axis does not contain variables like 5 or 7, only the values that are present in the dataset.   
+
+## Grammar of Graphics    
+
+* Principles
+    + Graphics are made up of distinct layers of grammatical elements.    
+    + Meaningful plots are built around appropriate aesthetic mappings.   
+    + ggplot(```data```,```aes```) + ```geom``` + ```optional layers```
+* Elements
+    + 3 must have layers & 4 optional.    
+    + Executed the command with ```+```.    
+    *Required*
+    + Data: The dataset being plotted.
+    + Aesthetics: The scales onto which we ***map*** our data   
+    + Geometries: The visual elements used for our data.    
+    *Optional*
+    + Facets: Plotting small multiples.
+    + Statistics: Representations of our data to aid understanding.   
+    + Coordinates: The space on which data will be plotted.
+    + Themes: All none-data ink.
+<div style="width:450px; height:300px">    
+![](D:\Desktop\uname.jpg)
+</div>
+
+```{r}
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(aes(colour = clarity),se = F)#se -> 要不要顯示誤差範圍
+```
+
+<h2 id = '2'></h2>
+# **Data**
+
+## Base plot vs. ggplot2
+* Base plot Limitation
+
+    + Plot doesn't get redrawn.   
+    + Plot is drawn as an image.    
+    + Need to manually add legend.    
+    + No unified framework for plotting.    
+
+* Advantages of ggplot2   
+
+    + Creates plotting objects, which can be manipulated
+    + Takes care of a lot of the leg work for you, such as choosing nice color palettes and making legends.   
+    + Built upon the grammar of graphics plotting philosophy, making it more flexible and intuitive for understanding the relationship between your visuals and your data.    
+    
+Let's see how complex it will be if we use the base plot().
+```{r}
+#Convert cyl to factor
+mtcars$cyl <- as.factor(mtcars$cyl)
+```
+```{r eval = F}
+#Example from base R
+plot(mtcars$wt, mtcars$mpg, col = mtcars$cyl)
+abline(lm(mpg ~ wt, data = mtcars), lty = 2)
+lapply(mtcars$cyl, function(x) {
+  abline(lm(mpg ~ wt, mtcars, subset = (cyl == x)), col = x)
+  })
+```
+<div style="width:600px; height:400px">    
+![](D:\Desktop\1.png) 
+</div>
+Now try with ggplot2 package.
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg, col = cyl)) +
+  geom_point() + # Copy from Plot 2
+  geom_smooth(method = 'lm', se = F) + # Copy from Plot 2
+  geom_smooth(aes(group = 1),method = 'lm', se = F, linetype = 2)
+```
+
+## Tidy Data
+### Reference: **[Cleaning Data in R](https://bourbon0212.github.io/NTU-CS-X/Week2/Cleaning_Data_in_R.html)**   
+
+* **gather(```df```, ```key```, ```val```, ```-col```)**: Rearranges the data frame by specifying the columns that are categorical variables with a ```-``` notation.     
+* **spread(```df```, ```key```, ```val```)**: Spread key-value pairs to columns.
+* **separate(```df```, ```col```, ```into(c("col1", "col2"))```, sep = '*')**: Separate one column into multiple.   
+* **unite(```df```, ```col```, ...(bare names of columns), sep = '*')**: Unite multiple columns into one.   
+
+What kind of graph you want to plot determine how ypu tidy of ypur messy data.
+```{r}
+library(tidyr)
+#iris.tidy
+iris.tidy <- iris %>%
+  gather(key, Value, -'Species') %>%
+  separate(key, c("Part", "Measure"), "\\.")
+head(iris.tidy)
+ggplot(iris.tidy, aes(x = Species, y = Value, col = Part)) +
+  geom_jitter() +
+  facet_grid(. ~ Measure)
+
+#iris.wide
+iris$Flower <- 1:nrow(iris)
+iris.wide <- iris %>%
+  gather(key, value, -Species, -Flower) %>%
+  separate(key, c('Part','Measure'), "\\.") %>%
+  spread(Measure, value)
+head(iris.wide)
+ggplot(iris.wide, aes(x = Length, y = Width, color = Part)) +
+  geom_jitter() +
+  facet_grid(. ~ Species)
+```
+
+<h2 id = '2'></h2>
+# **Aesthetics**
