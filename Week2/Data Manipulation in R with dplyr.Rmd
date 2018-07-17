@@ -154,8 +154,9 @@ hflights %>%
 # **Group_by & Working with Databases**     
 
 ## Group_by
-* **group_by(```df```,```col to group by```): Define groups within your data set. when calling ```summarise()```, summarising statistics are calculated for the different groups separately.    
-* **rank()**: Takes a group of values and calculates the rank of each value within the group.     
+* **group_by(```df```,```col to group by```)**: Define groups within your data set. when calling ```summarise()```, summarising statistics are calculated for the different groups separately.    
+* **rank()**: Takes a group of values and calculates the rank of each value within the group.    
+
 **Question 1**    
 How many airplanes only flew to one destination?    
 ```{r}
@@ -165,7 +166,7 @@ hflights %>%
   filter(ndest == 1) %>%
   summarise(nplanes = n())
 ```
-**Question 2**
+**Question 2**    
 Find the most visited destination for each carrier.
 ```{r}
 hflights %>%

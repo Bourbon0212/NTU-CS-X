@@ -489,12 +489,12 @@ hflights %&gt;%
 <div id="group_by" class="section level2">
 <h2>Group_by</h2>
 <ul>
-<li>**group_by(<code>df</code>,<code>col to group by</code>): Define groups within your data set. when calling <code>summarise()</code>, summarising statistics are calculated for the different groups separately.<br />
+<li><strong>group_by(<code>df</code>,<code>col to group by</code>)</strong>: Define groups within your data set. when calling <code>summarise()</code>, summarising statistics are calculated for the different groups separately.<br />
 </li>
-<li><strong>rank()</strong>: Takes a group of values and calculates the rank of each value within the group.<br />
-<strong>Question 1</strong><br />
-How many airplanes only flew to one destination?</li>
+<li><strong>rank()</strong>: Takes a group of values and calculates the rank of each value within the group.</li>
 </ul>
+<p><strong>Question 1</strong><br />
+How many airplanes only flew to one destination?</p>
 <pre class="r"><code>hflights %&gt;%
   group_by(TailNum) %&gt;% #TaulNum是班機編號
   summarise(ndest = n_distinct(Dest)) %&gt;%
@@ -504,7 +504,8 @@ How many airplanes only flew to one destination?</li>
 ##   nplanes
 ##     &lt;int&gt;
 ## 1    1526</code></pre>
-<p><strong>Question 2</strong> Find the most visited destination for each carrier.</p>
+<p><strong>Question 2</strong><br />
+Find the most visited destination for each carrier.</p>
 <pre class="r"><code>hflights %&gt;%
   group_by(UniqueCarrier, Dest) %&gt;%
   summarise(n = n()) %&gt;%
