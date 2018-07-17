@@ -106,8 +106,8 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = cyl)) +
 
 * **gather(```df```, ```key```, ```val```, ```-col```)**: Rearranges the data frame by specifying the columns that are categorical variables with a ```-``` notation.     
 * **spread(```df```, ```key```, ```val```)**: Spread key-value pairs to columns.
-* **separate(```df```, ```col```, ```into(c("col1", "col2"))```, sep = '*')**: Separate one column into multiple.   
-* **unite(```df```, ```col```, ...(bare names of columns), sep = '*')**: Unite multiple columns into one.   
+* **separate(```df```, ```col```, ```into(c("col1", "col2"))```, sep = '')**: Separate one column into multiple.   
+* **unite(```df```, ```col```, ...(bare names of columns), sep = '')**: Unite multiple columns into one.   
 
 What kind of graph you want to plot determine how ypu tidy of ypur messy data.
 ```{r}
