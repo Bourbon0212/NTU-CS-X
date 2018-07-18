@@ -601,7 +601,8 @@ ggplot(data, aes(x = Openness, y = Happiness, col = Region)) +
 </div>
 <div id="what-other-measures-are-correlated-with-openness" class="section level2">
 <h2>What other measures are correlated with “Openness”?</h2>
-<p>Again, we can see the strong positive correlation between ‘Openness’ &amp; ‘Happiness’ in the world. In addition, the correlations between ‘Happiness’ and most measurements are also positive!</p>
+<p>Again, we can see the strong positive correlation between ‘Openness’ &amp; ‘Happiness’ in the world.<br />
+In addition, the correlations between ‘Happiness’ and most measurements are also positive!</p>
 <pre class="r"><code>library(corrplot)
 open_data_corr &lt;- data %&gt;%
   select(Openness, Happiness, GDP, Family, Health, 

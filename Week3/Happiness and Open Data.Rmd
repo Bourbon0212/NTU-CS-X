@@ -76,7 +76,7 @@ ggplot(data, aes(x = Openness, y = Happiness, col = Region)) +
 ```
 
 ## What other measures are correlated with “Openness”?
-Again, we can see the strong positive correlation between 'Openness' & 'Happiness' in the world.
+Again, we can see the strong positive correlation between 'Openness' & 'Happiness' in the world.    
 In addition, the correlations between 'Happiness' and most measurements are also positive!
 ```{r message = F}
 library(corrplot)
