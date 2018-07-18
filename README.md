@@ -1,4 +1,4 @@
-﻿# 2018 NTU CS+X
+# 2018 NTU CS+X
 ## Announcement
 Course：106學年度夏季學院【資料科學程式設計】<br />
 Student：龔泓愷<br /> 
@@ -12,7 +12,8 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 ## Homework
 * [hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)   
 * [hw2(Part1).html + BONUS](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part1.html)    
-* [hw2(Part2).html](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part2.html)
+* [hw2(Part2).html](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part2.html)    
+* [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week2/Happiness_and_Open_Data.html)
 ## Notes
 * [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)
 * [Intermediate R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2)
