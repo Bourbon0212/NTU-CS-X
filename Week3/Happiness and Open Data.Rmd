@@ -77,7 +77,8 @@ ggplot(data, aes(x = Openness, y = Happiness, col = Region)) +
 
 ## What other measures are correlated with “Openness”?
 Again, we can see the strong positive correlation between 'Openness' & 'Happiness' in the world.    
-In addition, the correlations between 'Happiness' and most measurements are also positive!
+In addition, the correlations between 'Happiness' and most measurements are also positive!    
+At the first glance, it might seem weird that we have positive relation between 'Happiness' and 'Dystopia Residual'. However, after learnig that 'Dystopia Residual' means the difference from “a hypothetical country that has values equal to the world’s lowest national averages for each of the six factors”, it's not that confusing anymore.
 ```{r message = F}
 library(corrplot)
 open_data_corr <- data %>%
