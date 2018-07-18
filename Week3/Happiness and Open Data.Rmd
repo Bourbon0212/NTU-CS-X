@@ -40,7 +40,7 @@ library(formattable)
 data %>%
   # Rounded these values to 2 decimal points.
   mutate_if(is.numeric, funs(round(., 2))) %>%
-  # Rearrange the table in a decending dorder according to 'Openness'.
+  # Rearrange the table in a decending order according to 'Openness'.
   arrange(desc(Openness)) %>%
   formattable(align = "l") %>%
   head(10)

@@ -175,7 +175,7 @@ In this case, I rounded these values to 2 decimal points and rearrange the table
 data %&gt;%
   # Rounded these values to 2 decimal points.
   mutate_if(is.numeric, funs(round(., 2))) %&gt;%
-  # Rearrange the table in a decending dorder according to 'Openness'.
+  # Rearrange the table in a decending order according to 'Openness'.
   arrange(desc(Openness)) %&gt;%
   formattable(align = &quot;l&quot;) %&gt;%
   head(10)</code></pre>
