@@ -50,12 +50,23 @@ data %>%
 After so much preparation, we can now look at these data and tell some stories!
 
 ## Are open data friendly countries happy countries?
-
-It seems that there is a  positive correlation between 'Openness' & 'Happiness' if we plot with all the data in the world.    
-However, if we plot the data separately according to their regions, it looks that the relation might be negative in some specific regions.  
-
+The first plot looks hard to read, so I will separate it and plot them respectively later.
 ```{r message = F, warning = F}
 library(ggplot2)
+# A messy graph
+ggplot(data, aes(x = Openness, y = Happiness, col = Region)) +
+  geom_point() +
+  geom_smooth(aes(group = 1),method = 'lm', se = F, linetype = 2) +
+  geom_smooth(method = 'lm', se = F) + 
+  labs(x = "Openness Score",
+       y = "Happiness Score",
+       title = "Are open data friendly countries happy countries?",
+       subtitle = "Data openness and happiness by country in 2015")
+```
+
+It seems that there is a  positive correlation between 'Openness' & 'Happiness' if we plot with all the data in the world.    
+However, if we plot the data separately according to their regions, it looks that the relation might be negative in some specific regions. 
+```{r message = F, warning = F}
 # The correlation between 'Openness' & 'Happiness' in the world.
 ggplot(data, aes(x = Openness, y = Happiness)) +
   geom_point() +
