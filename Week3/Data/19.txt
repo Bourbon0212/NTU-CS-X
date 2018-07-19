@@ -1,0 +1,755 @@
+作者jack1218 (赤城我老婆)看板PC_Shopping標題[菜單] 50k 遊戲機時間Thu Feb 23 19:13:40 2017
+
+CPU (中央處理器)：Ryzen!(1700x or 1700)
+MB      (主機板)：Ryzen!
+RAM     (記憶體)：金士頓 8G*2 DDR4-2400 HyperX FURY(黑), $3850 ◆ ★ 熱賣
+VGA     (顯示卡)：華碩 ROG STRIX-GTX1080-A8G-GAMING(1835MHz)(5年確定..)29.8cm三風扇 ~少量, $22990
+SSD             金士頓 480G/M.2 SATA 2280/讀:550M/寫:520M/MLC顆粒/五年保, $4,550
+DVD-RW  (燒錄機)：
+PSU (電源供應器)：海盜船 CX500M / 500W 80+銅牌.模組化.三年免費維修, $2190
+CHASSIS   (機殼)：賽德斯 阿努比斯 顯卡長37/風扇高16/SSD*4/ATX,           $990
+MONITOR   (螢幕)：
+Mouse/KB  (鼠鍵)：
+目前價格:34570 +Ryzen+oem windows
+
+預計會觀望1700x的評價 和 7700k做取捨
+
+新手上路 自己拉了一張單子
+有幾個地方不太了解(爬文過)
+1.PSU 銅銀金牌代表的是能量轉換效率 和穩定性沒關係嗎
+2.500w是否推得動這組配備 (有人說450w即可 但是去光華問店員推薦650w)
+3.有沒有oem版os的教學文 看到有人說置底能看到 不過找了一下沒找到@@
+4.請問有沒有裝散熱器的需求 ,請推薦一款 (塔散佳 水冷聽說有漏水的風險)
+玩的遊戲
+Paradox的eu4 hoi3 hoi4
+鬥陣 爐石
+可能會玩一些RPG大作
+
+
+
+
+
+
+--
+Sent from my Windows
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 223.136.57.161
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487848423.A.ADC.html
+推 mercuries2  : 終於看到有ryzen的單了 02/23 19:21
+推 amazingreg  : 配1080 不拿650W嗎 02/23 19:23
+推 SmonSo      : R7頭香單耶 02/23 19:23
+推 violegrace  : 殼換一下吧 02/23 19:27
+推 jior        : 這單不錯XDD 02/23 19:35
+推 sim0831     : ryzen首單！ 02/23 19:40
+推 CactusFlower: 你淫惹 第一單~ 02/23 19:44
+推 nakayamayyt : psu通常等級越高用料用好 02/23 19:48
+推 hutten      : 水啦 02/23 19:51
+推 wind0083    : 500w夠，不過建議買金牌或什麼鑽石牌的，反正貴金 02/23 19:52
+→ wind0083    : 屬之類的就對了 02/23 19:52
+推 dustlike    : 銅銀金認證本身的確只跟效率有關 02/23 20:12
+推 Bob9154     : 珍惜電腦 遠離TX 02/23 20:15
+推 Okonomiyaki : 屆時發個開箱文呀OuO 02/23 20:16
+→ friedpig    : 你要拿1700X就得配散熱阿 原廠沒送 02/23 20:17
+推 arm370x     : 預算夠直上Leadex阿 我是耗電量不大放棄 02/23 20:17
+→ i015027     : 這咖case沒風扇 全要選購 02/23 20:21
+推 Lumia625    : 沒板子啊QQ 02/23 20:24
+→ friedpig    : 板子就還沒要放出來而已 遲早的事情 02/23 20:24
+→ friedpig    : 台灣NDA不知道簽到什麼時候 大石頭國際官網已經放了 02/23 20:25
+推 x930111     : 銅銀金可能代表用料差距  可能跟穩定有正相關吧 02/23 20:29
+推 xzealotx    : XD 02/23 22:05
+→ a307042006  : MB價跟intel200系列定的差不多不是嗎 02/24 06:39
+
+作者TtaroO (TtaroO)看板PC_Shopping標題[情報] 原價屋 戰蝶550W+賽德斯.狼王機殼 $1790時間Fri Feb 24 19:06:27 2017
+剛剛看到天價屋這個活動
+
+振華 戰蝶550W 銅牌80+/六項保護/12CM極靜音風扇
+
+【+限量送機殼 賽德斯.狼王.萊肯(透側)/ATX】, $1790 ◆ ★ 熱賣
+
+戰蝶550W原價就要1790
+
+賽德斯.狼王原價要1090
+
+兩個搭在一起買才1790，真的是有點殺
+
+有需要買組電腦的可以考慮衝一下
+
+不知道有沒有限量就是了
+
+http://www.coolpc.com.tw/tmp/1487933763915297.png
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 49.219.99.216
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487934390.A.801.html
+※ 編輯: TtaroO (49.219.99.216), 02/24/2017 19:06:58
+→ luxaky      : 華哥華哥 心動動 02/24 19:08
+推 iWRZ        : 戰蝶不錯 老家有一台電腦就是用戰蝶 02/24 19:09
+→ lanucelot   : 狼王蠻爛的..只有一組u3..後面的槽還是一次性的 02/24 19:11
+推 Dcpp2015    : 那咖殼根本沒有一千的價值吧-.- 02/24 19:14
+推 cake51640   : 只有一組u3是三小-/- 02/24 19:30
+→ simplytony  : 贈品殼大家的要求好高XD 02/24 19:34
+推 iWRZ        : 賽德斯是中國品牌 02/24 19:36
+→ kisia       : 賽德斯很努力在砸錢刷曝光度 跟OPPO有九成像 02/24 19:37
+→ Merkle      : 這個價格是要多好的殼啦 XD 02/24 19:38
+推 darkdixen   : 這組合還OK 但沒需求 只好pass 02/24 19:45
+推 iWRZ        : 如果配的是銀欣PS11 我直接搶！ 02/24 19:46
+推 lanucelot   : 旋剛一堆一千初的殼完爆這廝 02/24 19:46
+→ nakayamayyt : 一定要買這顆psu就算賺到 不然統治者比這好多了 02/24 20:31
+推 ken720331   : 買店員送傑克 02/24 20:36
+推 rebate      : power不錯可惜贈品是垃圾 02/24 21:53
+推 love10933   : 這價位我只買leader...喔不...現要改成這價位我只買 02/25 00:06
+→ love10933   : 戰蝶 02/25 00:06
+推 mingchikuo  : 文書機用很好啊 02/25 12:38
+推 abc987      : $1790的銅牌認証，六項保護c/p值已經很高了... 02/25 12:58
+
+作者chaahk2012 (帢克)看板PC_Shopping標題有沒有特殊造型USB HUB可以推薦？時間Fri Feb 24 19:15:34 2017
+
+https://i.imgur.com/22jSdka.jpg
+以前很想買這款
+可惜後來證實上圖是別人改圖的
+(根本沒出)
+最近有需求添購一個
+想說來個炫炮一點的外型
+大家有沒有推薦的hub？
+
+
+-----
+Sent from JPTT on my HTC_B810x.
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 114.136.150.93
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487934936.A.014.html
+→ AISC        : 不會卡到？ 02/24 19:25
+→ RAA1144557  : 淘寶有個新盟幽靈蠍 02/24 19:26
+推 a741085     : 那個一定卡到阿XDDD 02/24 19:28
+→ a741085     : 我買過一個多摩醬的隨身碟  根本沒辦法用= = 02/24 19:28
+推 a741085     : 是說  HUB不是都有供電不穩的問題嗎? 02/24 19:40
+→ Guiltyze    : Hub除非有外接5v變壓器，不然都不能插太多東西 02/24 19:42
+→ Guiltyze    : 不過正常插一台手機幾個隨身碟還好啦 02/24 19:43
+推 mitkuchen   : 買CoolGear、Benevo這種吧 02/24 19:47
+推 duece0927   : 那是人類的主堡嗎 02/24 19:56
+→ Merkle      : bunker吧 02/24 20:37
+推 jamesa12    : 這是要怎麼插 快笑死 02/24 20:41
+→ DendiQ      : ROCCAT Apuri 02/24 20:42
+推 WeAntiTVBS  : 5V變壓器要注意安培數夠不夠 有部分廠商有出12v的 02/24 21:07
+→ WeAntiTVBS  : 變壓器版本USB 3.0Hub 02/24 21:07
+推 a5150219    : 3D列印，自己的HUB 自己做 02/24 23:40
+推 ultratimes  : 我有白牌的USB HUB 02/25 00:59
+→ ultratimes  : 白牌=某隨身碟記憶卡大品牌喔 02/25 00:59
+推 chevalerie  : roccat 02/25 02:09
+
+作者ang728 (要耍<U+53A8>你還嫩的很)看板PC_Shopping標題[測試] Cryorig A80 一體式水冷散熱器開箱時間Fri Feb 24 19:39:19 2017
+買U買版買散熱器(?)
+http://shadowsfalltw.gjisland.net/?p=7135
+--
+
+一體式水冷近來因為簡單的安裝，可接受的效能加上整體噪音略低於空冷，因此還是有一
+定的市場。不過水冷式散熱最大的問題，是雖然能夠壓制 CPU 的發熱，但周邊 VRM 供電
+的熱量因為缺乏氣流導引，而造成溫度較高，如果是高耗電CPU或是超頻狀態下這樣的狀
+況會更加嚴重，也因此很多分立式水冷玩家通常會加裝 Full Cover 水冷頭或是 VRM 的
+專用水冷頭，但 AIO 水冷使用者就只能另闢蹊徑去處理這問題，像是選擇 VRM 帶風扇的
+型號，或是USB風扇等方法來輔助。
+
+Cryorig A80 AIO 水冷最大的特色，就是針對這個問題提出了簡單的解決方案。透過外掛
+的風扇提供氣流讓 VRM 的熱可以被帶走。本身的規格也不會太差，280mm冷排，配上評價
+不錯的 QF140 Peformance風扇，相信光看 AIO 水冷本體的性能應該也是能排的上前段班
+。
+
+產品外箱：一貫的 Cryorig 產品外箱風格，簡潔同時揭露了足夠多的產品細節資訊。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_01.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_02.JPG
+
+配件一覽：包裝內含了目前所有主流平台的扣具，除了尚未正式開賣的 AM4以外皆齊。另
+外隨附兩顆風扇以及輔助用的小型散熱風扇。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_03.JPG
+
+本體一覽：280 冷排的確視覺上略大了些。風扇、PUMP的連接線配置整合到 Pump 本體之
+上，電力輸入插頭選擇了 SATA Power連接器，其餘的為兩個風扇插座，以及連接至主機
+板提供監控、PWM信號的連接器。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_04.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_05.JPG
+
+冷頭本體：底面已經預塗散熱膏，底面算是平整。正面的連接座是供 VRM 散熱風扇使用
+；冷頭側邊印有 cryorig 商標。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_06.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_07.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_08.JPG
+
+贈送的風扇：大顆的QF140 Performance 最高轉速為 1850RPM，噪音最高 38 dBA；小顆
+的 Airflow Fan 則是1500-3000轉、噪音15-27dBA。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_09.JPG
+
+
+Airflow Fan 安裝例：使用卡榫緊密的結合，線材直接安裝在冷頭上。
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_10.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_11.JPG
+
+隨附的 QF140 Performance 仍然附有減振墊片：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_12.JPG
+
+冷排做工整齊無明顯傷痕，但出入水連接頭的樣式感覺有些脆弱，可能安裝時要稍微小心
+一點：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_13.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_14.JPG
+
+冷頭安裝例：安裝在這次進行測試的 ROG R5E10TH 板子上，可以看到 Airflow 風扇可以
+對到 VRM 的散熱片進行強制散熱：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_15.JPG
+
+這次的對比測試則是選擇了市場上相當有能見度的 CM Seidon 240M作為性能的測試基準
+，具有市場上典型 AIO 水冷的樣貌以及解熱能力：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_16.JPG
+
+兩者實際上平台上運作的樣子：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_17.JPG
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80_18.JPG
+
+接下來就是測試的部分：測試使用 I7-5960X 超頻到 3.8GHz，並使用 OCCT 進行燒機，
+除了 CPU 各項溫度以外，由於 R5E10TH 主版有相當豐富的測溫位置，因此也記錄了這次
+的測試重點 VRM 溫度。測試將會包含 A80、Seidon 240M的結果，PWM設定維持主機板
+ BIOS 全預設值，室溫約 26 度。結果圖表依序為 Core0 – Core7、CPU封裝溫度，以及
+ VRM 溫度
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/sys.JPG
+
+Seidon 240M：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore01.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore02.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore03.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore04.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore05.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore06.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore07.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpucore08.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mcpupak.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/s120mvrmt.jpg
+
+A80：
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore01.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore02.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore03.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore04.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore05.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore06.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore07.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpucore08.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpupak.jpg
+http://shadowsfalltw.gjisland.net/pic/cryoriga80/CRA80cpuvrmt.jpg
+
+
+
+差異可以說是一目瞭然，CPU散熱的部分，憑藉著 280mm 冷排的優勢，提供了在同樣測試
+過程下比一般 240mm AIO 水冷有著多出近 7 度的壓制力，令人為之一亮。
+
+而看到了重點的 VRM 溫度差異，就知道 A80 輔助風扇的設計並不是白做工；
+從待機、負載、再回復到待機的整個循環，在溫度的壓制以及降溫的過程都遠勝於一般無
+輔助風扇設計的 AIO 水冷，約有8度左右的差距，若測試的時脈提高，效果應該會更加明
+顯。
+
+而雖然多了一顆輔助風扇，但因為 Airflow fan 也支援 PWM 控轉，因此噪音方面其實是
+可控制的，線材分離的設計可以讓像 R5E10TH 這種感溫、風扇接座多的主版，透過指定
+控轉的感溫參考來微調所需要的散熱效果。
+
+整體看起來 Cryorig A80 的效果是相當令人滿意的，做工、配件等層面都算是充實，雖
+然可能沒有一些 USB 監控、發光等進階功能，但光說性能以及對 VRM 輔助的特點就以相
+當值得入手。但比較令人在意的，應該是還是冷排的連接頭設計，看起來較為脆弱一些，
+畢竟是會很常彎折的部分，還是會希望不管除了在實際的強度數據以外，在視覺上也可以
+有相當程度強度的感覺；
+
+另外電源輸入使用了 SATA 電力接頭，在實際裝機配線上的確是
+會比傳統 Molex 4 Pin 更好處理整線、模組化線材選用等問題，但是其線徑就個人看法
+是有些偏細了，畢竟是包含了 PUMP 以及三顆風扇的電力提供，在輸入線徑上保守一點不
+是壞事。
+
+
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 111.242.175.226
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487936376.A.AC7.html
+推 AreLies     : A40路過推 02/24 19:47
+推 baka        : 有開箱 有推 02/24 19:50
+推 davidzh     : 公板卡真美 02/24 19:53
+推 Cubelia     : 有熱成像儀的話就能看到加那顆小風扇的效果了 02/24 19:54
+推 LinYiJen    : A40U路過推 02/24 19:59
+→ ang728      : 官方有提供影片就不找來測了 02/24 20:01
+推 Bob9154     : 官方影片不一定準 他們絕對放對自己利益大的... 02/24 20:07
+→ Bob9154     : 就跟Tt的RGB電源測試一樣 02/24 20:08
+推 Cubelia     : 這麼說我才想到前年Computex就有實測了XD 02/24 20:11
+→ ang728      : 官方提供的就是FLIR的影像，而且有風扇跟無風扇的差 02/24 20:12
+→ ang728      : 異應該是不用造假XD 02/24 20:12
+→ ang728      : 可以看看散熱後的熱分佈如何就是了 02/24 20:12
+推 gundam616   : 強哦,也是用這台，不過最近想換硬管 02/24 20:18
+推 march55237  : 欸都 那個風扇的形狀應該是120而不是140? 02/24 20:23
+推 Nexus5X     : 推快睿 02/24 20:24
+推 Bob9154     : 那風扇是QF140 沒有單售 02/24 20:28
+→ Bob9154     : 喜歡這種風格的話 NB-eloop長的有點像 02/24 20:29
+推 Arudora     : 推個 這個光靠保固就殺歪對手惹.性能也沒話講 02/24 20:46
+推 paio        : 棒！ 02/24 21:34
+推 gundam616   : QF140 已有單售了 02/24 21:35
+→ Bob9154     : ! 開賣了嗎 蠻想要收一個 不喜歡圓框風扇 02/24 21:37
+推 kivx        : FT02裝不了表示難過 02/24 23:23
+→ ang728      : 可以換機殼阿XD 02/25 02:41
+推 faintbreeze : 讚 02/25 12:10
+
+作者Cubelia (大胸智乃)看板PC_Shopping標題[情報] GTX750Ti/RX460 2GB/GTX1060 3GB特價時間Fri Feb 24 19:51:41 2017
+
+原價屋特價ing
+
+http://www.coolpc.com.tw/phpBB2/viewtopic.php?f=52&t=236173
+
+華碩GTX750TI-PH-2GD5︰2990元
+(免插PCIe 6 Pin電源)
+
+微星RX460-2G-OC︰2990元
+(免插PCIe 6 Pin電源)
+
+微星GTX 1060 3G OCV1送電競耳麥+鼠墊︰5990元
+
+=
+GTX750Ti 2GB還和RX460 2GB的價格一樣,頗狂
+(以性能優先來說的話就直接選RX460惹,性能可是直指GTX950 2GB)
+
+預算還能再上去一點的話4000以內也能考慮GTX1050 2GB
+
+GTX1060 3GB的話同價位也有不錯的選擇唷(RX470 4GB)
+
+--
+
+                       姐姐 姐姐 我們好像變成簽名檔了
+
+                      雷姆 雷姆 好像真的是這麼一回事呢
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 114.39.50.120
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487937116.A.092.html
+→ baka        : 3k 460!! 02/24 19:53
+→ baka        : 至於750ti那價格請搭配這張服用 02/24 19:54
+→ baka        : http://i.imgur.com/nnbmYLD.jpg 02/24 19:54
+推 lamlinjimmy : 1060 3G也算破產版 不過價格似乎尚可吧? 02/24 19:55
+就多一個選擇囉
+推 MirageAngel : 看起來都只是還好而已~750Ti還敢出來丟人現眼賣鬼價 02/24 19:57
+推 ctalas      : 剛剛看威力彩460也跳到2990 02/24 20:01
+→ Guiltyze    : 1059這價格應該不會被酸了吧XD 02/24 20:02
+→ JoyRex      : 剛剛喵到巧虎,還以為眼花了... 02/24 20:06
+巧虎卡XDD
+→ Merkle      : 750Ti這種摃盤子的電子垃圾到底是有多少阿... 02/24 20:35
+推 pinson880207: 除非螢幕是D-Sub 不然別再買750ti了 有更好的選擇 02/24 20:39
+想要D-SUB又要免插電的話確實除了GTX950就是GTX750Ti惹,不然只能轉接
+→ walter741225: 應該說1060 3G終於跌到RX470 4G價了 02/24 20:41
+→ walter741225: 只是這規格太LOW了 02/24 20:42
+推 KINMENKING  : 460這價格，顯卡紅海殺到死全面開戰了 02/24 20:50
+→ KINMENKING  : 下個月會不會直接出現1060 4500的 02/24 20:51
+→ KINMENKING  : 台灣代工鍊又要全崩潰了@@ 02/24 20:52
+※ 編輯: Cubelia (114.39.50.120), 02/24/2017 20:52:31
+→ KINMENKING  : 話說加贈品，1060 3G 還不到4500元說 02/24 20:52
+→ Arudora     : 總算有降了 不然460價格卡很久了 02/24 20:53
+→ KINMENKING  : 崩的比我想像的快，有點心動了A_A 02/24 20:53
+推 KINMENKING  : 話說我用幾年前的低階螢幕，750了就能跑巫師三了 02/24 20:56
+→ KINMENKING  : 還是大部份功能全開的情形下 02/24 20:56
+→ KINMENKING  : 顯卡市場不崩盤才奇怪@[email<U+00A0>protected] 02/24 20:57
+推 b131325     : 之前藍寶2.8K的460最超值 但要6PIN 3K免插電給舊機 02/24 21:12
+→ b131325     : 真心不錯 02/24 21:12
+推 nekaki      : 幸好460現在才跳 不然我上周就不會直升480了Q.Q 02/24 21:19
+推 Dcpp2015    : 1059這個價格很合理啊，750這萬年庫存賣2990還太貴 02/24 21:23
+推 EAFV        : 750ti可以發電 460不行 狂win 02/24 21:36
+推 KINMENKING  : 750就夠大部份人用了，顯卡早就該全崩盤了 02/24 21:57
+→ KINMENKING  : 一堆廠商聯合起來炒作，不然750規格的1500吧= = 02/24 21:57
+→ KINMENKING  : 現在顯卡效能對大部份人來說過剩了 02/24 21:58
+→ KINMENKING  : 也就代表顯卡要操壞的機率越來越低，用的越來越久 02/24 21:58
+推 rebate      : 460跟750Ti同價，一般人都會選460吧 02/24 22:00
+推 opass168    : 撼訊果然會跟降 02/24 22:05
+推 saimeitetsu : 460有HEVC 10bit 硬解+FM當然選 02/24 22:11
+推 jior        : 750Ti到990再叫我！！ 02/24 22:41
+推 jimmy008400 : 借這篇問 撼訊跟微星選哪張?? 02/24 22:47
+推 a0919106581 : 微星4年保 02/24 22:52
+推 force5566   : 750ti還在宰羊XDDD 02/24 23:51
+推 damnedfish  : 1059價格終於正常了 02/25 10:39
+推 ken720331   : 神卡750 02/25 11:27
+→ cholear00   : 我訂了750TI因為原使用的GT740壞了，預算只有3K.. 03/02 16:18
+→ cholear00   : 個人也不想用微星的產品,遊戲只有玩暗黑3,GTX 750T 03/02 16:20
+→ cholear00   : I應該夠了 03/02 16:20
+
+作者ac0815 ()看板PC_Shopping標題[閒聊] 大家都不擔心Ryzen烙賽嗎？時間Fri Feb 24 19:57:59 2017
+
+想想吃土機要出的時候
+
+也是各種吹捧 跑分都很好看
+
+結果一出來烙賽
+
+被I帝壓著打
+
+I帝沒對手就慢慢擠牙膏
+
+現在Ryzen都還沒入手
+
+一堆人就開始高潮說I7要被屌打
+
+到時如果又重現吃土機的情況
+
+不就再一次崩潰!!??
+
+而且I帝的外星科技
+
+大家真覺得會怕AMD??
+
+理性討論 勿戰
+
+謝謝
+
+--
+※ 發信站: 批踢踢實業坊(ptt.cc), 來自: 223.139.67.185
+※ 文章網址: https://www.ptt.cc/bbs/PC_Shopping/M.1487937481.A.F7F.html
+推 baka        : id正確 02/24 19:58
+推 MirageAngel : 厚問王～又是你！整天想引戰？！太閒就去爬其它爆文 02/24 19:59
+推 felaray     : 那些都網軍啊！ 02/24 19:59
+→ kuninaka    : 厚問王 02/24 20:00
+→ Litfal      : 2壞了 我又沒買股票也沒預購擔心個屁 02/24 20:01
+推 KotoriCute  : 教主說過覺得Ryzen會烙賽就把AMD空下去怕你不敢而已 02/24 20:01
+推 faintbreeze : 推土機出來的時候跑分很難看謝謝 02/24 20:01
+推 jinshun     : 比較擔心你晚上吃到不乾淨的會烙賽 02/24 20:01
+推 H264        : 推土機出來的時候跑分很難看謝謝 02/24 20:01
+→ faintbreeze : 而且這次不是純PPT 實機都上給你看了 頂多說特挑 02/24 20:02
+→ friedpig    : 超頻部分烙賽可能性很高 不過預設就不差了 02/24 20:03
+→ H264        : 還理性勿戰 根本連google一下實際狀況都懶 02/24 20:03
+→ friedpig    : 頂多就多花錢買超頻版沒爽到而已 02/24 20:03
+推 w113353     : 不衝首發 等情報啊 02/24 20:03
+推 davidzh     : INTEL 這次不知能降多少 02/24 20:03
+推 baka        : 降? 02/24 20:04
+推 ayasesayuki : 信仰無價 02/24 20:04
+推 MirageAngel : ＦＸ發售前爆料跑分不太優唄~別又在自己胡亂腦補了~ 02/24 20:04
+推 c52chungyuny: 本來就是烙賽   整個晶圓只有中間那一小塊可以賣 02/24 20:05
+→ baka        : i社招都扣到生灰塵 為什麼要降? 02/24 20:05
+→ c52chungyuny: 其他旁邊都是騙盤子的 02/24 20:05
+→ c52chungyuny: 但還是比intel inside(硬套硬塞)便宜 02/24 20:05
+推 faintbreeze : c52被1800X開發後壞掉了 XD 02/24 20:06
+推 neuralandre : 台灣的預購已經快賣完了........回家馬上去刷一顆17 02/24 20:06
+→ neuralandre : 00x 02/24 20:06
+推 KotoriCute  : c52已經U大濕化了 02/24 20:07
+推 w113353     : 我覺得等板子出來再說惹QQ 02/24 20:07
+→ JoyRex      : 反串賺P幣啦 02/24 20:07
+→ w113353     : 覺得X 決定O 02/24 20:07
+推 ken720331   : Gtav的分數也出來了 02/24 20:09
+推 milan886    : Intel一直沒對手只能擠牙膏 現在AMD都把Ryzen實機跑 02/24 20:19
+→ milan886    : 給你看分數了 代表兩家終於可以競爭了 怎麼還是看衰 02/24 20:19
+→ milan886    : AMD? 02/24 20:19
+推 MirageAngel : 還是會有事實就擺在眼前~卻還要死嘴硬~業障無限深重 02/24 20:22
+推 momogo11    : 塊點下空單 02/24 20:26
+→ momogo11    : FX發售前偷跑資料 就是濫到有剩 眾人不敢相信 02/24 20:26
+→ momogo11    : 後來還怪說是BIOS 02/24 20:27
+→ kuninaka    : 樓上快阿 等你 02/24 20:27
+→ Nordheim    : 比較怕死忠i粉烙賽 02/24 20:27
+推 simplytony  : FX一開始效能就悲劇吧...跟現在完全不一樣 02/24 20:27
+→ leo255112   : 不用帶風向，下週就知道了 02/24 20:28
+推 kuninaka    : momogoll搞不好有資料，zen大烙賽 02/24 20:29
+→ SPDY        : 請參閱科學人2017年第180期2月號 02/24 20:29
+→ SPDY        : 真真假假專欄 "信者恆信"篇 02/24 20:29
+→ SPDY        : "當堅定信念受到威脅 誰管證據不證據" 02/24 20:29
+推 tint        : 推土機當時流出的測試效能單核就滿虛的 02/24 20:29
+→ momogo11    : 我是說 他看雖 叫他塊點下空單...... 02/24 20:29
+推 a1234567289 : 這不是問問王嗎 02/24 20:30
+推 kuninaka    : 快偷偷爆料 02/24 20:31
+推 ken720331   : 我來看戲的 02/24 20:34
+推 MirageAngel : Core<U+2501>ｉ被初代RyZen神威驚嚇到烙噁賽~先到廟裡收驚 02/24 20:34
+推 pinson880207: 覺得不錯啊 CPU就不會像顯卡有驅動跟穩定性的問題了 02/24 20:35
+→ pinson880207: 吧？有競爭才會進步 讓消費者有更多的選擇 所以樂 02/24 20:35
+→ pinson880207: 見其成 02/24 20:35
+→ ChangWufei  : 那時流出單核數據很虛 AMD目標是HSA對HSA前景太看好 02/24 20:35
+→ ChangWufei  : 現在回歸高IPC 衝高ipc就都類似作法 02/24 20:36
+推 faintbreeze : 誰說CPU沒有穩定問題 wwwww 02/24 20:38
+推 Bob9154     : 沒有穩定問題 早就全民5Ghz了 02/24 20:40
+→ pinson880207: 穩定拿掉吧 當我筆誤 抱歉 02/24 20:41
+推 Nexus5X     : 大濕講話你有沒有在聽!! AMD就是不穩 穩定度被屌打 02/24 20:44
+推 Sirctal     : 在賽是有推土機慘喔?? 02/24 20:45
+推 faintbreeze : 其實我覺得應該要囃賽的應該是NV拔 CPU AMD看來還是 02/24 20:47
+→ faintbreeze : 有差幾代 顯卡可是一個架構輸的話就翻盤了 02/24 20:47
+→ kuninaka    : 老黃...XD 02/24 20:48
+→ kuninaka    : 看老黃的NS可以賣多少 02/24 20:48
+→ momogo11    : 最近NV股價/ 02/24 20:49
+→ kuninaka    : 現在GPU市場領先是AMD 而且很多 02/24 20:49
+→ faintbreeze : NS只是他來老任騙錢拔 02/24 20:49
+→ kuninaka    : NS應該是一定要搶到的 02/24 20:49
+→ momogo11    : 還好我有聽教主話 轉到AMD 不然現在應該嚇到發抖 02/24 20:49
+→ kuninaka    : 不然又給AMD拿走 02/24 20:49
+→ kuninaka    : volta也拖到明年了 AMD之前GPU落後是研發經費被砍 02/24 20:50
+推 Arudora     : 趕快迎駕 正港問*王回歸啦 02/24 20:50
+→ faintbreeze : 我記得ZEN出來之前 大機反而比較認為vega才容易接近 02/24 20:50
+→ faintbreeze : 大家  對手的 可是你看ZEN都能這樣 Vega這次對手 02/24 20:51
+→ kuninaka    : 而且AMD內顯要塞到INTEL裡面了 02/24 20:51
+→ kuninaka    : 還有 Ryzen APU 02/24 20:51
+→ faintbreeze : 是小改版 02/24 20:51
+→ kuninaka    : NVIDIA: 02/24 20:51
+→ kuninaka    : 先幫NV QQ 02/24 20:52
+推 ang728      : MA推文也滿好笑的，INTEL嚇到要去收驚?xdddddd 02/24 20:52
+→ faintbreeze : 真希望今年Q2可以讓我大喊X你老黃 02/24 20:53
+→ kuninaka    : 我買1070 可是我對這NV很不爽 02/24 20:53
+推 MirageAngel : 蘇娘應還不至於愚蠢到出賣強GPU,反倒自毀RyZen_APU. 02/24 20:54
+推 hankower    : 如果Vega再起飛 蘇姿豐真的要成為穿起了 02/24 20:55
+推 faintbreeze : 最近那個不讓AIC廠吃創始版顯卡的市場 02/24 20:56
+→ faintbreeze : 讓我覺得NV真是狂妄過頭了 02/24 20:56
+推 kuninaka    : 創始版顯卡真的很白癡，我有買(掩面 02/24 20:57
+→ kuninaka    : 9和0也很智障 02/24 20:57
+→ faintbreeze : 領先又沒有INTEL虐殺AMD的程度也想搞人 02/24 20:57
+→ Nexus5X     : 創始版還好啦 沒幾家AIC會做鼓風扇 只是真的貴死人 02/24 20:59
+推 hyperionii  : 先幫任豚QQ 02/24 21:03
+→ astor       : 搞不清楚狀況 就不要在那邊誇大了 02/24 21:05
+→ GORDON2037  : 搞不清楚狀況 就不要在那邊誇大了 02/24 21:07
+推 b131325     : AMD進步 作為消費者 不管是I粉A粉N粉 都是得利 只是 02/24 21:07
+→ b131325     : 這裡愛上演哪幾齣而已XDDD 02/24 21:07
+推 c52chungyuny: 嗆人大腦那幾齣啊沒錯 02/24 21:09
+→ c52chungyuny: 唉   回頭是岸 02/24 21:09
+推 kojirou     : 其實我覺得ryzen還是太貴了，國外測試文GTAV 7700K 02/24 21:17
+→ kojirou     : 跟1700都跑預設值，7700K還是小贏1700。7700K一萬一 02/24 21:17
+→ kojirou     : 以下含稅就可以買到其實跟1700預售價10700差不了多 02/24 21:18
+→ kojirou     : 少，大家會選哪個？ 02/24 21:18
+推 faintbreeze : 遊戲7700K幾乎沒幾顆U會贏阿 02/24 21:19
+→ faintbreeze : 單核效能高 核心數剛好是目前遊戲支援度接受 02/24 21:20
+→ rogergon    : 一開始應該還是會觀望。沒問題的話就瘋狂爆量了。 02/24 21:24
+推 kuninaka    : ........ 02/24 21:24
+→ rogergon    : 拜託，半價耶。 02/24 21:24
+→ kuninaka    : 我是回kojirou 02/24 21:25
+→ astor       : 2-4 才是全體最大量的使用習慣，要引起更換潮先去 02/24 21:25
+→ astor       : 問有什麼軟體誘因。 02/24 21:25
+推 kuninaka    : R7是賣發燒人 02/24 21:27
+→ kuninaka    : R3 R5 主流 02/24 21:28
+推 KotoriCute  : 等intel決定開始升級後就會有誘因了，x86市場intel 02/24 21:32
+→ KotoriCute  : 說了算QQ 看Ryzen能不能給點衝擊了QQ 02/24 21:32
+推 kuninaka    : AMD不會主導CPU市場阿，任務是負責稍微刺激INTEL 02/24 21:33
+推 jackx0117   : 怕阿，賣不好，資金都卡 02/24 21:33
+→ friedpig    : 實況市場能帶動一點多核用量阿 但實況畢竟還是有限 02/24 21:33
+→ KotoriCute  : intel:我說夠用就夠用，想用更多核心請掏錢 02/24 21:33
+→ friedpig    : 雖然實況整體越來越火 但是規模還是就那樣而已 02/24 21:34
+→ kuninaka    : 實況很少拉 02/24 21:34
+→ kuninaka    : R7是賣氣氛 02/24 21:34
+推 KotoriCute  : 手機從五年前就開始喊夠用了，還不是每年都升級QQ 02/24 21:37
+推 kuninaka    : 那是Apple可以主導 02/24 21:37
+推 icome       : 記得當時推土機沒現在捧得高 02/24 21:37
+→ kuninaka    : 推土機有人捧? 02/24 21:37
+→ EAFV        : 不知道為什麼最近一堆人腦補當時推土機要出時很強? 02/24 21:38
+→ astor       : 問題在於要怎麼改變消費者想法，使用體驗沒差多少， 02/24 21:38
+→ astor       : 單純價格又沒辦法整個平台便宜到上萬，如何產生足 02/24 21:38
+→ astor       : 夠的誘因給消費者投奔。靠 oem 強推嗎？還是要靠大 02/24 21:38
+→ astor       : 量板廠協力一起推？顯然這兩個輔助對象對 amd 的心 02/24 21:38
+→ astor       : 力就還沒回到以往的水準，光看上市推出的數量就差了 02/24 21:38
+→ astor       : 好幾截，想要重返榮耀，言之過早了。 02/24 21:38
+推 kuninaka    : AMD哪來的榮耀過啊 02/24 21:39
+→ kuninaka    : 市占率最高那次是靠INTEL烙賽 02/24 21:39
+→ kuninaka    : 一直以來都是便宜貨 02/24 21:40
+推 KotoriCute  : 我也不覺得Ryzen能重返K8榮耀QQ 先以K10為目標吧QQ 02/24 21:40
+→ kuninaka    : OEM推INTEL就好了，AMD??? 02/24 21:40
+推 simplytony  : 推土機一上的時候就說只有龍2的8成單核效能了 02/24 21:40
+→ kuninaka    : 重返榮耀只是講股價而已 02/24 21:40
+→ KotoriCute  : OEM這個問題就很複雜了 02/24 21:40
+→ kuninaka    : P4烙賽 OEM還不是推P4 02/24 21:41
+→ kuninaka    : AMD最好就是吃零售市場而已 02/24 21:42
+→ kuninaka    : 可以賺錢就好了 02/24 21:42
+→ KotoriCute  : 不過教主指的應該是股價啦QQ 市佔不太可能QQ 02/24 21:42
+推 googlo      : 推土機什麼時候跑分超高？你活在那個平行宇宙？ 02/24 21:42
+→ kuninaka    : 一直都是股價阿 02/24 21:42
+→ astor       : 股價不會平白自己上去，推力呢？ 02/24 21:43
+→ kuninaka    : 財報 02/24 21:43
+→ KotoriCute  : Ryzen A粉衝完第一波後，接下來才是真正的考驗QQ 02/24 21:43
+→ kuninaka    : AMD本來就遜於INTEL阿，沒人要反轉 02/24 21:44
+→ kuninaka    : 更換潮是什麼鬼東西，遇到鬼??? 02/24 21:45
+→ kuninaka    : AMD CPU能賺錢才是真的 02/24 21:45
+→ KotoriCute  : PC很久沒出現換機潮所以intel這幾年才對PC半放生QQ 02/24 21:46
+→ KotoriCute  : Ryzen能不能推動換機潮....嗯 02/24 21:46
+→ kuninaka    : OEM我不懂，我只看台灣零售市場 02/24 21:47
+→ KotoriCute  : 到底是沒有換機潮所以intel才擠牙膏，還是intel擠牙 02/24 21:47
+→ kuninaka    : 有Ryzen可以選還不錯 02/24 21:47
+→ kuninaka    : 比萬年INTEL來的有吸引力 02/24 21:47
+→ KotoriCute  : 膏所以消費者才沒動力換機...各有說法QQ 02/24 21:48
+→ kuninaka    : 換換病也有新選擇 02/24 21:48
+→ kuninaka    : 換機潮這個都跟零售市場無關 02/24 21:48
+→ KotoriCute  : 以國外市場來說OEM和品牌機是很重要的市場 02/24 21:48
+→ KotoriCute  : 訂單量不是DIY可以比的 02/24 21:49
+→ friedpig    : 所有市場都是八 Diyer很小眾阿 02/24 21:49
+→ KotoriCute  : 台灣品牌機賣不太動，不過國外品牌機才是主流QQ 02/24 21:49
+→ kuninaka    : 所以誰都知道還是INTEL爽爽賺阿 02/24 21:50
+→ kuninaka    : Ryzen不會改變 02/24 21:50
+→ friedpig    : 你是看家用市場才覺得賣不動吧 商用政府用都套裝阿 02/24 21:50
+→ kuninaka    : AMD從0~10%就爽了 02/24 21:51
+→ kuninaka    : 還有NB阿 02/24 21:51
+推 KotoriCute  : 不過沒有買股票的人就乖乖看戲就好了QQ 大不了繼續 02/24 21:52
+→ KotoriCute  : 買intel QQ 02/24 21:52
+→ kojirou     : 我的意思是會買AMD在效能與價錢都差不多的情況下如 02/24 21:53
+→ kojirou     : 何賣贏Intel？470/480跟1059/1060的效能也是互有勝 02/24 21:53
+→ kojirou     : 負，價錢也比較便宜，可是A只在PTT上面賣贏N不是嗎 02/24 21:53
+→ kojirou     : ？出了PTT就相反了，希望平民款的3、5系列價錢會比 02/24 21:53
+→ kojirou     : 較漂亮吧 02/24 21:53
+→ KotoriCute  : astor大說很有可能會變惡性循環，板廠和OEM沒信心不 02/24 21:54
+推 kuninaka    : 哪有賣贏? 02/24 21:54
+→ kuninaka    : 又不是賣得比較多才能賺到錢 02/24 21:54
+→ KotoriCute  : 趕推大力推Ryzen，Ryzen賣不好。Ryzen賣不好，板廠 02/24 21:55
+→ kojirou     : 第一行"會買"是多打的@@ 02/24 21:55
+→ KotoriCute  : 和OEM更不想推。如此惡性循環。Ryzen GG 02/24 21:55
+→ kuninaka    : 有HP可以合作 XD 02/24 21:56
+→ kuninaka    : CPU有換成現金回來，應該還可以拉 02/24 21:56
+→ kuninaka    : 比推土機好賣一點了吧 02/24 21:57
+→ KotoriCute  : HP又不是只賣AMD，OEM挺AMD怕intel獨大價格隨他開QQ 02/24 21:57
+→ kuninaka    : 現在就這樣啊 開心 02/24 21:57
+→ astor       : hp 不管東西怎樣，想做就會做，賠錢也會做。 02/24 21:58
+→ kuninaka    : 總之我不會認為有啥榮耀拉 AMD應該看得比較現實 02/24 21:58
+→ friedpig    : OEM比較怕的是Intel可以綁著賣 02/24 21:58
+→ kuninaka    : 又沒有現實扭曲立場 02/24 21:58
+→ friedpig    : 你不可能不賣Intel東西 他綁著一堆一起塞給你 你就 02/24 21:59
+→ friedpig    : 得都賣了 02/24 21:59
+→ kuninaka    : Ryzen在OEM 不知道會怎樣，這次出貨大部分 02/24 21:59
+→ kuninaka    : 應該還是OEM 02/24 22:00
+推 faintbreeze : 使用者經驗確定是消費者自己得來的嗎? 02/24 22:21
+→ faintbreeze : 就算個極端 現在真的程式只需要兩核就好 02/24 22:21
+→ friedpig    : 現在的情況 87%都是行銷出來的 02/24 22:21
+→ faintbreeze : 廠商都賣你四核你覺得消費者會認哪個? 02/24 22:22
+→ faintbreeze : 這種東西都是被帶領出來的 反過來也可以通 02/24 22:22
+推 kuninaka    : 扭曲現實力廠 02/24 22:23
+→ kuninaka    : 我是不知道AMD有沒有辦法像Pentium 4那樣帶風向拉 02/24 22:23
+→ friedpig    : 不過軟體開發者還是務實的 會根據現況設計 02/24 22:23
+→ friedpig    : 主流是4C8T還是盡量針對優化 02/24 22:24
+推 opass168    : 終於又想出新問題了w 02/24 22:24
+→ friedpig    : DX12出來以後才看到比較好的多核支援 02/24 22:25
+推 cowbaying   : 現在在說核心數優化的問題?  有這問題? 02/24 22:25
+推 kuninaka    : 等INTEL下放6C 8C吧，現在都還要跪INTEL 02/24 22:26
+推 faintbreeze : 是看到a大說那件事情 不如說PC現在沒啥換機潮還更 02/24 22:26
+推 MirageAngel : 可是訂價沒下放也沒用~INTEL過度追求獲利無益消費者 02/24 22:26
+→ friedpig    : 你看比較舊一點的遊戲 核心吃到4C8T以後就不太有效 02/24 22:27
+→ friedpig    : 裹了 02/24 22:27
+→ faintbreeze : 貼切吧 核心不覺得是重點 這是被教育下的 02/24 22:27
+→ kuninaka    : 老遊戲無所謂啦，那個單核過基礎門檻就好 02/24 22:27
+→ faintbreeze : 硬體商敢用多少 遊戲商也會跟著規則繞 02/24 22:27
+→ friedpig    : 也沒多老阿 DX12以後才有真的吃到很多核的遊戲吧 02/24 22:28
+→ friedpig    : 不過未來性而言很OK拉 02/24 22:29
+→ friedpig    : 至於其他各大大小小軟體 要能吃到幾核就看功力了 02/24 22:30
+→ friedpig    : 很多東西不是想平行就能無限平行的 02/24 22:31
+推 kuninaka    : 那些大大小小的應該不阻礙日常使用拉XD 02/24 22:34
+→ friedpig    : 難講拉 常常看到版上一堆專業軟體吃的都不太好 02/24 22:35
+→ faintbreeze : 底下就有一篇奔騰8成說了 我建議兩家砍掉4核以上的 02/24 22:37
+→ faintbreeze : 產線 給大家滿滿的奔騰大平台 02/24 22:37
+→ friedpig    : 同價格大家就得好好比較瞜 不同價格就CP直打爆 02/24 22:37
+→ KotoriCute  : astor大說的那些AMD不可能不知道，不然就不會把4c8t 02/24 22:51
+推 kuninaka    : 所以我說AMD應該相當理解現實世界QQ 02/24 22:51
+→ KotoriCute  : 和6c12t放在最主流的R5系列。我認為Ryzen在核心數上 02/24 22:52
+→ friedpig    : AMD這次行銷也算OK拉 直接用實況當主體來打 02/24 22:52
+→ KotoriCute  : 只是做了intel早就該做的事，4c HT真的有高貴到要特 02/24 22:53
+→ KotoriCute  : 地給一個產品線嗎？6c~8c多核心不常用但也沒有那麼 02/24 22:54
+→ KotoriCute  : 少見，渲染、轉檔或編譯多核心都很有用處，這也不是 02/24 22:54
+→ KotoriCute  : 很少見的用途。但intel的6c~8c價格真的合理嗎？ 02/24 22:56
+→ KotoriCute  : 說到實用，到底多少用i7的人真的需要i7裡內顯？ 02/24 22:57
+推 kuninaka    : INTEL 8C16T 台幣39K XDD 02/24 22:57
+→ kuninaka    : 8C對我來說蠻實用的 02/24 22:58
+→ friedpig    : Debug很好用拉 還有多螢幕接頭不夠的時候 02/24 22:58
+→ KotoriCute  : 但intel照給不誤，想用E3還要另外買板。... 02/24 22:58
+→ kuninaka    : 只是都買不下去 02/24 22:58
+→ kuninaka    : 其實看多少人玩洋垃圾就知道 DIY應該不少需求 02/24 22:59
+→ kuninaka    : 洋垃圾都是超多核 02/24 22:59
+→ KotoriCute  : 不說8c16t 我認為6c12t早就該給了 02/24 22:59
+→ kuninaka    : 6C12T 台幣一直在15K以上 02/24 23:00
+→ friedpig    : 6C12T哪有一直再15K以上 問題只是板子太貴 02/24 23:00
+→ friedpig    : 6C12T本來規劃下一代放阿 老I自己也知道壓不住了 02/24 23:01
+→ friedpig    : 實況大崛起讓Intel規劃有點慢了 02/24 23:02
+推 kuninaka    : INTEL哪顆6C不用15K? 02/24 23:02
+推 KotoriCute  : 我覺得6c12t在SKL就該下放到主流了拖到CFL真的只是 02/24 23:03
+→ KotoriCute  : 擠牙膏。單核性能我不認為intel是在擠牙膏。但核心 02/24 23:04
+→ KotoriCute  : 數真的給的很吝嗇QQ 02/24 23:04
+→ friedpig    : 5820這代就是便宜放下來了阿 02/24 23:04
+推 kuninaka    : 真感恩INTEL 02/24 23:06
+→ kuninaka    : 只要$14150 真便宜 02/24 23:07
+→ kuninaka    : 需搭配X99 XDDD 02/24 23:07
+→ friedpig    : 6800怎麼變成那天價我就看不懂台灣的匯率了 02/24 23:07
+→ kuninaka    : 你這樣教下放喔 標準是這樣 02/24 23:07
+→ kuninaka    : 我以為Ryzen 1600X才叫做下放 02/24 23:08
+推 KotoriCute  : 如果今天Ryzen對上的是4c8t i5和6c12t i7就soso而已 02/24 23:09
+推 MirageAngel : RyZen 光只是訂價就爆贏~ 性價比 Core<U+2501>ｉ完全慘輸~ 02/24 23:12
+→ friedpig    : 真的打到就只剩價格優勢了吧 02/24 23:12
+推 MirageAngel : 就是因AMD很敢用低價對戰~INTEL硬撐死豬價,只會自毀 02/24 23:13
+推 KotoriCute  : 如果真的是我說那種打法就真的是龍二打Corei了QQ 02/24 23:13
+→ KotoriCute  : 只有價格拿來說嘴而已QQ 02/24 23:14
+推 MirageAngel : INTEL已滿手現金~該是大降價回饋社會普羅大眾時候了 02/24 23:14
+推 kuninaka    : INTEL計畫又要下放6C，不知道定價多少 02/24 23:15
+→ friedpig    : 不過這次真的蠻意外的 我還以為只會拿6C12T打I7 02/24 23:15
+→ friedpig    : 說真的1700就算是6C12T也還算能打 02/24 23:15
+推 MirageAngel : Core<U+2501>ｉ也是只剩時脈可嘴阿~兩邊都一般般~各嘴各的 02/24 23:15
+→ LIONDOGs    : 要6C就給你們6C，賣14990 02/24 23:16
+推 MirageAngel : INTEL重點從來都非6C*12T下放消費級~而是價格得下放 02/24 23:17
+推 gwofeng     : 用四核快十年了 沒想到這麼久四核還是主流 02/24 23:24
+推 kuninaka    : 我2008年就開始用4C8T...XD 02/24 23:24
+→ friedpig    : 不過要不是10NM卡關這麼久 我猜本來下代大概也沒要 02/24 23:25
+→ friedpig    : 放 這次真的下代說不過去才放的 02/24 23:26
+→ gwofeng     : 好不容易有高CP八核出來 卻有一群人寧可深蹲四核 02/24 23:26
+推 kuninaka    : 看起來是要維持毛利!? 02/24 23:26
+→ friedpig    : 冷靜點去拿1600X比較好 真的 02/24 23:27
+→ pooznn      : 一般人使用習慣 大部份時間頂多也就用到3~4個線程 02/24 23:28
+→ pooznn      : 不是對遊戲有特殊狂熱的 或特別愛數框框 沒必要買8C 02/24 23:30
+推 MirageAngel : 初代RyZen消費主力本來就是R5+R3區間~價格也頗親切~ 02/24 23:31
+推 kuninaka    : Ryzen就給發燒人買的阿 02/24 23:32
+→ kuninaka    : 還有便宜版8C16T 02/24 23:32
+→ kuninaka    : 結果有些跳出來說遊戲跑很差的 不知道是吃什麼藥 02/24 23:33
+→ friedpig    : 遊戲相對不強 是真的阿 同價位就是要面臨全方面 02/24 23:34
+→ friedpig    : 比較 不同價位就另一回事了 02/24 23:34
+推 MirageAngel : 同價位帶~但規格功能取向不同~各有優劣~就仁智互見~ 02/24 23:37
+推 gwofeng     : 線程選擇問題 當年好像是Q6600跟E8400兩派在戰 02/24 23:38
+推 Litfal      : Ryzen是給玩家更便宜但更上一層(核心數)的選擇吧 02/24 23:40
+→ Litfal      : 例如你現在就在用3~7代I7，就不會去選R5(以下)來換 02/24 23:41
+→ Litfal      : 而是玩不下手Xeon平台的另一選擇。 02/24 23:42
+推 kuninaka    : Q6600時脈差太多了 02/24 23:51
+→ kuninaka    : Q6600才2.4Ghz 02/24 23:51
+→ kuninaka    : E8400 3.0Ghz 02/24 23:52
+→ friedpig    : 7700K 跟 1700 也是 4.5 VS 3.7阿 02/24 23:52
+→ friedpig    : 1.25倍跟1.21倍的差異 02/24 23:53
+推 kuninaka    : 那價格呢 02/24 23:53
+→ kuninaka    : 1700比7700K便宜 02/24 23:54
+→ kuninaka    : 我上面少說價格 02/24 23:54
+→ friedpig    : 那一點點的價格差基本上無視吧 02/24 23:56
+→ friedpig    : 喔 不對忘了算沒散熱 有差多那麼一點 02/24 23:56
+推 kuninaka    : 這兩顆的確很像 02/24 23:57
+→ kuninaka    : 反正也跟當年一樣啊，喜歡框框多就買多 02/24 23:58
+→ friedpig    : AMD想塑造成打7700K 不過實際上應該是打7700吧 02/24 23:58
+→ friedpig    : 1700的超頻大概也能無視了 就像7700拿個中低階 02/24 23:58
+→ friedpig    : 板子就好了 02/24 23:58
+→ kuninaka    : 可是7700比他便宜，那PPT做不出來XDD 02/24 23:58
+→ kuninaka    : 就入門八核心，跟當年Q6600一樣 入門四核 02/24 23:59
+→ friedpig    : 發表會怎麼行銷一回事摟 大家怎麼買還是不要被牽著 02/24 23:59
+→ friedpig    : 走 02/24 23:59
+→ kuninaka    : 其實被牽著走，很正常XD 02/24 23:59
+→ kuninaka    : 不要玩太大就好 02/25 00:00
+→ friedpig    : 沒被牽著走的話 就是他們公司的市場行銷要失業了嗎? 02/25 00:00
+推 kuninaka    : 發表會上設定對手7700 OR 7700K好像都一樣 02/25 00:04
+→ kuninaka    : 很尷尬 02/25 00:04
+→ kuninaka    : 雖然都知道玩遊戲穩輸，但是AMD又不主打遊戲XD 02/25 00:05
+→ friedpig    : 首發有R5的話就很好做行銷了 02/25 00:05
+推 faintbreeze : 7700K應該用R5那顆最高時脈的打 02/25 00:05
+→ kuninaka    : 尤其R5便宜更多 02/25 00:06
+→ friedpig    : 1600X拿來做那個實況的效果應該差不多 但是有明顯 02/25 00:06
+→ faintbreeze : R7那幾顆應該是面向68、69 (雖然又沒四通道) 02/25 00:06
+→ kuninaka    : R5就沒辦法了，畢竟首賣R7 02/25 00:06
+→ friedpig    : 價差 會讓人看得很心動 02/25 00:06
+→ faintbreeze : 簡單說INTEL切割戰場的很成功 02/25 00:06
+→ kuninaka    : 突然覺得1700拿掉比較好 02/25 00:06
+→ kuninaka    : 1700X打68 1800X打69 02/25 00:07
+→ friedpig    : 當初以為AMD是拿6C12T打i7就是了 02/25 00:07
+→ faintbreeze : 其實現在要教育使用者很簡單 就是單核有了4代扣肉後 02/25 00:07
+→ faintbreeze : 數框框不好嗎? 這樣 02/25 00:07
+→ kuninaka    : 數框框要怎麼拍廣告 02/25 00:08
+→ faintbreeze : 廣告不需要得知這些拔 不是都撥一些美好的生活片段 02/25 00:09
+→ friedpig    : 1600X 跟 1700賣同樣價格的話哪個打I7面相好呢 02/25 00:09
+→ faintbreeze : 然後最後LOGO上一下 02/25 00:09
+推 kuninaka    : 這個記憶點超低 02/25 00:12
+推 bjorn607    : 如果在政府機關 就知道甚麼是共同供應契約... 02/25 00:13
+→ kuninaka    : 中信標 02/25 00:13
+→ bjorn607    : 清一色都是配intel 所有政府機關電腦壞了都得從裡面 02/25 00:14
+→ kuninaka    : 這個超讚 02/25 00:14
+→ bjorn607    : 不然絕對會被秘書室K 也不用到祕書室 你的主管就K了 02/25 00:14
+推 wantsu      : 推土機出來時跑分很好看？發厚問廢文前都不用做功課 02/25 00:44
+推 darkdixen   : 再怎樣落賽都不會比推土機時代差 只會更好 02/25 00:56
+推 MirageAngel : 就IPC論RyZen比ＦＸ再更提昇約略５２％簡直火箭昇空 02/25 00:59
+→ Jeff1987    : 推土機上市前何時跑分好看過?請拿證據謝謝 02/25 01:25
+推 wind0083    : NV狂到顯示卡漫天開價，令人心寒，現在開始支持AMD 02/25 02:34
+推 Windcws9Z   : 沒必要買8C 笑死 xDDDDDDDDD 02/25 03:34
+→ Windcws9Z   : 第一次看到 嫌棄框框的 xDDDDDDDDD 02/25 03:36
+→ a307042006  : 問問問問問問問～ 02/25 07:25
+推 plokm1221   : 反正這裡說好的又不會買 02/25 11:46
+→ Windcws9Z   : 反正你又不會買啊 02/25 11:47
+推 a307042006  : 沒經過那個年代看看別人的文拿來說嘴？？？？？ 02/25 13:09
+推 freezenxx   : 都叫梨田處理器了，就算真的犁田也不意外啦 02/25 14:58
+推 MirageAngel : Core<U+2501>ｉ差不多也已快要變成Core<U+2501>[挨].若再不調降~ 02/25 15:05
+推 TOROKYO     : 不會啊，看戲 02/25 21:18
+
