@@ -30,7 +30,7 @@ ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
 ```
 
 The first plot is not quite right, because ggplot2 treats ```cyl``` as a continuous variable, and it gives the impression that there is such a thing as a 5 or 7-cylinder car, which there is not.   
-After turnig adding ```factor```, ggplot2 now treats ```cyl``` as a ```factor```. This time the x-axis does not contain variables like 5 or 7, only the values that are present in the dataset.   
+After adding ```factor```, ggplot2 now treats ```cyl``` as a ```factor```. This time the x-axis does not contain variables like 5 or 7, only the values that are present in the dataset.   
 
 ## Grammar of Graphics    
 
@@ -133,5 +133,149 @@ ggplot(iris.wide, aes(x = Length, y = Width, color = Part)) +
   facet_grid(. ~ Species)
 ```
 
-<h2 id = '2'></h2>
+<h2 id = '3'></h2>
 # **Aesthetics**
+
+## Typical Aesthetics     
+
+* ```x```: x-axis position.      
+* ```y```: y_axis position.   
+* ```colour```: colour of dots, outlines or other shapes.   
+* ```fill```: fill colour. typically the inside shading.            
+* ```size```: the diameter of points, the thickness of lines, and the font size of text.        
+* ```alpha```: Transparency (0: transparent, 1: opaque)     
+* ```linetype```: line dash patterns.     
+* ```labels```:  text on a plot or axes.      
+* ```shape```: shape of a point.
+
+**A word about shapes**   
+Shapes in R can have a value from 1-25. Shapes 1-20 can only accept a ```color``` aesthetic, but shapes 21-25 have both a ```color``` and a ```fill``` aesthetic.    
+
+**A word about hexadecimal colours**    
+Hexadecimal, literally "related to 16", is a base-16 alphanumeric counting system. Individual values come from the ranges 0-9 and A-F. This means there are 256 possible two-digit values (i.e. 00 - FF). Hexadecimal colours use this system to specify a six-digit code for Red, Green and Blue values (```"#RRGGBB"```).   
+
+**Aesthetics and Attributes**   
+All the visible aesthetics can serve as attributes and aesthetics. Variables in a data frame are mapped to ***aesthetics*** in ```aes()```. (e.g. ```aes(col = cyl))``` within ```ggplot()```. Visual elements are set by ***attributes*** in specific geom layers (```geom_point(col = "red")```).   
+```{r}
+# We're focusing on aesthetic mappings here.
+ggplot(mtcars, aes(x = mpg, y = qsec, col = factor(cyl), shape = factor(am), size = (hp/wt))) +
+  geom_point()
+```
+
+## Modify Aesthetics    
+
+#### **Position**     
+Position specifies how ggplot will adjust for overlapping bars or points in a single layer.   
+
+* **identity**: *default in scatter plot.* The value in the data frame is exactly where the value will be positioned in the plot.     
+* **jitter**:  Spread out points that would otherwise be overplotted.   
+* **stack**: *default in bar plot.*    
+* **dodge**: Principles of similarity and proximity   
+* **fill**: Show proportion.    
+* **jitterdodge**:    
+
+#### **Scatter Plot: Jitter or Identity?**   
+Jittering is adding a small amount of random noise to data. It is often used to spread out points that would otherwise be overplotted which means when one or more points are in the same place (or close enough to the same place) that you can't look at the plot and tell how many points are there.   
+
+##### **```geom_jitter()``` works on small dataset**            
+```{r}
+plot <- ggplot(iris.wide, aes(x = Length, y = Width, color = Part, fill = Species))
+  plot + geom_point(shape = 21, alpha = 0.3)
+  plot + geom_jitter(shape = 21, alpha = 0.3)
+  # geom_jitter() & geom_point(posiition = 'jitter') are the same.
+  # Similarly, geom_point() equals to geom_point(position = 'identity') .
+```
+
+##### **And not working on bigger data**    
+```{r}
+plot2 <- ggplot(diamonds, aes(x = carat, y = price))
+  plot2 + geom_point(alpha = 0.1)
+  plot2 + geom_jitter(alpha = 0.1)
+```
+
+#### **Bar Plot: Stack, Fill or Dodge?**   
+Besides jittering the plot, bar plots suffer from their own issues of overplotting.   
+They are stack, fill & dodge.   
+In this example, it seems that ```position = 'dodge'``` is the best choice. 
+```{r}
+plot3 <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))
+  plot3 + geom_bar()# The default postition is 'stack'.
+  plot3 + geom_bar(position = 'fill')
+  plot3 + geom_bar(position = 'dodge')
+```
+
+## Scale Function   
+
+All the aesthetics we saw earlier have an associated scale function.    
+The third part must match the type of data we are using.        
+The first argument is always the name of the scale, after that the most common are limits, breaks, expand, and labels.    
+
+* scale_x...    
+    + ```scale_x_continuous('Length', limits = c(2, 8), breaks = seq(0, 8, by = 2), expand = c(0, 0))```    
+        + Limits: describe the scale's limits.     
+        + Breaks: control the breaks in the guide.    
+        + Expand: expand the range of the scales so that there is a small gap between the data and the axes.    
+* scale_y...      
+* scale_color...    
+    + ```scale_color_discrete('Species', labels = c('Setosa', 'Versicolor', 'Virginica'))```     
+        +  Labels: adjust the category names.   
+* scale_fill...     
+* scale_shape...    
+* scale_linetype...   
+
+Let's redrawn the plot about ```iris.wide``` and ```mtcars``` above by adding more commands.
+```{r}
+plot + 
+  scale_x_continuous('Length', limits = c(0, 8), breaks = seq(0, 8, by = 2), expand = c(0, 0)) +
+  scale_fill_discrete('Species', labels = c('Setosa', 'Versicolor', 'Virginica')) +
+  geom_jitter(shape = 21, alpha = 0.3)
+
+plot3 +
+  scale_x_discrete("Cylinders") +
+  scale_y_continuous("Number") +
+  scale_fill_manual('Transmission', 
+                    values = c("#E41A1C", "#377EB8"),
+                    labels = c("Manual", "Automatic")) +
+  geom_bar(position = "dodge")
+```
+
+## Which Kind of Aesthetics?
+#### **For Continuous Variables**
+<div style="width:600px; height:400px">    
+![](D:\Desktop\2.png) 
+
+#### **For Categorical Variables**
+<div style="width:600px; height:700px">    
+![](D:\Desktop\3.png) 
+
+#### **Deal with Overplotting**
+You'll have to deal with overplotting when you have:    
+
+* Large datasets.   
+* Imprecise data and so points are not clearly separated on your plot (e.g. ```iris``` above).    
+* Interval data (i.e. data appears at fixed values).   
+* Aligned data values on a single axis.   
+
+Common Solutions:   
+
+* Use alpha blending (i.e. adding transparency).    
+* Use hollow shapes.    
+* Use geom_jitter() if it helps.    
+
+```{r}
+plot4 <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl)))
+plot5 <- ggplot(diamonds[sample(nrow(diamonds), 800), ], aes(x = clarity, y = carat, col = price))# Random pick 800 rows in 'diamonds'.
+
+# Hollow circles - an improvement
+plot4 + geom_point(shape = 1, size = 4) + scale_color_discrete('Cylinders')
+# Add transparency - great
+plot4 + geom_point(alpha = 0.3, size = 4) + scale_color_discrete('Cylinders')
+
+# Scatter plot: clarity (x), carat (y), price (color)
+plot5 + geom_point(alpha = 0.5)
+# Dot plot with jittering
+plot5 + geom_point(position = 'jitter', alpha = 0.5)
+```
+
+<h2 id = '4'></h2>
+# **Geometries**

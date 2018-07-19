@@ -2,9 +2,10 @@ library(tm)
 library(tmcn)
 library(Matrix)
 library(wordcloud)
+library(jiebaR)
 # 讀入文本
-docs <- readLines("./Data/EDA/conan1.txt")
-docs <- gsub("\\[(0-9)+\\]", "", docs)# 去除(集數)
+docs <- readLines("./Data/EDA/conan2.txt")
+docs <- gsub("\\[[0-9]+\\]", "", docs)# 去除[注]
 docs.corpus <- Corpus(VectorSource(docs))# 把 docs 轉成 corpus
 docs.seg <- tm_map(docs.corpus, segmentCN)# 斷詞
 docs.tdm <- TermDocumentMatrix(docs.seg, control = list())# 斷詞結果轉換成 term-document matrix
@@ -15,6 +16,13 @@ idf.function <- function(word_doc) { log2( (length(word_doc)+1) / nnzero(word_do
 docs.idf <- apply(docs.tdm, 1, idf.function)# 計算 idf
 docs.tfidf <- docs.tf * docs.idf# tfidf = tf * idf
 head(docs.tfidf)# 看結果
+
+query.tfidf <- function(q){
+  q.position <- which(rownames(docs.tfidf) %in% q)
+  q.tfidf <- docs.tfidf[q.position, ]
+  return (q.tfidf)
+}
+query.tfidf(c("柯南", "小蘭", "小五郎"))
 
 cos <- function(x, y){
   return (x %*% y / sqrt(x %*% x * y %*% y))[1, 1]
