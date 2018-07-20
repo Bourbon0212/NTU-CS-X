@@ -6,19 +6,48 @@ output: html_document
 ---
 
 * [Introduction](#1)    
+    + [Exploratory & Explantory](#1.1)    
+    + [Explore ```ggplot2```](#1.2)   
+    + [Grammar of Graphics](#1.3)   
 * [Data](#2)    
+    + [Base vs. ```ggplot2```](#2.1)    
+    + [Reference: Cleaning Data in R](https://bourbon0212.github.io/NTU-CS-X/Week2/Cleaning_Data_in_R.html)   
+    + [Tidy Data](#2.2)       
 * [Aesthetics](#3)    
-* [Geometries](#4)
-* [qplot and wrap-up](#5)
+    + [Typical Aesthetics](#3.1)    
+    + [Modify Aesthetics](#3.2)     
+        + [Position](#3.2.1)
+        + [Scatter Plot: Identity or Jitter?](#3.2.2)     
+        + [Bar Plot: Stack, Dodge or Fill?](#3.2.3)   
+    + [Scale Function](#3.3)    
+    + [Which Kind of Aesthetics?](#3.4)   
+        + [Continuous Variables](#3.4.1)    
+        + [Categorical Variables](#3.4.2)     
+        + [Overplotting](#3.4.3)    
+* [Geometries](#4)    
+    + [Common Plot Types](#4.1)       
+    + [Scatter Plots & Jittering](#4.2)    
+        + [Jitter](#4.2.1)    
+        + [Code of Shape](#4.2.2)   
+    + [Bar Plots](#4.3)   
+        + [Histogram](#4.3.1)   
+        + [Bar Plots](#4.3.2)   
+    + [Line Plots](#4.4)    
+        + [Code of Linetype](#4.4.1)  
+* [qplot and Wrap-up](#5)   
+* [Data Visualization with ggplot2 (Part 2)](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html)
 
 <h2 id = '1'></h2>
 # **Introduction**
 
+<h3 id = '1.1'></h3>
 ## Exploratory & Explanatory
 
 * Explore: Confirm & Analysis -> Data
 * Explain: Inform & Persuade  -> Reader
 
+
+<h3 id = '1.2'></h3>
 ## Explore ggplot2
 Compare teo graphs below, see what's the difference.
 ```{r}
@@ -32,6 +61,7 @@ ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
 The first plot is not quite right, because ggplot2 treats ```cyl``` as a continuous variable, and it gives the impression that there is such a thing as a 5 or 7-cylinder car, which there is not.   
 After adding ```factor```, ggplot2 now treats ```cyl``` as a ```factor```. This time the x-axis does not contain variables like 5 or 7, only the values that are present in the dataset.   
 
+<h3 id = '1.3'></h3>
 ## Grammar of Graphics    
 
 * Principles
@@ -63,6 +93,7 @@ ggplot(diamonds, aes(x = carat, y = price)) +
 <h2 id = '2'></h2>
 # **Data**
 
+<h3 id = '2.1'></h3>
 ## Base plot vs. ggplot2
 * Base plot Limitation
 
@@ -100,7 +131,7 @@ ggplot(mtcars, aes(x = wt, y = mpg, col = cyl)) +
   geom_smooth(method = 'lm', se = F) + # Copy from Plot 2
   geom_smooth(aes(group = 1),method = 'lm', se = F, linetype = 2)
 ```
-
+<h3 id = '2.2'></h3>
 ## Tidy Data
 ### Reference: **[Cleaning Data in R](https://bourbon0212.github.io/NTU-CS-X/Week2/Cleaning_Data_in_R.html)**   
 
@@ -135,7 +166,7 @@ ggplot(iris.wide, aes(x = Length, y = Width, color = Part)) +
 
 <h2 id = '3'></h2>
 # **Aesthetics**
-
+<h3 id = '3.1'></h3>
 ## Typical Aesthetics     
 
 * ```x```: x-axis position.      
@@ -161,19 +192,21 @@ All the visible aesthetics can serve as attributes and aesthetics. Variables in 
 ggplot(mtcars, aes(x = mpg, y = qsec, col = factor(cyl), shape = factor(am), size = (hp/wt))) +
   geom_point()
 ```
-
+<h3 id = '3.2'></h3>
 ## Modify Aesthetics    
 
+<h4 id = '3.2.1'></h4>
 #### **Position**     
 Position specifies how ggplot will adjust for overlapping bars or points in a single layer.   
 
 * **identity**: *default in scatter plot.* The value in the data frame is exactly where the value will be positioned in the plot.     
 * **jitter**:  Spread out points that would otherwise be overplotted.   
-* **stack**: *default in bar plot.*    
-* **dodge**: Principles of similarity and proximity   
-* **fill**: Show proportion.    
+* **stack**: Place the bars on top of each other. Counts are used. *default in bar plot.*    
+* **dodge**: Place the bars next to each other. Counts are used.   
+* **fill**: Place the bars on top of each other, but this time use proportions.    
 * **jitterdodge**:    
 
+<h4 id = '3.2.2'></h4>
 #### **Scatter Plot: Jitter or Identity?**   
 Jittering is adding a small amount of random noise to data. It is often used to spread out points that would otherwise be overplotted which means when one or more points are in the same place (or close enough to the same place) that you can't look at the plot and tell how many points are there.   
 
@@ -193,6 +226,7 @@ plot2 <- ggplot(diamonds, aes(x = carat, y = price))
   plot2 + geom_jitter(alpha = 0.1)
 ```
 
+<h4 id = '3.2.3'></h4>
 #### **Bar Plot: Stack, Fill or Dodge?**   
 Besides jittering the plot, bar plots suffer from their own issues of overplotting.   
 They are stack, fill & dodge.   
@@ -203,7 +237,7 @@ plot3 <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))
   plot3 + geom_bar(position = 'fill')
   plot3 + geom_bar(position = 'dodge')
 ```
-
+<h3 id = '3.3'></h3>
 ## Scale Function   
 
 All the aesthetics we saw earlier have an associated scale function.    
@@ -238,16 +272,20 @@ plot3 +
                     labels = c("Manual", "Automatic")) +
   geom_bar(position = "dodge")
 ```
-
+<h3 id = '3.4'></h3>
 ## Which Kind of Aesthetics?
+
+<h4 id = '3.4.1'></h4>
 #### **For Continuous Variables**
 <div style="width:600px; height:400px">    
 ![](D:\Desktop\2.png) 
 
+<h4 id = '3.4.2'></h4>
 #### **For Categorical Variables**
 <div style="width:600px; height:700px">    
 ![](D:\Desktop\3.png) 
 
+<h4 id = '3.4.3'></h4>
 #### **Deal with Overplotting**
 You'll have to deal with overplotting when you have:    
 
@@ -279,3 +317,253 @@ plot5 + geom_point(position = 'jitter', alpha = 0.5)
 
 <h2 id = '4'></h2>
 # **Geometries**
+
+<h3 id = '4.1'></h3>
+## Common Plot Types   
+
+* Scatter Plots: points, jitter, abline.    
+* Bar Plots: histogram, bar, errorbar.    
+* Line Plots: line    
+
+<h3 id = '4.2'></h3>
+## Scatter Plots & Jittering    
+
+<h4 id = '4.2.1'></h4>
+#### **Jitter**   
+Notice that jitter can be   
+
+* An argument in ```geom_point(position = 'jitter')```.   
+* A geom itself: ```geom_jitter()```.   
+* A position function: ```position_jitter(0.1)```.    
+
+As mentioned above, Let's use transparncy, shape and jittering to deal with overploting!    
+```{r message = F}
+library(car)
+ggplot(Vocab, aes(x = education, y = vocabulary)) +
+  geom_jitter(alpha = 0.2, shape = 1)
+```
+
+And here are some codes of different shapes.    
+
+<h4 id = '4.2.2'></h4>
+#### **Code of Shape**   
+
+Notice that from ```21``` ~ ```25``` both ```colour``` & ```fill``` are needed.     
+<div style="width:400px; height:400px">    
+![](D:\Desktop\4.png)
+</div>
+
+<h3 id = '4.3'></h3>
+## Bar Plots
+
+<h4 id = '4.3.1'></h4>
+#### **Histograms**    
+
+* Histograms are a specialized version of a bar plots, and we wll discuss bar plots later.    
+* Notice that ```geom_histogram()``` doesn't actually plot our data, it plots a statistical function to our dataset.    
+* Postition: stacl, fill or dodge.   
+
+**The x axis/aesthetic**    
+
+* ```geom_histogram()``` **only** requires one aesthetic:``` x```   
+    + ```x``` is a continuous variable of interest.
+    + Histogram shows the binned distribution of ```x```.  
+    
+* About ```binwidth```
+    + ```geom_histogram()``` states the argument ```stat = "bin"``` as a default.     
+    + Histograms cut up a continuous variable into discrete bins - that's what the ```stat "bin"``` is doing.   
+    + binwidth: default to range/30 e.g. ```diff(range(iris$Sepal.Width))/30```   
+    + Use ```binwidth = x``` to adjust this.    
+    + Reference: [The Difference of Different Binwidth](https://bourbon0212.github.io/NTU-CS-X/Week2/Exploratory_Data_Analysis.html#2)    
+        + As binwidth becomes larger, the graphh becomes smoother.    
+
+* X-axis labels between the bar which means they represent intervals and not actual values.     
+* No spaces between bars which means its a continuous distribution.     
+
+**The y axis/aesthetic**    
+
+* If ```geom_histogram()``` only requires ```x```, where does ```y``` come from?    
+    + There is an **internal data frame** (Summary table) in the backround where this information is stored.    
+    + count:  When ```geom_histogram()``` executed the binning statistic, it counted how many values are in each bin. *default of y-axis*   
+    + density: The *proportional frequency* of this bin in relation to the whole data set. ```geom_histogram(aes(y = ..density..), binwidth = 0.1)```   
+    + ```..``` means that the data is in the internal data frame rather than the original one.   
+
+```{r}
+ggplot(mtcars, aes(x = mpg, y = ..density..)) +
+  geom_histogram(fill = '#377EB8', binwidth = 1)
+```
+
+**Overlapping Histograms**    
+
+* Using `geom_histogram(position = 'identity', binwidth = 1, alpha = 0.4)`.    
+* Alternative: Drawing a frequency polygon by `geom_freqpoly(position = 'identity', binwidth = 1)`.   
+
+```{r}
+# Overlapping Histograms
+ggplot(mtcars, aes(mpg, fill = factor(cyl))) +
+  geom_histogram(position = 'identity', binwidth = 1, alpha = 0.4) + 
+  scale_fill_discrete('Cylinders')
+# Unique solution here: a frequency polygon.
+ggplot(mtcars, aes(mpg, col = factor(cyl))) +
+  geom_freqpoly(position = 'identity', binwidth = 1) +
+  scale_color_discrete('Cylinders')
+```
+
+<h4 id = '4.3.2'></h4>
+#### **Bar Plots**   
+
+* To make a bar plot proper, we need to use ```geom_bar()```.   
+* Just as histograms, `geom_bar()` takes **one** variable only.   
+* Stack, fill and dodge are also available in bar plots.   
+* Types of bar plots:   
+    + Absolute Counts(`stat = 'bin')`     
+    + Distribution`(stat = 'identity')` which is same as `geom_col()` which takes **two** variables.    
+
+```{r message = F}
+library(dplyr)
+iris_mean <- iris %>%
+  group_by(Species) %>%
+  summarize(Avg.Sepal.Length = mean (Sepal.Length))
+# Compare with geom_bar(stat = 'identity') & geom_col()
+ggplot(iris_mean, aes(x = Species, y = Avg.Sepal.Length)) + geom_bar(stat = 'identity')
+ggplot(iris_mean, aes(x = Species, y = Avg.Sepal.Length)) + geom_col()
+```
+
+**Overlapping Bar Plots**   
+
+```{r}
+# Overlapping Bar Plots
+posn_d <- position_dodge(width = 0.2)
+plot3 + geom_bar(position = posn_d, alpha = 0.6)
+```
+    
+**Color Ramp**    
+
+* Bar plots with color ramp: Use `RColorBrewer`. The default is `'Blues` which has nine colors.     
+* `colorRampPalette(c(#RRGGBB,#RRGGBB))`    
+    + Manually create a color palette that can generate all the colours you need.     
+    + Input is a character vector of 2 or more colour values.     
+* Combine with [Scale Function](#3.3) e.g.`scale_fill_manual(values = blue_range(11))`    
+
+```{r}
+library(RColorBrewer)
+# Example of how to use colorRampPalette()
+new_col <- colorRampPalette(c("#FFFFFF", "#0000FF"))
+munsell::plot_hex(new_col(4))
+# Default set of 'Blues'
+munsell::plot_hex(brewer.pal(9, "Blues"))
+# Example of how to use a brewed color palette
+ggplot(mtcars, aes(x = cyl, fill = factor(am))) +
+  geom_bar() +
+  scale_fill_brewer(palette = "Set1")
+
+# Example of combine scale function with customed palette
+# Creating your own palette
+blue_col <- colorRampPalette(c('#F7FBFF', '#08306B'))
+# Take a look at your own palette.
+munsell::plot_hex(blue_col(11))
+#Plot with it
+ggplot(Vocab, aes(x = factor(education), fill = factor(vocabulary))) +
+  geom_bar(position = "fill") +
+  scale_fill_manual('Vocabulary', values = blue_col(11)) +
+  scale_x_discrete('Education') +
+  scale_y_continuous('Proportion')
+```
+
+<h3 id = '4.4'></h3>
+## Line Plots
+Let's look at some line plots and see how to use those functions directly.    
+And here are some codes of different linetypes.   
+
+<h4 id = '4.4.1'></h4>
+#### **Code of Linetype**
+
+<div style="width:400px; height:350px">    
+![](D:\Desktop\5.png) 
+</div>
+
+#### **Example 1: Unemployment & Recession**
+```{r}
+library(ggplot2)
+recess <- get(load('D:/Downloads/recess.RData'))
+ggplot(economics, aes(x = date, y = unemploy/pop)) +
+  geom_rect(data = recess,
+         aes(xmin = begin, xmax = end, ymin = -Inf, ymax = Inf),
+         inherit.aes = FALSE, fill = "red", alpha = 0.2) +
+  scale_y_continuous('Unemployment Rate') +
+  geom_line()
+```
+
+* `geom_line()` for line plots.     
+* `geom_rect()` for rectangle plots which needs for aesthetics: `xmin`, `xmax`, `ymin` and `ymax`.      
+
+#### **Example 2: Salmon Species**
+```{r}
+fish <- get(load('D:/Downloads/fish.RData'))
+fish.tidy <- gather(fish.species, Species, Capture, -Year)
+#Or use gather(fish.species, Species, Capture, Pink: Atlantic)
+ggplot(fish.tidy, aes(x = Year, y = Capture, col = Species)) +
+  geom_line()
+```
+
+The ```geom_rect()``` command here shouldn't inherit aesthetics from the base `ggplot()` command it belongs to.     
+You should specify `inherit.aes = FALSE` in `geom_rect()`.    
+
+<h2 id = '5'></h2>
+# **qplot and Wrap-up**
+
+#### **qplot**    
+For simple exploratory plots, there are a variety of functions available. `ggplot2` offers a powerful and diverse array of functions, but `qplot()` allows for quick and dirty plots.
+
+For example, let's look at how to use different function for plotting the same graph.   
+```{r message = F}
+# Base
+plot(mpg ~wt, data = mtcars) # formula notation
+# Or using x, y notation: with(mtcars, plot(wt, mpg))
+
+# ggplot
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point()
+
+# qplot
+qplot(wt, mpg, data = mtcars)
+```
+
+Use ```geom_dotplot()``` to make a 'true' dot plot.   
+
+* The difference is that unlike `geom_point()`, `geom_dotplot()` uses a binning statistic.    
+* Binning means to cut up a continuous variable.    
+* Reference: **BinWidth** in **[Histograms](#4.3.1)**.    
+
+```{r}
+# qplot with more attributes
+# qplot with geom "dotplot", binaxis = "y" and stackdir = "center"
+qplot(
+  cyl, wt,
+  data = mtcars,
+  fill = factor(am),
+  geom = 'dotplot',
+  binaxis = 'y',
+  stackdir = "center"
+)
+```
+
+#### **Wrap-up & Example**    
+
+**Example 1: Chicken Weight**
+```{r message = F}
+ggplot(ChickWeight, aes(x = Time, y = weight, col = Diet)) +
+  geom_line(aes(group = Chick), alpha = 0.3) +
+  geom_smooth(lwd = 2, se = F)
+```
+
+**Example 2: Titanic**
+```{r message = F, warning = F}
+library(titanic)
+posn.jd <- position_jitterdodge(0.5, 0, 0.6)
+ggplot(titanic_train, aes(x = Pclass, y = Age, color = Sex)) +
+  geom_point(position = posn.jd, size = 3, alpha = 0.5) +
+  facet_grid(.~Survived)
+```
+
+##### **To Be Continued with [Data Visualization with ggplot2 (Part 2)](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html)**
