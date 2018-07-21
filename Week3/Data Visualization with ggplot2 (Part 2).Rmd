@@ -1,0 +1,375 @@
+---
+title: "Data Visualization with ggplot2 (Part 2)"
+author: "Bourbon0212"
+date: "2018年7月21日"
+output: html_document
+---
+
+* [Data Visualization with ggplot2 (Part 1)](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html)    
+* [Statistics](#1)    
+    + [Stats & Geoms](#1.1)     
+    + [Smooth](#1.2)    
+    + [Quantile](#1.3)    
+    + [Sum](#1.4)   
+    + [Independent Stats](#1.5)   
+    + [Summary](#1.6)
+* [Coordinates & Facets](#2)      
+    + [Zooming In](#2.1)      
+    + [Aspect Ratio](#2.2)    
+    + [Pie Chart](#2.3)     
+    + [Facet](#2.4)   
+* [Themes](#3)    
+* [Practices](#4)   
+* [Case Study](#5)        
+* [Data Visualization with ggplot2 (Part 3)](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_3_.html)      
+
+<h2 id = '1'></h2>
+# **Statistics**    
+Two categories of **Statistics Layers Functions**:    
+
+* Called from within a `geom`. e.g. Bin, [Smooth](#1.2), [Quantile](#1.3), [Sum](#1.4)
+* Called independently. e.g. [Summary](#1.6), Function, QQ
+
+<h3 id = '1.1'></h3>
+## Stats & Geoms
+As we seen before in **[Histograms](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#4.3.1)**, we've already encountered stats functions when we used `geom_histogram()`.    
+Recall that under the hood, this function called `stat = 'bin'` to summarize the total count & proportion in each group.    
+And we can get those inner data by using `..count..` or `..density..`.    
+Similarly, as we used `geom_bar()`, its default stats is set to `'bin'`.
+
+Let's take a look at this example, we got 3 same plots with different codes.    
+As usual, the default of bin equals **`range/30`**. As binwidth becomes larger, the graph becomes smoother.        
+```{r}
+library(ggplot2)
+```
+```{r eval = F}
+plot <- ggplot(iris, aes(x = Sepal.Width))
+plot + geom_histogram()
+plot + geom_bar()
+plot + stat_bin()
+```
+```{r echo = F}
+plot <- ggplot(iris, aes(x = Sepal.Width))
+plot + stat_bin()
+```
+
+Here are some other examples:   
+
+stat_         | geom_             
+------------- | -------------     
+stat_bin()    | [geom_bar()](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#4.3.2)               
+stat_bin()    | [geom_histogram()](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#4.3.1)        
+stat_bin()    | geom_freqpoly()   
+[stat_smooth()](#1.2) | geom_smooth()     
+stat_boxplot()| geom_boxplot()    
+stat_bindplot()| geom_dotplot()   
+stat_bin2d()  | geom_bin2d()    
+stat_binhex() | geom_hex()   
+stat_contour()| geom_contour()    
+[stat_quantile()](#1.3)| geom_quantile()    
+[stat_sum()](#1.4)| geom_count()    
+
+<h3 id = '1.2'></h3>
+## Smooth   
+* When we use `geom_smooth()`, we call **`stat_smmoth()`** simultaneously.   
+* `se`: The standard error shown as a gray ribbon behind our smooth, is by default the 95 percent confidence interval.    
+    + `se = Fales`: To remove this gray ribbon.   
+* `fullrange`: Whether to show the prediction according your dataset. Error increases the further away from our dataset.    
+* Default `method = 'auto'`
+    + For largest group < 1000: `method = 'loess'`    
+    + For largest group > 1000: `method = 'gam'`    
+* `Method = 'loess'`    
+    + Works like passing as a sliding window along the x axis.    
+    + Within each window, a weighted **mean** is calculated for the model.    
+    + `span`: Controls alpha (the degree of smoothing or windows size), smaller spans are more noisy. 
+    
+#### **Example1 : mtcars**
+```{r}
+# Customize color
+library(RColorBrewer)
+myColors <- c(brewer.pal(3, "Dark2"), "black")
+
+ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  stat_smooth(method = "loess", 
+              aes(group = 1, col="All"), 
+              se = FALSE, span = 0.7) +
+  # Add correct arguments to scale_color_manual
+  scale_color_manual('Cylinders', values = myColors)
+```
+
+#### **Example2: Vocab**    
+```{r message = F}
+library(car)
+ggplot(Vocab, aes(x = education, y = vocabulary, col = year)) +
+  geom_jitter(alpha = 0.1, size = 1) +
+  stat_smooth(method = 'lm', se = F)
+```
+
+When mapping onto color you can sometimes treat a continuous scale, like `year`, as an ordinal variable, but only if it is a regular series.  
+The better alternative is to leave it as a continuous variable and use the `group` aesthetic as a factor to make sure your plot is drawn correctly.
+```{r}
+# Specify the invisible group aesthetic so that our linear models are still calculated appropriately.
+ggplot(Vocab, aes(x = education, y = vocabulary, col = year, group = factor(year))) +
+  stat_smooth(method = "lm", se = FALSE, alpha = 0.6, size = 2) +
+  scale_color_gradientn(colors = brewer.pal(9, "YlOrRd"))
+```
+
+We used the `Vocab` dataset and applied linear models describing `vocabulary` by `education` for different years.   
+
+<h3 id = '1.3'></h3>
+## Quantile   
+
+* **`stat_quantile()`** calculates quantiles according ypur data and draw them in linear models.    
+* By default it calculates the 1st, 2nd (i.e. **median**), and 3rd quartiles.   
+
+#### **Example: Vocab**
+```{r warning = F, message = F}
+ggplot(Vocab, aes(x = education, y = vocabulary, col = year, group = factor(year))) +
+  # Set the quantiles argument to 0.5 so that only the median is shown.
+  stat_quantile(alpha = 0.6, size = 2, quantiles = 0.5) +
+  scale_color_gradientn(colors = brewer.pal(9,"YlOrRd"))
+```
+<h3 id = '1.4'></h3>
+## Sum
+
+* **`stat_sum()`** calculates the total number of overlapping observations and is another good alternative to overplotting.     
+* This maps the overall `count` of each dot onto `size`.    
+
+#### **Example: Vocab**
+```{r}
+ggplot(Vocab, aes(x = education, y = vocabulary)) +
+  geom_jitter(size = 0.1, alpha = 0.1) +
+  stat_sum() + # sum statistic
+  scale_size(range = c(1, 10)) +  # set size scale
+  stat_smooth(method = "loess", aes(col = "LOESS"), se = F) +
+  stat_smooth(method = "lm", aes(col = "lm"), se = F) +
+  scale_color_discrete("Model")
+```
+
+<h3 id = '1.5'></h3>
+## Independent Stats    
+As mentioned before, there are two categorical function in Statistics.    
+It's time to look at the second group of stats function: **Independent Stats**.   
+
+stat_         | Discription             
+------------- | -------------     
+[stat_summary()](#1.6)| Summarise y values at distinct x values.               
+stat_function()| Compute y values from a function of x values.             
+stat_qq()     | Perform calculations for a quantile-quantile plot.    
+
+<h3 id = '1.6'></h3>
+## Summary    
+
+Here we'll look at **`stat_summary()`** in action.    
+
+* Default `geom = 'pointrange'`.    
+* `fun.data = mean_sdl, fun.args = list(mult = 1)`: Calculate mean & sd.
+* `fun.data = mean_cl_normal`: Calculate mean and 95% confidence interval.    
+
+#### **Example: mtcars**   
+Before we start, there are some preparation need to be done.
+```{r message = F}
+# Require 'Hsimc' package here.
+library(Hmisc)
+# Convert cyl and am to factors
+mtcars$cyl <- as.factor(mtcars$cyl)
+mtcars$am <- as.factor(mtcars$am)
+
+# Define positions
+posn.d <- position_dodge(width = 0.1)
+posn.jd <- position_jitterdodge(jitter.width = 0.1, dodge.width = 0.2)
+posn.j <- position_jitter(width = 0.2)
+
+# Base layers
+wt.cyl.am <- ggplot(mtcars, aes(x = cyl, y = wt, col = am, fill = am, group = am))
+```
+
+```{r}
+# Mean and 95% CI - the easy way
+wt.cyl.am +
+  geom_point(position = posn.jd, alpha = 0.6) +
+  # 95% CI: 'fun.data = mean_cl_normal'
+  # Default geom = 'pointrange'
+  stat_summary(fun.data = mean_cl_normal, position = posn.d) +
+  ggtitle('Mean and 95% CI - the easy way')
+
+# Mean and SD - with T-tipped error bars
+wt.cyl.am + 
+  # Mean: 'fun.y = mean' -> Uses the y aesthetic
+  stat_summary(geom = 'point', fun.y = mean,
+               position = posn.d) +
+  # sd: 'fun.data = mean_sdl, fun.args = list(mult = 1)'
+  stat_summary(geom = 'errorbar', fun.data = mean_sdl,
+               position = posn.d, fun.args = list(mult = 1), width = 0.1) +
+  ggtitle('Mean and SD - with T-tipped error bars')
+```
+
+Notice here, `quantile()` returns a vector of 5 units: 0%, 25%, 50%, 75%, 100%.   
+So 1st quartile equals `quantile(x)[2]`, 3rd quartile equals `quantile(x)[4]`.    
+```{r}
+# Function to save range for use in ggplot
+gg_range <- function(x) {
+  data.frame(ymin = min(x), # Min
+             ymax = max(x)) # Max
+}
+
+# Function to get quantiles
+med_IQR <- function(x) {
+  data.frame(y = median(x), # Median
+             ymin = quantile(x)[2], # 1st quartile
+             ymax = quantile(x)[4])  # 3rd quartile
+}
+```
+
+```{r}
+# Five-number summary(the minimum, 1st quartile, median, 3rd quartile, and the maximum) plot
+wt.cyl.am +
+  # 1st quartile, 3rd quartile
+  stat_summary(geom = 'linerange', fun.data = med_IQR,
+               position = posn.d, size = 3) +
+  # minimum, maximum
+  stat_summary(geom = 'linerange', fun.data = gg_range,
+               position = posn.d, size = 3,
+               alpha = 0.4) +
+  # median
+  stat_summary(geom = 'point', fun.y = median,
+               position = posn.d, size = 3,
+               col = 'black', shape = 'X') +
+  ggtitle('Five-number Summary Plot')
+```
+
+<h2 id = '2'></h2>
+# **Coordinates & Facets**
+
+* Coordinates Layer   
+    + `coord_` function e.g. `coord_cartesian()`
+    
+* Facets Layer    
+    + Separate plots from one plot according to row or column.    
+    + `facet_grid(row ~column)`
+
+<h3 id = '2.1'></h3>
+## Zooming In  
+
+ * `scale_x_continuous(limits = c(*,*))`    
+    + Filtered original dataset caused missing data.    
+    + `geom_smooth()` might be different.   
+ * `xlim(c(*,*))`   
+    + Similar to the function above, but in a fast & dirty way.   
+ * **`coord_cartesin(xlim = c(*,*))`**
+    + **Preferred way when zooming in**.   
+    + Truly do simply zoom in on the plot without losing anything.    
+
+#### **Example: mtcars**    
+```{r message = F}
+plot2 <- ggplot(mtcars, aes(x = wt, y = hp, col = am)) + geom_point() + geom_smooth()
+# Original plot
+plot2
+```
+
+When using `scale_x_continuous(limits = c(*,*))`, you'll get lots of warnings(do not show here.) and a weird graph.    
+```{r message = F, warning = F}
+# Zoom in using scale function.
+plot2 +
+    scale_x_continuous(limits = c(3, 6), expand = c(0, 0))
+```
+
+`coord_cartesin(xlim = c(*,*))` is just what we want.
+```{r message = F}
+# Zoom in using coord function.
+plot2 + 
+  coord_cartesian(xlim = c(3, 6))
+```
+
+<h3 id = '2.2'></h3>
+## Aespect Ratio
+
+Set the aspect ratio of a plot with **`coord_fixed()`** or **`coord_equal()`**. Both use `ratio = 1` as a default.    
+
+* `ratio = x/y`   
+* ratio is not always = 1, there are some exceptions.   
+
+#### **Example: iris**
+```{r}
+base.plot <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, col = Species)) +
+               geom_jitter() +
+               geom_smooth(method = "lm", se = FALSE)
+
+# Plot base.plot: default aspect ratio
+base.plot
+
+# Fix aspect ratio (1:1) of base.plot
+base.plot +
+  coord_equal()
+```
+
+<h3 id = '2.3'></h3>
+## Pie Chart
+
+Use **`coord_polar(theta = '*axis')`** to transform a bar char onto a **polar coordinate system**.   
+
+```{r}
+# Create an ordinary bar chart and convert it into pie chart.
+wide.bar <- ggplot(mtcars, aes(x = 1, fill = cyl)) +
+              geom_bar()
+wide.bar +
+  coord_polar(theta = 'y')
+
+# Set limits on x_scale and convert it into a 'ring' type pie chart.
+thin.bar <- ggplot(mtcars, aes(x = 1, fill = cyl)) +
+              geom_bar(width = 0.1) +
+              scale_x_continuous(limits = c(0.5, 1.5))
+thin.bar + 
+  coord_polar(theta = 'y')
+```
+
+<h3 id = '2.4'></h3>
+## Facet
+The most straightforward way of using facets is **`facet_grid()`**.    
+Here we just need to specify the categorical variable to use on rows and columns using standard R formula notation **`(rows ~ columns)`**.
+Remember, when faceting in only one direction us `.` to specify nothing for the unused direction.   
+
+#### **Example - Multivariables: mtcars**   
+Here we'll present a plot with 6 variables in mtcars
+```{r}
+# Create cyl_am
+mtcars$cyl_am <- paste(mtcars$cyl, mtcars$am, sep = "_")
+# Customize color
+myCol <- rbind(brewer.pal(9, "Blues")[c(3,6,8)],
+               brewer.pal(9, "Reds")[c(3,6,8)])
+# Plot with multi variables.
+ggplot(mtcars, aes(x = wt, y = mpg, col = cyl_am)) +
+  geom_point() +
+  scale_color_manual(values = myCol) +
+  facet_grid(gear ~ vs)
+```
+
+#### **Example - Dropping Levels: msleep**   
+The variables of interest here are `name`, which contains the full popular name of each animal, and `vore`, the eating behavior.
+We are going to facet the plot with `vore`.
+Each animal can only be classified under one eating habit, so if we facet according to `vore`, we don't need to repeat the full list in each sub-plot.    
+Use `scale = "free_y"` and `space = "free_y"` to leave out rows for which there is no data.     
+```{r warning = F, message = F}
+library(tidyr)
+library(dplyr)
+# Take a look at msleep
+head(msleep, 3)
+# Tidy data for plot
+colnames(msleep)[6:7] <- c('total', 'rem')
+mamsleep <- msleep %>%
+              gather(sleep, time, total:rem) %>%
+              select(vore, name, sleep, time)
+# After tidy up
+head(mamsleep, 3)
+
+plot3 <- ggplot(mamsleep, aes(x = time, y = name, col = sleep)) + geom_point()
+# Before dropping levels
+plot3 + facet_grid(vore ~ .)
+# After dropping levels(free up rows)
+plot3 + facet_grid(vore ~ ., scale= 'free_y', space = 'free_y')
+```
+
+<h2 id = '3'></h2>
+# **Themes**
