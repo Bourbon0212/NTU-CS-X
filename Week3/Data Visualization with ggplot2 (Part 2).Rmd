@@ -19,9 +19,19 @@ output: html_document
     + [Pie Chart](#2.3)     
     + [Facet](#2.4)   
 * [Themes](#3)    
-* [Practices](#4)   
-* [Case Study](#5)        
-* [Data Visualization with ggplot2 (Part 3)](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_3_.html)      
+    + [Rectangles](#3.1)        
+    + [Lines](#3.2)     
+    + [Text](#3.3)      
+    + [Position](#3.4)      
+    + [Reuse Theme](#3.5)     
+    + [`ggtheme`](#3.6)   
+* [Common Pitfalls](#4)     
+    + [Dynamite Plots & Alternatives](#4.1)     
+    + [Pie Charts & Alternatives](#4.2)     
+    + [Heat Map & Alternatives](#4.3)   
+* [Case Study - Mosaic Plots](#5)     
+    + [Chi-Squared Test & Mosaic PLots](#5.2)   
+* [Data Visualization with ggplot2 (Part 3)](https://bourbon0212.github.io/NTU-CS-X/Week4/Data_Visualization_with_ggplot2__Part_3_.html)      
 
 <h2 id = '1'></h2>
 # **Statistics**    
@@ -201,6 +211,7 @@ wt.cyl.am +
   stat_summary(geom = 'point', fun.y = mean,
                position = posn.d) +
   # sd: 'fun.data = mean_sdl, fun.args = list(mult = 1)'
+  # fun.args = list(mult = 1) to have a errorbar that spans over one standard deviation in both directions.
   stat_summary(geom = 'errorbar', fun.data = mean_sdl,
                position = posn.d, fun.args = list(mult = 1), width = 0.1) +
   ggtitle('Mean and SD - with T-tipped error bars')
@@ -360,7 +371,8 @@ head(msleep, 3)
 colnames(msleep)[6:7] <- c('total', 'rem')
 mamsleep <- msleep %>%
               gather(sleep, time, total:rem) %>%
-              select(vore, name, sleep, time)
+              select(vore, name, sleep, time) %>%
+              filter(!is.na(vore))
 # After tidy up
 head(mamsleep, 3)
 
@@ -372,4 +384,452 @@ plot3 + facet_grid(vore ~ ., scale= 'free_y', space = 'free_y')
 ```
 
 <h2 id = '3'></h2>
-# **Themes**
+# **Themes**    
+
+* All non-data ink. e.g. color, angle, size, position...etc.   
+* Visual elements not part of data.   
+* Three types   
+    + text: `element_text()`    
+    + line: `element_line()`
+    + rectangle: `element_rect()`   
+* Put these attributes in `theme()` layer.   
+* `element_blank()` for not displaying the stuff.   
+* Inheritance: Elements inherit from each other in a hierarchy.   
+<div style="width:600px; height:400px">    
+![](D:\Desktop\1.png)
+</div>
+
+And here is our base plot, the most familiar dataset - mtcars.
+```{r}
+library(RColorBrewer)
+plot4 <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+  stat_smooth(method = 'lm', se = F) + 
+  scale_color_manual('Cylinders', values = c('#C6DBEF','#6BAED6','#2171B5')) +
+  geom_jitter(size = 3.5, alpha = 0.7) +
+  scale_x_continuous('Weight(lb/1000)') +
+  scale_y_continuous('Miles/(US) gallon') +
+  facet_grid(.~cyl)
+plot4
+```
+
+<h3 id = '3.1'></h3>
+## Rectangles
+```{r}
+plot5 <- plot4 +
+  # Theme to remove all rectangles
+  theme(rect = element_blank()) +
+  # Combine custom themes
+  theme(plot.background = element_rect(fill = '#F7FBFf', color = '#DEEBF7', size = 1))
+plot5
+```
+
+<h3 id = '3.2'></h3>
+## Lines
+```{r}
+plot6 <- plot5 +
+        # Remove grid
+  theme(panel.grid = element_blank(),
+        # Set color of axis.line
+        axis.line = element_line(color = '#08519C'),
+        #Set color of axis.ticks
+        axis.ticks = element_line(color = '#08519C'))
+plot6
+```
+
+<h3 id = '3.3'></h3>
+## Text
+```{r}
+plot7 <- plot6 +
+  theme(strip.text = element_text(size = 13, color = '#08519C'),
+        # 'hjust = 0' to put the text in the bottom left corner
+        axis.title = element_text(color = '#08519C', hjust = 0, face = 'bold'),
+        axis.text = element_text(color = '#08519C'),
+        legend.text = element_text(color = '#08519C'),
+        legend.title = element_text(color = '#08519C'))
+plot7
+```
+
+<h3 id = '3.4'></h3>
+## Position
+We can only change the direction & the position of the legend.    
+
+* `legend.position` for position.   
+    + Move by location: `legend.position = c(0.85,0.85)`    
+    + Move by name: `legend.position = 'bottom'`    
+* `legend.direction` for direction.   
+
+As for the elements of the legend, we need to change it in **`geom` layer using `scale` or `aes`** becasue they are data ink.
+
+We need `library(grid)` to pass a `unit` object in order to adjust position.    
+
+* `plot.margin` for adjusting plot margin: `unit(c(top,right,bottom,left), "cm")`   
+* `panel.spacing` for space between facets.   
+```{r}
+library(grid)
+plot8 <- plot7 +
+  # Change legend location & direction
+  theme(legend.position = 'bottom', legend.direction= 'horizontal') +
+  # Adjust the plot margin
+  theme(plot.margin = unit(c(1,1.5,0.5,1), 'cm')) +
+  # Increase spacing between facets
+  theme(panel.spacing.x = unit(1, 'cm'))
+plot8
+```
+
+<h3 id = '3.5'></h3>
+## Reuse Theme    
+
+* Assign `theme()` layers to a variable, then you can reuse it without copying many lines of codes.   
+* `theme_update()`: When you call it and assign it to an object, that object stores the **current** default theme, and the arguments **update** the default theme.    
+* `theme_set()`: Apply theme with `theme_set()`.    
+```{r}
+theme_blue <- 
+    theme(rect = element_blank(),
+          plot.background = element_rect(fill = '#F7FBFf', color = '#DEEBF7', size = 1),
+          panel.grid = element_blank(),
+          axis.line = element_line(color = '#08519C'),
+          axis.ticks = element_line(color = '#08519C'),
+          strip.text = element_text(size = 13, color = '#08519C'),
+          axis.title = element_text(color = '#08519C', hjust = 0, face = 'bold'),
+          axis.text = element_text(color = '#08519C'),
+          legend.text = element_text(color = '#08519C'),
+          legend.title = element_text(color = '#08519C'),
+          legend.position = 'bottom', 
+          legend.direction= 'horizontal',
+          plot.margin = unit(c(1,1.5,0.5,1), 'cm'),
+          panel.spacing.x = unit(1, 'cm'))
+```
+
+Apply the theme by `+`.   
+```{r}
+plot4 + theme_blue
+```
+
+Update the default theme using `theme_update()`, and store the **current** theme to `original`.
+```{r}
+original <- theme_update(rect = element_blank(),
+          plot.background = element_rect(fill = '#F7FBFf', color = '#DEEBF7', size = 1),
+          panel.grid = element_blank(),
+          axis.line = element_line(color = '#08519C'),
+          axis.ticks = element_line(color = '#08519C'),
+          strip.text = element_text(size = 13, color = '#08519C'),
+          axis.title = element_text(color = '#08519C', hjust = 0, face = 'bold'),
+          axis.text = element_text(color = '#08519C'),
+          legend.text = element_text(color = '#08519C'),
+          legend.title = element_text(color = '#08519C'),
+          legend.position = 'bottom', 
+          legend.direction= 'horizontal',
+          plot.margin = unit(c(1,1.5,0.5,1), 'cm'),
+          panel.spacing.x = unit(1, 'cm'))
+plot4
+```
+
+Restore back `original` using `theme_set()`.
+```{r}
+theme_set(original)
+plot4
+```
+
+<h3 id = '3.6'></h3>
+## `ggthemes`
+
+There is a package called `ggtheme` which includes many theme set you can choose from, and here are some examples.    
+You can combine with `theme_update()` and `theme_set` for default setting.    
+```{r}
+library(ggthemes)
+plot4 + theme_bw()
+plot4 + theme_classic()
+```
+
+<h2 id = '4'></h2>
+# **Common Pitfalls**
+So far, you've learned how to use `ggplot2`, it's time to have a deeper look of figuring out **what is the best way to graphically represent our data**.   
+
+<h3 id = '4.1'></h3>
+## Dynamite Plots & Alternatives
+
+As mentioned before, there are two kinds of [bar plots](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#4.3.2):    
+
+> Absolute Counts(`stat = 'bin'`)   
+> Distribution(`stat = 'identity'`) which is same as `geom_col()` which takes two variables.  
+
+The second one is incredibly common and **equally terrible**.   
+Let's turn to `mamsleep` for example.   
+
+#### **Example1: Mamsleep**
+```{r}
+sleep <- spread(mamsleep, sleep, time)
+plot9 <- ggplot(sleep, aes(x = vore, y = total)) +
+  scale_y_continuous("Total Sleep Time (h)",
+                     limits = c(0, 24),
+                     breaks = seq(0, 24, 3),
+                     expand = c(0, 0)) +
+  scale_x_discrete('Eating Habits', labels = c('Carnivore', 'Herbivore', 'Insectivore', 'Omnivore'))
+
+plot9 + 
+  stat_summary(fun.y = mean, geom = 'bar', fill = 'grey50') +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), geom = 'errorbar', width = 0.2) +
+  ggtitle('Dynamite Plots of Mammalian Sleep')
+```
+
+* First, we spread the `mamsleep` data for plotting and assign it to a variable called `sleep`.   
+* `ggplot(sleep, aes(x = vore, y = total))` make the base of this plot.   
+    + `vore` is a discrete variable on x-axis which means the eating habbit.    
+    + `total` is a continuous variable on y-axis which means how much sleep the animal have.      
+* `scale_y_continuous()`: Rename the y-axis title and set its limits, breaks ,expand.     
+* `scale_x_discrete()`: Rename the x-axis title and variables' names.     
+* Reference: [Scale Function](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#3.3)   
+* The first `stat_summary()` use `fun.y = mean` to calculate their means.   
+* The second `stat_summary()` use `fun.data = mean_sdl, fun.args = list(mult = 1)` to calculates their standard deviations.   
+
+However, there are some subtle problems in this graph:    
+
+* We have no idea how many observations we have in each category.   
+* This plot is subtly suggesting that our data is normally distributed by using the mean and the standard deviation but it may be not.   
+* The real data is hidden from us.    
+* The bars give the impression of having data where there is no data: No mammals which sleep zero hours a day!    
+
+**Bar plots should be avoided in this plot.**
+Let's change it `geom_point()` for more meaningful plot.    
+
+```{r}
+plot9 +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2)) +
+  stat_summary(fun.y = mean, geom = 'point', col = "#E41A1C") +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), geom = 'errorbar', width = 0.2, col = "#E41A1C")
+```
+
+* By using `geom_point()` we can now see the strange patterns in this dataset.
+    + We don't have that much data about insectivores, and wecan say it's **bimodal**(雙峰) reluctantly.    
+    + It looks like omnivores are **positive skewed**(右曳). 
+    
+* Error bars with points are a much cleaner representation of the data.   
+* It's much better that we plot `sleep` this way ,and bars are simply not necessary!    
+
+#### **Example2: mtcars**
+
+Just now we saw why **"dynamite plots"** (bar plots with error bars) are not well suited for their intended purpose of depicting distributions.   
+If you really want that, you can still get dynamite plots. However, you'll need to set the positions manually.    
+A point geom will typically serve you much better.    
+
+It would be nice to give an impression of the number of values in each group here.
+```{r}
+# Tidy data first.
+mtcars.cyl <- mtcars %>%
+  group_by(factor(cyl)) %>%
+  summarize(wt.avg = mean(wt), sd = sd(wt), n())
+colnames(mtcars.cyl)[c(1, 4)] <- c('Cylinders', 'n')
+mtcars.cyl <- mutate(mtcars.cyl, prop = n/sum(n))
+mtcars.cyl
+
+ggplot(mtcars.cyl, aes(x = Cylinders, y = wt.avg)) +
+  geom_col(width = mtcars.cyl$prop, fill = '#7F95B5') +
+  geom_errorbar(aes(ymin = wt.avg - sd, ymax = wt.avg + sd), width = 0.1, col = '#08306B')
+```
+
+<h3 id = '4.2'></h3>
+## Pie Charts & Alternatives
+
+* In **[Coordinates - Pie Charts](#2.3)**, we've discussed how a pie chart is simply a stacked bar chart plotted onto **polar coordinates.**    
+* When it comes to deciphering a pie chart, people will use angle, area or arc length.    
+* All of them are all mediocre encoding elements, so none of them are really ideal.  
+    + Reference: **[Which Kind of Aesthetics? For Continuous Variables](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#3.4.1)**
+* We can't control which one readers may choose which may cause ambiguity.  
+* The only instance where pie charts are suitable is for representing large quantitative at most three groups.    
+
+To be brief, here are cons of using pie charts:     
+
+* 3+ pie charts -> **Unefficient**.   
+* Many unideal ways to encode -> **Cause ambiguity**.   
+
+#### **Example: HairCol**
+
+Here is the original bar blot for hair color.
+```{r}
+HairCol <- as.data.frame(HairEyeColor)
+ggplot(HairCol, aes(x = Hair, y = Freq, fill = Hair)) +
+  scale_fill_manual('Hair', values = c('slategray', 'rosybrown', 'darkred', 'gold')) +
+  geom_col(position = 'dodge') +
+  facet_grid(.~Sex)
+```
+
+This is the pie chart version of this data.   
+There are only two charts so it might not seem that much annoying.    
+However, imagine that you have lots of pie charts, how could you compare the statistics?    
+```{r}
+plot10 <- ggplot(HairCol, aes(x = 1, y = Freq, fill = Hair)) +
+  scale_fill_manual('Hair', values = c('slategray', 'rosybrown', 'darkred', 'gold')) +
+  scale_y_continuous('Proportion') +
+  theme_classic() +
+  theme(rect = element_blank(),
+        strip.text = element_text(size = 13, face = 'bold'))
+  
+plot10 +  
+  geom_col(position = 'fill', width = 0.2) +
+  scale_x_continuous(limits = c(0.5, 1.1)) +
+  coord_polar(theta = 'y') +
+  facet_grid(.~Sex) +
+  theme(axis.title.y = element_blank(),
+        line = element_blank(),
+        axis.text = element_blank())
+```
+
+The preferred way is **'Fill'** bar plot here.     
+No matter how many plots you have, it's much easier to make a comparison.   
+```{r}
+plot10 + 
+  geom_col(position = 'fill', width = 0.3) +
+  scale_x_continuous(limits = c(0.5, 1.5)) +
+  coord_flip() +
+  facet_grid(Sex~.) +
+  theme(axis.title.y = element_blank(),
+        axis.line = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        legend.position = 'bottom', 
+        legend.direction= 'horizontal')
+```
+
+<h3 id = '4.3'></h3>
+## Heat Maps & Alternatives
+
+Heat maps are a surprisingly popular choice for data visualization, but they are probably one of the **least** effective types of visualization.        
+
+* Our perception changes dependent on the neighboring colors.     
+* Heat map only has `color` for variables which is hard to recognize.   
+* Look fancy and complicated - signs of poor communication skills.
+* As a result, basically **NO** meaningful information in heat map.   
+
+Let's see some alternatives.    
+
+#### **Example: Barley Yields**
+The dataset we're using here is about the yield of some varieties of barley in different site in 1931 & 1932.   
+We should call it out by `library(lattice)`.    
+```{r}
+library(lattice)
+head(barley)
+```
+
+Use `geom_tile()` to make a heat map.        
+See? It doesn't provide any meaningful information at first glance.   
+We use `scale_fill_gradientn()` to fill in continuous variables.     
+
+* `scale_fill_brewer(palette = "*")`, `scale_fill_manual('col_name', values = *)` for discrete variables.    
+```{r}
+ggplot(barley, aes(x = year, y = variety, fill = yield)) +
+  geom_tile() + # Geom layer
+  facet_wrap( ~ site, ncol = 1) + # Facet layer
+  scale_fill_gradientn(colors = brewer.pal(9, "Reds")) # Adjust colors
+```
+
+First alternative:    
+
+* This line plot shows the change in yield for each variety over two years.   
+* We can see the general data trend in different varieties.   
+
+```{r}
+ggplot(barley, aes(x = year, y = yield, col = variety, group = variety)) +
+  geom_line() +
+  facet_wrap(~site, nrow = 1) +
+  scale_x_discrete('Year') +
+  scale_y_continuous('Yield (bushels/acre)') +
+  scale_color_discrete('Variety')
+```
+
+Second Alternative:   
+
+* If we are not interested in the individual varieties, but rather on the farms, we can make these plots.   
+    + Using `geom = 'errorbar'` need to add some dodging.   
+    + Using `geom = 'ribbon'`   
+    
+* Use some summary statistic, like the mean and standard deviation.   
+
+```{r}
+ggplot(barley, aes(x = year, y = yield, col = site, fill = site, group = site)) +
+  stat_summary(fun.y = mean, geom = 'line', position = position_dodge(width = 0.2)) +
+  stat_summary(fun.y = mean, geom = 'point',position = position_dodge(width = 0.2)) +
+  # fun.args = list(mult = 1) to have a errorbar that spans over one standard deviation in both directions.
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), geom = 'errorbar', width = 0.1, position = position_dodge(width = 0.2)) +
+  scale_x_discrete('Year', expand = c(0.05, 0.05)) +
+  scale_y_continuous('Yield (bushels/acre)') +
+  scale_color_discrete('Site') +
+  scale_fill_discrete('Site') +
+  ggtitle('With Errorbar')
+
+ggplot(barley, aes(x = year, y = yield, col = site, fill = site, group = site)) +
+  stat_summary(fun.y = mean, geom = 'line') +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), geom = 'ribbon', alpha = 0.1, col = NA) +
+  scale_x_discrete('Year', expand = c(0.05, 0.05)) +
+  scale_y_continuous('Yield (bushels/acre)') +
+  scale_color_discrete('Site') +
+  scale_fill_discrete('Site') +
+  ggtitle('With Ribbon')
+```
+
+<h2 id = '5'></h2>
+# **Case Study - Mosaic Plots**    
+
+We'll use `2009 CHIS adult-response dataset` for data visualization here.   
+Let's get familiar with the dataset now.    
+
+Column Name   | Description            
+------------- | -------------     
+RBMI          | BMI Category description    
+BMI_P         | BMI value   
+RACEHPR2      | race    
+SRSEX         | sex   
+SRAGE_P       | age   
+MARIT2        | Marital status    
+AB1           | General Health Condition    
+ASTCUR        | Current Asthma Status   
+AB51          | Type I or Type II Diabetes    
+POVLL         | Poverty level
+
+<h3 id = '5.2'></h3>
+## Chi-Squared Test & Mosaic PLots    
+
+> `Observation`: The **[Contingency Table](https://bourbon0212.github.io/NTU-CS-X/Week2/Exploratory_Data_Analysis.html#1)** we applied **Chi-Squared Test**   
+> `Expected`: The expected values under the null hypothesis of equal proportions.   
+> `Residuals`: The difference between the observed data and the expected values     
+
+Here's a table comparing gender and political affiliation, and let's apply Chi-Squared Test on it.    
+
+* Observation       
+```{r}
+# Make a table manually
+party <- matrix(c(762, 327, 468, 484, 239, 477), ncol = 3, byrow = T)
+colnames(party) <- c('Democrat', 'Independent', 'Republican')
+rownames(party) <- c('F', 'M')
+party <- as.table(party)
+# Obsrvation
+party
+```
+
+* Expected     
+```{r}
+# Expected
+chisq.test(party)$expected
+```
+
+* Residuals
+```{r}
+# Residuals
+chisq.test(party)$residuals
+```
+
+When we perform a **Chi-squared test**, the results are provided to us with the expected & **residuals**.   
+And **Mosaic Plot** is just a method to visualize Chi-Squared Test.     
+
+* Example of Mosaic Plot
+```{r}
+library(vcd)
+mosaic(party, shade = T, color = T)
+```
+
+* Conclusion    
+    + The **higher** the residual, the **more overrepresented** a segment is.   
+    + The **lower** the residual, the **more underrepresented** a segment is.   
+
+> A mosaic plot shows us not only the proportional size of each group in a contingency table, but we can also use it to report on the underlying statistics.
+
+##### **To Be Continued with [Data Visualization with ggplot2 (Part 3)](https://bourbon0212.github.io/NTU-CS-X/Week4/Data_Visualization_with_ggplot2__Part_3_.html)**

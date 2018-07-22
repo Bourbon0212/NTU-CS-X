@@ -241,8 +241,8 @@ plot3 <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(am)))
 ## Scale Function   
 
 All the aesthetics we saw earlier have an associated scale function.    
-The third part must match the type of data we are using.        
-The first argument is always the name of the scale, after that the most common are limits, breaks, expand, and labels.    
+The first argument is always the name of the scale, after that the most common are limits, breaks, expand, and labels.      
+The third part must match the type of data we are using.    
 
 * scale_x...    
     + ```scale_x_continuous('Length', limits = c(2, 8), breaks = seq(0, 8, by = 2), expand = c(0, 0))```    
@@ -482,7 +482,7 @@ And here are some codes of different linetypes.
 ![](D:\Desktop\5.png) 
 </div>
 
-#### **Example 1: Unemployment & Recession**
+#### **Example1: Unemployment & Recession**
 ```{r}
 library(ggplot2)
 recess <- get(load('D:/Downloads/recess.RData'))
@@ -497,7 +497,10 @@ ggplot(economics, aes(x = date, y = unemploy/pop)) +
 * `geom_line()` for line plots.     
 * `geom_rect()` for rectangle plots which needs for aesthetics: `xmin`, `xmax`, `ymin` and `ymax`.      
 
-#### **Example 2: Salmon Species**
+The ```geom_rect()``` command here shouldn't inherit aesthetics from the base `ggplot()` command it belongs to.     
+You should specify `inherit.aes = FALSE` in `geom_rect()`.  
+
+#### **Example2: Salmon Species**
 ```{r}
 fish <- get(load('D:/Downloads/fish.RData'))
 fish.tidy <- gather(fish.species, Species, Capture, -Year)
@@ -505,9 +508,6 @@ fish.tidy <- gather(fish.species, Species, Capture, -Year)
 ggplot(fish.tidy, aes(x = Year, y = Capture, col = Species)) +
   geom_line()
 ```
-
-The ```geom_rect()``` command here shouldn't inherit aesthetics from the base `ggplot()` command it belongs to.     
-You should specify `inherit.aes = FALSE` in `geom_rect()`.    
 
 <h2 id = '5'></h2>
 # **qplot and Wrap-up**
@@ -550,14 +550,15 @@ qplot(
 
 #### **Wrap-up & Example**    
 
-**Example 1: Chicken Weight**
+**Example1: Chicken Weight**
 ```{r message = F}
 ggplot(ChickWeight, aes(x = Time, y = weight, col = Diet)) +
+  # To draw one line per chick, add group = Chick.
   geom_line(aes(group = Chick), alpha = 0.3) +
   geom_smooth(lwd = 2, se = F)
 ```
 
-**Example 2: Titanic**
+**Example2: Titanic**
 ```{r message = F, warning = F}
 library(titanic)
 # Rename Survived factor.
