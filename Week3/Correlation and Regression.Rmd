@@ -8,8 +8,18 @@ output: html_document
 * [Visualizing Bivariate Relationships](#1)   
 * [Correlation](#2)   
     + [What is correlation?](#2.1)    
-    + [Anscombe](#2.2)
-
+    + [Anscombe](#2.2)    
+* [Simple Linear Regression](#3)    
+    + [Method od Linear Regression](#3.1)     
+    + [Automatic - Smooth](#3.2)    
+    + [Manual - Abline](#3.3)   
+    + [Regression to Mean](#3.4)    
+* [Coefficients in Regression Models](#4)     
+    + [Linear Model - `lm()`](#4.1)
+    + [Use of Regression Model](#4.2)   
+        + [Prediction: Called out-of-sample](#4.2.1)    
+        + [Adding Regression Line to Plot Manually](#4.2.2)
+    
 <h2 id = '1'></h2>
 # **Visualizing Bivariate Relationships**   
 
@@ -24,6 +34,8 @@ In this chapter, we are going to talk about **two (continuous) numerical variabl
     + Strength: how much scatter/noise?   
     + Outliers.     
 
+<br>
+
 Through out the chapter, we'll do some practices on several datasets listed below inside `openintro` package.     
 
 * `ncbirths`: A random sample of 1,000 cases taken from a larger dataset collected in 2004 describing the birth of a single child born in North Carolina, along with various characteristics of the child.    
@@ -31,6 +43,8 @@ Through out the chapter, we'll do some practices on several datasets listed belo
 * `mlbBat10`: Contains batting statistics for 1,199 Major League Baseball players during the 2010 season.     
 * `bdims`: Contains body girth and skeletal diameter measurements for 507 physically active individuals.      
 * `smoking`: Contains information on the smoking habits of 1,691 citizens of the United Kingdom.      
+
+<br>
 
 #### **Example1 : ncbirths**    
 
@@ -51,6 +65,8 @@ ggplot(data = ncbirths,
 
 In the scatterplot, it seems that there is a positive relationship between `weeks` & `weight`.   
 However, after using `cut()` discretizing continuous variables and drawing boxplot, the relationship no longer seems linear.    
+
+<br>
 
 #### **Example2: Mammals**
 
@@ -73,8 +89,11 @@ ggplot(data = mammals, aes(x = BodyWt, y = BrainWt)) +
 
 Because of extreme values in this dataset, it's hard to see the relationship between `BodyWt` & `BrainWt`.    
 We can put these variables on a log scale and noticed that the relation is much clearer now.    
-* `coord_trans()`: [Coord_() function](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#2) to put it on a log10 scale.     
-* `scale_x_continuous()` [Scale_() function](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#3.3) can do the same thing with different lables on axises.    
+
+* `coord_trans()`: [Coord_() function](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#2) to put it on a log10 scale.         
+* `scale_x_continuous()` [Scale_() function](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#3.3) can do the same thing with different lables on axises.        
+
+<br>
 
 #### **Example3: mlbBat10**   
 
@@ -95,6 +114,8 @@ In the first scatterplot, most of the points were clustered in the lower left co
 
 After removing outliers, we can finally see the general pattern in the dataset, we'll discuss the influence of outliers later.
 
+<br>
+
 <h2 id = '2'></h2>
 # **Correlation**
 
@@ -107,15 +128,32 @@ After removing outliers, we can finally see the general pattern in the dataset, 
 * `cor(x, y)`  Compute the Pearson product-moment correlation between variables, `x` and `y`, and the order doesn't matter.     
     + `cor()` will return `NA` as a default if there is missing data.     
     + Use `use = "pairwise.complete.obs"` when there is missing values in the dataset and `cor()` will ignore those values.     
+
+<br>
+
+#### **Example1: ncbirths**
 ```{r}
 ncbirths %>%
   summarize(N = n(), r = cor(weight, weeks, use = "pairwise.complete.obs"))
 ```
 
+#### **Example2: mammals**
+```{r}
+# Correlation among mammals, with and without log
+mammals %>%
+  summarize(N = n(), 
+            r = cor(BodyWt, BrainWt), 
+            r_log = cor(log(BodyWt), log(BrainWt)))
+```
+
+<br>
+
 <h3 id = '2.2'></h3>
 ## Anscombe
 
-In 1973, Francis Anscombe famously created four datasets with remarkably similar numerical properties, but obviously different graphic relationships.
+In 1973, Francis Anscombe famously created four datasets with remarkably similar numerical properties, but obviously different graphic relationships.   
+For how to tidy up `anscombe` to `Anscombe` using here, look for it in the **[RMD](https://github.com/Bourbon0212/NTU-CS-X/blob/master/Week3/Correlation%20and%20Regression.Rmd#2.2)** of this course.    
+
 ```{r echo = FALSE}
 # Tidy up anscombe dataset
 library(tidyr)
@@ -136,4 +174,243 @@ Anscombe$set <- rep(c(1:4))
 ggplot(data = Anscombe, aes(x = x, y = y)) +
   geom_point() +
   facet_wrap(~ set)
+```
+```{r}
+Anscombe %>%
+  group_by(set) %>%
+  summarize(N = n(), mean(x), sd(x), mean(y), sd(y), cor(x, y))
+```
+
+Although their plots look totally different, all of the measures are identical (ignoring rounding error) across the four different sets.    
+
+<br>
+
+<h2 id = '3'></h2>
+# **Simple Linear Regression**    
+
+
+<h3 id = '3.1'></h3>
+## Method of Linear Regression
+
+In this section, we want to find out **the 'best fit' line** by a method called **Linear Regression**.    
+The simple linear regression model for a numeric response as a function of a numeric explanatory variable can be visualized on the corresponding scatterplot by a straight line. This is a "best fit" line that cuts through the data in a way that **minimizes** the distance between the line and the data points.        
+
+
+#### **Generic Statistical Model**
+> ***`response = f(explanatory) + noise`***
+
+#### **Generic Linear Model**
+> ***`response = intercept + (slope * explanatory) + noise`***    
+
+#### **Least Squares**
+In this section we'll use **Least Squares** as a method of linear regression.     
+
+* Easy, deterministic, unique solutions.    
+* Residuals sum to zero.   
+    + Residuals = Observation(`y`) - Expected(`y-hat`)
+    + Y-hat is expected value given corresponding X.    
+    + Beta-hats are estimates of true, unknown betas.   
+    + Residuals are estimates of true, unknown epsilons.    
+    + 'Error' is misleading, it should be called 'Noise'.   
+    + Reference: **[Chi-Squared Test](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#5.2)**   
+* Line must pass through `(mean(x), mean(y))`
+
+<br>
+
+<h3 id = '3.2'></h3>
+## Automatic - Smooth   
+
+Fortunately, we don't need to calculate those values on our own.    
+In `ggplot2` we can simply call out `geom_smooth(method = 'lm')` to find the 'best fit' line in a blink.    
+
+* Reference: **[Statistics - Smooth](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#1.2)**
+* `method = 'lm'` means using a linear model.
+
+<br>
+
+#### **Example: bdims**   
+
+```{r}
+# Scatterplot with regression line using geom_smooth()
+ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE)
+```
+
+<br>
+
+<h3 id = '3.3'></h3>
+## Manual - Abline
+Besides using `geom_smooth()` to get the 'best fit' line, we can set it up manually.    
+If we choose to calculate on ourselves, we need to know how a regression line comes out first.      
+
+#### **Linear Model**    
+> ***`Y = m ⋅ X + k`***     
+> ***`m = r(X,Y) ⋅ SD(Y)/SD(X)`***     
+
+* Two facts to compute: the slope(`m`) and intercept(`k`) of a simple linear regression model from some basic summary statistics.   
+* `r(x,y)` represents the correlation of `X` & `Y`.   
+    + `cor(x,y)` to compute the correlation coefficient.    
+* `SD(X)` & `SD(Y)` represents the standard deviation of `X` & `Y`.   
+    + `sd()` to compute the standard deviation.  
+* `mean(X)` & `mean(Y)` is **always** on the least squares regression line.
+* Use `geom_abline(slope = *, intersect = *)` to add a line on the plot manually.   
+
+<br>
+
+#### **Example: bdims**
+```{r}
+# Calculate summary statistics
+bdims_summary <- summarize(bdims, N = n(), r = cor(hgt, wgt),
+                           mean_hgt = mean(hgt), sd_hgt = sd(hgt),
+                           mean_wgt = mean(wgt), sd_wgt = sd(wgt))
+bdims_summary <- mutate(bdims_summary, slope = r*sd_wgt/sd_hgt, 
+                        intercept = mean_wgt - r*sd_wgt/sd_hgt*mean_hgt)
+bdims_summary
+# Scatterplot with regression line using geom_abline()
+ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
+  geom_point() + 
+  geom_abline(slope = as.numeric(bdims_summary$slope), intercept = as.numeric(bdims_summary$intercept))
+```
+
+<br>
+
+<h3 id = '3.4'></h3>
+## Regression to mean
+
+Regression to the mean is a concept attributed to Sir Francis Galton.     
+The basic idea is that extreme random observations will tend to be less extreme upon a second trial.    
+
+<br>
+
+#### **Example1: Galton_men & Galton_women**
+```{r}
+library(HistData)
+# Height of children vs. parent
+ggplot(data = Galton, aes(x = parent, y = child)) +
+  geom_jitter(alpha = 0.3) + 
+  # Add a diagonal line which slopes = 1
+  geom_abline(slope = 1, intercept = 0) + 
+  geom_smooth(method = 'lm', se = FALSE)
+```
+
+Because the slope of the regression line is smaller than 1 (the slope of the diagonal line), we can verify Sir Francis Galton's regression to the mean concept!
+
+<br>
+
+#### **Example2: The New York Times in 2015**   
+
+> *"Regression to the mean is so powerful that once-in-a-generation talent basically never sires once-in-a-generation talent.It explains why Michael Jordan’s sons were middling college basketball players and Jakob Dylan wrote two good songs. It is why there are no American parent-child pairs among Hall of Fame players in any major professional sports league."*
+
+The author is arguing that because of regression to the mean, an outstanding basketball player is likely to have sons that are good at basketball, but **not** as good as him.
+
+<br>
+<h2 id = '4'></h2>
+# **Coefficients in Regression Models**   
+
+<h3 id = '4.1'></h3>
+## Linear Model - `lm()`
+
+While the `geom_smooth(method = "lm")` function is useful for drawing linear models on a scatterplot, it doesn't actually return the characteristics of the model. On the other hand, function `lm()` does!   
+
+* `lm(Response(y) ~ Explanatory(x), data = *)`    
+    + `(y ~ x)`: A `formula` that specifies the model.    
+    + `data`: Argument for the data frame that contains the data you want to use to fit the model.    
+<br>
+* Return a model object having class `"lm"`.    
+<br>
+* Contains lots of information about your regression model.   
+    + The data used to fit the model.   
+    + The specification of the model.   
+    + The fitted values and residuals, etc.   
+<br>    
+* `coef(model)`: Display the coefficients of the model.    
+<br>
+* `summary(model)`: Display the full regression output of the model.   
+<br>
+* Recall that `Residuals = Observations - Expected`   
+    + `Obsrvation` are the values in the dataset.   
+    + `Expected` are fitted values fits this model.   
+    + `fitted.values(model)`: Returns the expected(fitted) values of the model.   
+    + `residuals(model)`: Returns the residuals of the model.     
+<br>    
+* Tidy linear model:    
+    + `augment(model)`: Returns a dataframe containing the data on which the model was fit and several quantities specific to the regression model.   
+    + `augment(model)` is from the `broom` package.   
+
+<br>
+
+#### **Example: bdims**
+```{r}
+# Linear model for weight as a function of height
+mod <- lm(wgt ~ hgt, data = bdims)
+mod
+```
+
+Recall that a general linear model lookes like this:    
+
+> ***`Y = m ⋅ X + k`***     
+
+* `(Intercept)`: refers to the intercept(`k`) of the model.   
+* `hgt`: refers to the slope(`m`) of the model in this example.   
+
+```{r}
+# Show the coefficients
+coef(mod)
+
+# Show the full output
+summary(mod)
+
+# Mean of weights equal to mean of fitted values?
+mean(bdims$wgt) == mean(fitted.values(mod))
+```
+
+Not surprisingly that `mean(observations)` equals `mean(fitted.values)`.    
+If not, why are they called "fitted.values" to the model?   
+```{r}
+# Mean of the residuals
+mean(residuals(mod))
+```
+The least squares fitting procedure guarantees that the mean of the residuals is **zero** (numerical instability may result in the computed values not being exactly zero).   
+```{r}
+library(broom)
+# Create bdims_tidy
+bdims_tidy <- augment(mod)
+
+# Glimpse the resulting data frame
+glimpse(bdims_tidy)
+```
+
+<br>
+
+<h3 id = '4.2'></h3>
+## Use of Regression Model
+
+<h4 id = '4.2.1'></h4>
+#### **Prediction: Called out-of-sample**   
+
+Once we have fit the model, we can now compute expected values for observations that were **not** present in the data on which the model was fit.   
+
+* `predict(model, newdata = *)`
+
+```{r}
+ben <- data.frame('wgt' = 74.8, 'hgt' = 182.8)
+predict(mod, newdata = ben)
+```
+
+According to this model, Ben should be 81 kg.   
+However, he is only 74.8 kg.
+So the residual here equals `78.4 - 81 = -2.6 `.    
+
+<br>
+
+<h4 id = '4.2.2'></h4>
+#### **Adding Regression Line to Plot Manually**    
+
+Here we're going to use `geom_abline()` again.    
+Now it's time to combined what we've learned so far.    
+```{r}
+ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
+  geom_point() + 
+  geom_abline(intercept = coef(mod)[1], slope = coef(mod)[2],  color = "dodgerblue")
 ```
