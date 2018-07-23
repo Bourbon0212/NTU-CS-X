@@ -1,0 +1,137 @@
+---
+title: "Correlation and Regression"
+author: "Bourbon0212"
+date: "2018年7月23日"
+output: html_document
+---
+
+* [Visualizing Bivariate Relationships](#1)   
+* [Correlation](#2)   
+
+<h2 id = '1'></h2>
+# **Visualizing Bivariate Relationships**   
+
+In this chapter, we are going to talk about **two (continuous) numerical variables**.     
+
+* Response Variable, also known as `y` which is dependent.    
+* Explanatory Variable, also known as `x` which is independent and a predictor.   
+    + Something you think might be related to the response.   
+* Characterizing bivariate relationships.   
+    + Form: linear, quadratic, non-linear etc.    
+    + Direction: positive, negative.    
+    + Strength: how much scatter/noise?   
+    + Outliers.     
+
+Through out the chapter, we'll do some practices on several datasets listed below inside `openintro` package.     
+
+* `ncbirths`: A random sample of 1,000 cases taken from a larger dataset collected in 2004 describing the birth of a single child born in North Carolina, along with various characteristics of the child.    
+* `mammals`: Contains information about 39 species of mammals, including their body weight, brain weight, gestation time, etc.       
+* `mlbBat10`: Contains batting statistics for 1,199 Major League Baseball players during the 2010 season.     
+* `bdims`: Contains body girth and skeletal diameter measurements for 507 physically active individuals.      
+* `smoking`: Contains information on the smoking habits of 1,691 citizens of the United Kingdom.      
+
+#### **Example1 : ncbirths**    
+
+Using the `ncbirths` dataset, make a scatterplot using ggplot() to illustrate how the birth weight of these babies varies according to the number of weeks of gestation.
+```{r message = FALSE, warning = F}
+library(ggplot2)
+library(openintro)
+library(dplyr)
+# Use geom_plot() to make a scatterplot.
+ggplot(ncbirths, aes(x = weeks, y = weight)) +
+  geom_point()
+
+# Use cut() to break a continuous variable to a discrete one.
+ggplot(data = ncbirths, 
+       aes(x = cut(weeks, breaks = 5), y = weight)) + 
+  geom_boxplot()
+```
+
+In the scatterplot, it seems that there is a positive relationship between `weeks` & `weight`.   
+However, after using `cut()` discretizing continuous variables and drawing boxplot, the relationship no longer seems linear.    
+
+#### **Example2: Mammals**
+
+Using the `mammals` dataset, create a scatterplot illustrating how the brain weight of a mammal varies as a function of its body weight.    
+```{r}
+# Scatterplot with original scale.
+ggplot(mammals, aes(x = BodyWt, y = BrainWt)) +
+  geom_point()
+
+# Scatterplot with coord_trans().
+ggplot(data = mammals, aes(x = BodyWt, y = BrainWt)) +
+  geom_point() + 
+  coord_trans(x = "log10", y = "log10")
+
+# Scatterplot with scale_x_log10() and scale_y_log10().
+ggplot(data = mammals, aes(x = BodyWt, y = BrainWt)) +
+  geom_point() +
+  scale_x_log10() + scale_y_log10()
+```
+
+Because of extreme values in this dataset, it's hard to see the relationship between `BodyWt` & `BrainWt`.    
+We can put these variables on a log scale and noticed that the relation is much clearer now.    
+* `coord_trans()`: [Coord_() function](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#2) to put it on a log10 scale.     
+* `scale_x_continuous()` [Scale_() function](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html#3.3) can do the same thing with different lables on axises.    
+
+#### **Example3: mlbBat10**   
+
+Using the `mlbBat10` dataset, create a scatterplot illustrating how the slugging percentage (SLG) of a player varies as a function of his on-base percentage (OBP). 
+```{r}
+# Scatterplot with outliers.
+ggplot(mlbBat10, aes(x = OBP, y = SLG)) +
+  geom_point()
+
+# After removing those outliers.
+mlbBat10 %>%
+  filter(AB >= 200) %>%
+  ggplot(aes(x = OBP, y = SLG)) +
+  geom_point()
+```
+
+In the first scatterplot, most of the points were clustered in the lower left corner of the plot, making it difficult to see the general pattern of the majority of the data. This difficulty was caused by a few **outlying** players whose on-base percentages (OBPs) were exceptionally high.   
+
+After removing outliers, we can finally see the general pattern in the dataset, we'll discuss the influence of outliers later.
+
+<h2 id = '1'></h2>
+# **Correlation**
+
+<h3 id = '1.1'></h3>
+## What is correlation?    
+
+* Correlation coefficient between `-1` and `1`.   
+* Sign -> Direction.    
+* Magnitude -> Strength.    
+* `cor(x, y)`  Compute the Pearson product-moment correlation between variables, `x` and `y`, and the order doesn't matter.     
+    + `cor()` will return `NA` as a default if there is missing data.     
+    + Use `use = "pairwise.complete.obs"` when there is missing values in the dataset and `cor()` will ignore those values.     
+```{r}
+ncbirths %>%
+  summarize(N = n(), r = cor(weight, weeks, use = "pairwise.complete.obs"))
+```
+
+<h3 id = '1.2'></h3>
+## Anscombe Dataset
+
+In 1973, Francis Anscombe famously created four datasets with remarkably similar numerical properties, but obviously different graphic relationships.
+```{r echo = FALSE}
+# Tidy up anscombe dataset
+library(tidyr)
+library(stringr)
+Anscombe <-anscombe %>%
+  mutate(id = c(1:11)) %>%
+  gather(key_x, x, x1:x4) %>%
+  gather(key_y, y, y1:y4) %>%
+  arrange(id)
+Anscombe$key_x <- str_replace(Anscombe$key_x,'x','')
+Anscombe$key_y <- str_replace(Anscombe$key_y,'y','')
+Anscombe <- filter(Anscombe, key_x == key_y) %>%
+  select('id', 'x', 'y')
+Anscombe$set <- rep(c(1:4))
+```
+```{r}
+# Plot of Anscombe and wrapping according to set.
+ggplot(data = Anscombe, aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~ set)
+```
