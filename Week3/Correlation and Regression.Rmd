@@ -7,6 +7,8 @@ output: html_document
 
 * [Visualizing Bivariate Relationships](#1)   
 * [Correlation](#2)   
+    + [What is correlation?](#2.1)    
+    + [Anscombe](#2.2)
 
 <h2 id = '1'></h2>
 # **Visualizing Bivariate Relationships**   
@@ -93,10 +95,10 @@ In the first scatterplot, most of the points were clustered in the lower left co
 
 After removing outliers, we can finally see the general pattern in the dataset, we'll discuss the influence of outliers later.
 
-<h2 id = '1'></h2>
+<h2 id = '2'></h2>
 # **Correlation**
 
-<h3 id = '1.1'></h3>
+<h3 id = '2.1'></h3>
 ## What is correlation?    
 
 * Correlation coefficient between `-1` and `1`.   
@@ -110,8 +112,8 @@ ncbirths %>%
   summarize(N = n(), r = cor(weight, weeks, use = "pairwise.complete.obs"))
 ```
 
-<h3 id = '1.2'></h3>
-## Anscombe Dataset
+<h3 id = '2.2'></h3>
+## Anscombe
 
 In 1973, Francis Anscombe famously created four datasets with remarkably similar numerical properties, but obviously different graphic relationships.
 ```{r echo = FALSE}
