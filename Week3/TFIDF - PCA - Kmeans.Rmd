@@ -1,0 +1,106 @@
+---
+title: "TFITF - PCA - Kmeans"
+author: "Bourbon0212"
+date: "2018年7月24日"
+output: html_document
+---
+* **Preparation**      
+* **TF-ITF**    
+* **PCA**   
+* **Kmeans**    
+
+# **Preparation**   
+
+## Packages
+開始前，先把需要的套件安裝好。
+```{r message = F}
+library(bitops)
+library(httr)
+library(RCurl)
+library(XML)
+library(tm)
+library(NLP)
+library(tmcn)
+library(jiebaRD)
+library(jiebaR)
+library(factoextra)
+library(Matrix)
+library(wordcloud2)
+```
+
+## Data
+這次分析使用的資料為【名偵探柯南】TV動畫版50集(450-500集)的劇情內容，100集甚至是200集的內容無法成功做PCA，RStudio沒有回應。
+```{r echo = F}
+library(readtext)
+readtext('./Conan/10.txt')
+```
+
+# **TF-ITF**
+
+## 詞頻矩陣
+```{r warning=FALSE}
+# 詞頻矩陣
+docs.corpus <- Corpus(DirSource("./Conan"))
+docs.seg <- tm_map(docs.corpus, segmentCN)
+docs.tdm <- TermDocumentMatrix(docs.seg)
+```
+## 轉成TFITF
+```{r}
+# TF-IDF
+docs.tf <- apply(as.matrix(docs.tdm), 2, function(word) { word/sum(word) })
+idf <- function(doc) {
+  return ( log2( length(doc)+1 / nnzero(doc)) )
+}
+docs.idf <- apply(as.matrix(docs.tdm), 1, idf)
+docs.tfidf <- docs.tf * docs.idf
+```
+
+## WordCloud
+```{r}
+f <- sort(rowSums(docs.tfidf), decreasing = T)
+docs.df <- data.frame(
+  word = names(f),
+  freq = f
+)
+wordcloud2(docs.df, minSize=10, gridSize=5, fontFamily = "微軟正黑體",
+           backgroundColor='white', color='random-light')
+```
+
+# **PCA**
+
+## PCA繪圖
+```{r}
+# 轉置
+docs.tfidf_t<- t(docs.tfidf)
+
+# PCA & 繪圖 (R內建PCA, 可直接套用)
+docs.pca <- prcomp(docs.tfidf_t, scale = T)
+fviz_eig(docs.pca)
+fviz_pca_ind(docs.pca, geom.ind = c("point"), col.ind = "cos2")
+fviz_pca_var(docs.pca, col.var = "contrib",repel = TRUE)
+fviz_pca_biplot(docs.pca, geom.ind = "point")
+```
+
+## PCA Results
+```{r}
+docs.eig <- get_eig(docs.pca)
+docs.var <- get_pca_var(docs.pca)
+docs.ind <- get_pca_ind(docs.pca)
+```
+
+# **Kmeans**
+
+## Choosing K
+```{r}
+ind.coord2 <- docs.ind$coord[, 1:2]
+wss <- c()
+for (i in 1:4) { wss[i] <- kmeans(ind.coord2, i)$tot.withinss }
+plot(wss, type = "b")
+```
+
+## Cluster
+```{r}
+km <- kmeans(ind.coord2, 3)
+plot(ind.coord2, col = km$cluster)
+points(km$centers, col = 1:3, pch = 8, cex = 2)
+```
