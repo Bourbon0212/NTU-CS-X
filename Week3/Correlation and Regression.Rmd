@@ -486,12 +486,13 @@ RMSE is basicallay **the standard deviation of residuals**
 summary(mod)
 ```
 
-Using`summary(mod)` can easily get the value of RMSE which is named ** Residual Standard Error** in the summary.    
+Using`summary(mod)` can easily get the value of RMSE which is named **Residual Standard Error** in the summary.    
 Conveniently, RMSE returns in the unit of reponse.    
 In this case, `RMSE = 9.30804` which means:   
 The typical difference between the observed `wgt` and the `wgt` predicted by the model is about `9.30804 'kg'`.     
 <br>
 And we can try to calculte RMSE manually using the formula above.   
+To get `degrees of freedom` we can use `df.residual(model)`. The meaning of d.f will not be explained here.   
 ```{r}
 # Compute RMSE manually
 sqrt(sum(residuals(mod)^2) / df.residual(mod))
