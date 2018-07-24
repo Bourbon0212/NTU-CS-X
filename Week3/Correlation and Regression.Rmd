@@ -19,7 +19,18 @@ output: html_document
     + [Use of Regression Model](#4.2)   
         + [Prediction: Called out-of-sample](#4.2.1)    
         + [Adding Regression Line to Plot Manually](#4.2.2)
-    
+* [Model Fit](#5)   
+    + [Assess Model Fit](#5.1)    
+        + [SSE](#5.1.1)     
+        + [RMSE](#5.1.2)    
+    + [Compare Model Fit](#5.2)     
+        + [Null(Average) Model](#5.2.1)   
+        + [R^2](#5.2.2)     
+    + [Unsual Points](#5.3)     
+        + [Leverage](#5.3.1)      
+        + [Influence](#5.3.2)   
+        + [Removing Outliers](#5.3.3)   
+
 <h2 id = '1'></h2>
 # **Visualizing Bivariate Relationships**   
 
@@ -211,7 +222,7 @@ In this section we'll use **Least Squares** as a method of linear regression.
     + Y-hat is expected value given corresponding X.    
     + Beta-hats are estimates of true, unknown betas.   
     + Residuals are estimates of true, unknown epsilons.    
-    + 'Error' is misleading, it should be called 'Noise'.   
+        + 'Error' is misleading, it should be called 'Noise'.   
     + Reference: **[Chi-Squared Test](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#5.2)**   
 * Line must pass through `(mean(x), mean(y))`
 
@@ -333,7 +344,8 @@ While the `geom_smooth(method = "lm")` function is useful for drawing linear mod
     + `Expected` are fitted values fits this model.   
     + `fitted.values(model)`: Returns the expected(fitted) values of the model.   
     + `residuals(model)`: Returns the residuals of the model.     
-<br>    
+<br>
+<h4 id = 'augment()'></h4>
 * Tidy linear model:    
     + `augment(model)`: Returns a dataframe containing the data on which the model was fit and several quantities specific to the regression model.   
     + `augment(model)` is from the `broom` package.   
@@ -367,6 +379,8 @@ mean(bdims$wgt) == mean(fitted.values(mod))
 
 Not surprisingly that `mean(observations)` equals `mean(fitted.values)`.    
 If not, why are they called "fitted.values" to the model?   
+
+<h4 id = 'mean(residuals)'></h4>
 ```{r}
 # Mean of the residuals
 mean(residuals(mod))
@@ -400,7 +414,7 @@ predict(mod, newdata = ben)
 
 According to this model, Ben should be 81 kg.   
 However, he is only 74.8 kg.
-So the residual here equals `78.4 - 81 = -2.6 `.    
+So the residual here equals `74.8 - 81 = -6.2 `.    
 
 <br>
 
@@ -413,4 +427,200 @@ Now it's time to combined what we've learned so far.
 ggplot(data = bdims, aes(x = hgt, y = wgt)) + 
   geom_point() + 
   geom_abline(intercept = coef(mod)[1], slope = coef(mod)[2],  color = "dodgerblue")
+```
+
+<br>
+
+<h2 id = '5'></h2>
+# **Model Fit**
+
+<h3 id = '5.1'></h2>
+## Assess Model Fit      
+
+After setting a model fit for our data, can we assess the **quality** of it?    
+
+One way to assess strength of fit is to consider how far off the model is for a typical case. That is, for some observations, the fitted value will be very close to the actual value, while for others it will not. The magnitude of a typical residual can give us a sense of generally how close our estimates are.      
+<br>
+<h4 id = '5.1.1'></h4>
+#### **SSE: Sum of Squared Errors(Residuals)**    
+
+<div style="width:600px; height:400px">    
+![](D:\Desktop\1.png)
+</div>
+
+When trying to set up a linear model, what we actually do is finding the line has **the least** sums of squared deviation.     
+<br>
+For each **obsevation** which is represented by a point on a scatterplot,     
+the **residual** is simply the **vertical** distance between that point and the line.   
+<br>
+In this example, we've highlighted residuals with gray arrows.    
+If we can find a line makes the sums of `residuals ^ 2` smaller, it's a better model.   
+<br>
+Also we can just minimize the sum of `residuals`    
+which is always zero since the positive one and the negative one often offset each other when adding up in the 'best fitted' model.     
+In fact ,we've already discussed this before: [mean(residuals)](#mean(residuals))     
+<br>
+Conventionally, the sum of squared deviation are called **Sum of Squared Errors**.    
+It can be easily computed after using **[`augment()`](#augment())** to  our model.     
+
+> **`SSE = sum(.resid ^2) = (n()-1) * var(.resid)`**    
+
+```{r}
+augment(mod) %>%
+  summarize(SSE = (n()-1) * var(.resid),
+            SSE_also = sum(.resid ^2))
+```
+SSE is a single number that captures how much are model missed by.    
+Unfortunately, it's hard to interpret since the units have been squared.    
+
+<br>
+<h4 id = '5.1.2'></h4>
+#### **RMSE: Root Mean Squared Error**    
+
+Besides SSE, another common measurement of the accuracy of a model is -- RMSE.    
+RMSE is basicallay **the standard deviation of residuals**    
+
+> **`RMSE = sqrt(sum(.resid ^ 2)/d.f) = sqrt(SEE/d.f)`**    
+
+```{r}
+summary(mod)
+```
+
+Using`summary(mod)` can easily get the value of RMSE which is named ** Residual Standard Error** in the summary.    
+Conveniently, RMSE returns in the unit of reponse.    
+In this case, `RMSE = 9.30804` which means:   
+The typical difference between the observed `wgt` and the `wgt` predicted by the model is about `9.30804 'kg'`.     
+<br>
+And we can try to calculte RMSE manually using the formula above.   
+```{r}
+# Compute RMSE manually
+sqrt(sum(residuals(mod)^2) / df.residual(mod))
+```
+
+<h3 id = '5.2'></h2>
+## Compare Model Fit
+
+<h4 id = '5.2.1'></h4>
+#### **Null(Average) Model**    
+If you have to predict without any regressed model, what would your prediction be?    
+For most people, the answer is `mean` and that's **Null Model**. 
+
+* For all observations.   
+* `y-hat(Expected) = y-mean`    
+
+<div style="width:600px; height:400px">    
+![](D:\Desktop\2.png)
+</div>
+
+```{r}
+# A Linear Model of bdims (same as before)
+mod_smooth <- lm(wgt ~ hgt, data = bdims)
+mod_smooth %>%
+  augment() %>%
+  summarise(SSE = sum(.resid ^ 2))
+
+# A Null Model of bdims
+mod_null <- lm(wgt ~ 1, data = bdims)
+mod_null %>%
+  augment() %>%
+  summarise(SSE = sum(.resid ^ 2))
+```
+Since the SSE in `mod_smooth` is much smaller than the one in `mod_null`, `mod_smooth` is a better fit to `bdims`.    
+
+<br>
+
+<h4 id = '5.2.2'></h4>
+#### **R^2: Coefficient of Determination**    
+
+> **`R^2 = 1 - (SSE/SST) = 1 - var(e)/var(y)`**   
+
+* R^2 is a measure of variability in a response variable.     
+* SSE for a null model is often called **SST: Total Sums of Regress**   
+* It's **a common measure of the fit of the regression model.**    
+* For simple lunear model `r^2(x,y) = R^2`    
+* A high/low R^2 doesn't mean taht the model is excellent/lousy.     
+<br>
+
+The R^2 is also stored in `summary(model)`
+Let's have a look  again.   
+```{r}
+summary(mod)
+```
+
+R^2 is named 'R-squared' is the summary.    
+In this case, we can interpret that about `51%` of the variability in `wgt` can be explained by `hgt`.  
+
+<br>
+
+<h3 id = '5.3'></h2>
+## Unsual Points
+
+<h4 id = '5.3.1'></h4>
+#### **Leverage**    
+
+> <div style="width:200px; height:50px">    
+> ![](D:\Desktop\3.png)
+> </div>
+
+You don't need to understand the formula totally, but you should recognize that:    
+
+* The leverage score for observation is about the distance between the value and the mean of explanatory data.     
+    + Points are close to the horizontal center(mean of x) of the scatterplot have low leverages.
+    + Points are far from the horizontal center(mean of x) of the scatterplot have high leverages.   
+    + Nothing to do with y-coordinate.    
+
+* Points of high leverage may or may not be influential. 
+* Leverage can be retrieve by using [**`augment()`**](#augment()) and it's named by `.hat`.   
+
+<br>
+
+<h4 id = '5.3.2'></h4>
+#### **Influence**
+As noted previously, observations of high leverage may or may not be influential.   
+
+* The influence of an observation depends on:   
+    + Leverage: Takes into account the explanatory variable.          
+    + Magnitude of its residual: depends on the response variable(`y`) and the fitted value(`y-hat`).     
+    
+* Influential points are likely to have **high** leverage and **deviate** from the general relationship between the two variables.    
+* Influence can be retrieve by using [**`augment()`**](#augment()) and it's named by `.cooksd`.   
+
+Let's take a look at both leverage & influence.   
+```{r}
+lm(formula = SLG ~ OBP, data = filter(mlbBat10, AB >= 10)) %>%
+  augment() %>%
+  arrange(desc(.hat), .cooksd) %>%
+  select(SLG, OBP, .fitted, .hat, .cooksd) %>%
+  head()
+```
+
+<br>
+
+<h4 id = '5.3.3'></h4>
+#### **Removing Outliers**
+
+Observations can be outliers for a number of different reasons.     
+Statisticians must always be careful—and more importantly, transparent—when dealing with outliers.    
+Sometimes, a better model fit can be achieved by simply removing outliers and re-fitting the model.     
+However, one must have strong justification for doing this.     
+A desire to have a higher R^2 is not a good enough reason!    
+We're looking for the best model not the best fit model!    
+
+Here's a simple example of removing 'Bobby Scales' from `mlbBat10`,   
+but it's just an example since there is nothing to suggest that it is not a valid data point.   
+```{r}
+# Create nontrivial_players
+nontrivial_players <- mlbBat10 %>%
+  filter(AB >= 10 & OBP < 0.5)
+
+# Fit model to new data
+mod_cleaner <- lm(SLG ~ OBP, data = nontrivial_players)
+
+# View model summary
+summary(mod_cleaner)
+
+# Visualize new model
+ggplot(nontrivial_players, aes(x = OBP, y = SLG)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
 ```
