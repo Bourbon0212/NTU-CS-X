@@ -1,11 +1,11 @@
 ---
-title: "TFITF - PCA - Kmeans"
+title: "TFIDF - PCA - Kmeans"
 author: "Bourbon0212"
 date: "2018年7月24日"
 output: html_document
 ---
 * **Preparation**      
-* **TF-ITF**    
+* **TF-IDF**    
 * **PCA**   
 * **Kmeans**    
 
@@ -35,7 +35,7 @@ library(readtext)
 readtext('./Conan/10.txt')
 ```
 
-# **TF-ITF**
+# **TF-IDF**
 
 ## 詞頻矩陣
 ```{r warning=FALSE}
@@ -44,7 +44,7 @@ docs.corpus <- Corpus(DirSource("./Conan"))
 docs.seg <- tm_map(docs.corpus, segmentCN)
 docs.tdm <- TermDocumentMatrix(docs.seg)
 ```
-## 轉成TFITF
+## 轉成TFIDF
 ```{r}
 # TF-IDF
 docs.tf <- apply(as.matrix(docs.tdm), 2, function(word) { word/sum(word) })
