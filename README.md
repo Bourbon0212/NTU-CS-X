@@ -13,7 +13,8 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 * [hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)   
 * [hw2(Part1).html + BONUS](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part1.html)    
 * [hw2(Part2).html](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part2.html)    
-* [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)
+* [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)         
+* [hw3(TFIDF/PCA/Kmeans)](https://bourbon0212.github.io/NTU-CS-X/Week3/TFIDF_-_PCA_-_Kmeans.html)       
 ## Notes
 * [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)
 * [Intermediate R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2)
