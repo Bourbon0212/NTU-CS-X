@@ -1,0 +1,159 @@
+---
+title: "Happiness & Open Data (II)"
+author: "Bourbon0212"
+date: "2018年7月25日"
+output: html_document
+---
+
+* [Happiness & Open Data (I)](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)
+* Preparation   
+* Analysis
+* Conclusion
+
+# **Preparation**
+```{r eval = F}
+# Export the data we've collected from (I) to a csv
+write.table(data_table, file = "data.CSV", sep = ",")
+```
+```{r message = F}
+# Import data
+library(formattable)
+library(dplyr)
+data <- read.csv('./data.csv') 
+data %>%
+  formattable(align = "l") %>%
+  head(5)
+```
+
+<br>
+
+# **Analysis**    
+
+## **Openness & Region**   
+
+### Errorbar Plot
+```{r message = F}
+library(ggplot2)
+library(Hmisc)
+data <- filter(data, !is.na(Region))
+data %>%
+  ggplot(aes(x = Region, y = Openness)) +
+    geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
+    stat_summary(geom = 'point', fun.y = mean, col = '#E41A1C') +
+    # fun.args = list(mult = 1) to have a errorbar that spans over one standard deviation in both directions.
+    stat_summary(geom = 'errorbar', fun.data = mean_sdl, fun.args = list(mult = 1), 
+                 width = 0.3, col = '#E41A1C') +
+    labs(y = 'Openness', title = 'Openness & Region - with T-tipped error bars') +
+    theme(axis.title.y = element_blank(), panel.grid = element_blank(), panel.background = element_blank()) +
+    geom_hline(yintercept = mean(data$Openness), linetype = 'dotted') +
+    coord_flip()
+```
+
+### ANOVA
+```{r}
+anova(lm(Openness ~ Region, data = data))
+```
+
+According to this plot & anova test, we can conclude that:     
+
+* Since `Pr(>F)` < `0.05`, the mean of each grop has significant difference.     
+* In `Sub-Saharan Africa` and `Central and Easttern Europe` the openness of some countries are `0`.     
+* It's obvious that `Region` has noting to do with `Openness` in Ocenia.    
+
+<br>
+
+## **Happiness & Region**    
+
+### Errorbar Plot
+```{r}
+data %>%
+  ggplot(aes(x = Region, y = Happiness)) +
+    geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
+    stat_summary(geom = 'point', fun.y = mean, col = '#E41A1C') +
+    stat_summary(geom = 'errorbar', fun.data = mean_sdl, fun.args = list(mult = 1), 
+                 width = 0.3, col = '#E41A1C') +
+    labs(y = 'Happiness', title = 'Happiness & Region - with T-tipped error bars') +
+    theme(axis.title.y = element_blank(), panel.grid = element_blank(), panel.background = element_blank()) +
+    geom_hline(yintercept = mean(data$Happiness), linetype = 'dotted') +
+    coord_flip()
+```
+
+### ANOVA
+```{r}
+anova(lm(Happiness ~ Region, data = data))
+```
+According to this plot & anova test, we can conclude that:   
+
+* Since `Pr(>F)` < `0.05`, the mean of each grop has significant difference.     
+* Oceanian are the happiest people of all the regions.    
+* The countries of `Happiness` in `SouthEastern Asia` & `Middle East & Northern Africa` are the least centralized.    
+
+<br>
+
+## **GDP & Region**  
+
+### Errorbar Plot
+```{r}
+data %>%
+  ggplot(aes(x = Region, y = GDP)) +
+    geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
+    stat_summary(geom = 'point', fun.y = mean, col = '#E41A1C') +
+    stat_summary(geom = 'errorbar', fun.data = mean_sdl, fun.args = list(mult = 1), 
+                 width = 0.3, col = '#E41A1C') +
+    labs(y = 'GDP', title = 'GDP & Region - with T-tipped error bars') +
+    theme(axis.title.y = element_blank(), panel.grid = element_blank(), panel.background = element_blank()) +
+    geom_hline(yintercept = mean(data$GDP), linetype = 'dotted') +
+    coord_flip()
+```
+
+### ANOVA
+```{r}
+anova(lm(GDP ~ Region, data = data))
+```
+According to this plot & anova test, we can conclude that:   
+
+* Since `Pr(>F)` < `0.05`, the mean of each grop has significant difference.   
+* The countries of `GDP` in `SouthEastern Asia` & `Middle East & Northern Africa` are the least centralized.
+* The distribute of this plot is **similar** to the previous one.   
+* So I make a prediction that the correlation between `Happiness` & `GDP` is high.    
+
+### Regression
+```{r}
+m2 <- lm(GDP ~ Openness + Region - 1, 
+         data = data)
+coefplot(m2, xlab = 'GDP Estimated', ylab = 'Regress Varaibles', title = 'Response = GDP')
+```
+
+## **Happiness & GDP**
+
+### Linear Model
+Let's draw a plot that confirmed this assumption and create the linear model of this dataset.      
+```{r}
+data %>%
+  ggplot(aes(x = Happiness, y = GDP)) +
+  geom_jitter(shape = 16, alpha = 0.5) +
+  stat_smooth(method = "loess", aes(col = "LOESS"), se = F) +
+  stat_smooth(method = "lm", aes(col = "Linear"), se = F) +
+  scale_color_discrete("Model") +
+  theme(panel.grid = element_blank(), panel.background = element_blank())
+```
+
+```{r}
+formattable(summarise(data, Observation = n(), Correlation = cor(GDP, Happiness)))
+```
+The correlation here is `0.7969` which suggests that my assumption is correct.    
+Here are some details of this linear model.    
+```{r}
+summary(lm(GDP ~ Happiness, data = data))
+```
+
+We can also facet the plot according to different region.     
+Except those regions with only one or two countries, the correlation between `GDP` & `Happiness` are positive.   
+```{r}
+ggplot(data, aes(x = Happiness, y = GDP, group = Region)) +
+  geom_jitter(shape = 16, alpha = 0.5) +
+  geom_smooth(method = 'lm', se = F) +
+  facet_grid(.~Region) +
+  theme(strip.text.x = element_text(angle = 90), strip.background = element_blank(),
+        panel.grid = element_blank(), panel.background = element_blank())
+```
