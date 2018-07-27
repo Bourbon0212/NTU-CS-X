@@ -1,9 +1,9 @@
-### Week3
+### Week4
 #### Progress
 * In class<br />
-I. Exploratory Data Analysis     
-II. Text Mining      
+I. Further Exploratory Data Analysis     
+II. Correlation & Regression      
 * At home   
 
 #### Homework
-* [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)
+* [hw4(Regression).html](https://bourbon0212.github.io/NTU-CS-X/Week4/Happiness___Open_Data__II_.html)
