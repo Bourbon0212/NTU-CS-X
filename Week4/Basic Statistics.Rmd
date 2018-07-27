@@ -1,0 +1,566 @@
+---
+title: "Basic Statistics"
+author: "Bourbon0212"
+date: "2018年7月26日"
+output: html_document
+---
+* [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)    
+* [Exploring Data](#1)    
+    + [Table & Frequency](#1.1)
+    + [Bar Graph](#1.2)   
+    + [Numeric Summarise](#1.3)   
+* [Correlation and Regression](https://bourbon0212.github.io/NTU-CS-X/Week3/Correlation_and_Regression.html)     
+* [Probability](#2)     
+    + [Basis](#2.1)
+    + [Rule](#2.2)
+* [Probability Distributions](#3)    
+    + [Density Function](#3.1)    
+    + [Mass Function](#3.2)     
+    + [Normal Distribution](#3.3)   
+    + [Binominal Distribution](#3.4)    
+* [Sampling Distributions](#4)    
+    + [Population & Sampling](#4.1)   
+    + [Summary Statistics of Sampling](#4.2)    
+    + [The Central Limit Theorem](#4.3)   
+    + [Interpretation of Z-scores](#4.4)
+    + [Sampling Distributions and Proportions](#4.5)    
+* [Confidence Intervals](#5)     
+
+
+<h2 id = '1'></h2>
+# **Exploring Data**    
+
+<h3 id = '1.1'></h3>
+## Table & Frequency    
+
+#### **Recoding Variables**
+Currently `mpg` variable of `mtcars` is a continuous numeric variable, but it may be more useful if `mpg` was a categorical variable that immedietly told you if the car had low or high miles per gallon.   
+
+```{r}
+# This is useful so that if you make a mistake your original dataset stays in tact!
+mtcars2 <- mtcars
+# Assign the label "high" to mpgcategory where mpg is greater than or equal to 20
+mtcars2$mpgcategory[mtcars$mpg >= 20] <- 'high'
+# Assign the label "low" to mpgcategory where mpg is less than 20
+mtcars2$mpgcategory[mtcars$mpg < 20] <- 'low'
+# Assign mpgcategory as factor to mpgfactor
+mtcars2$mpgcategory <- as.factor(mtcars2$mpgcategory)
+head(mtcars2$mpgcategory)
+```
+
+<br>
+
+#### **Table**    
+Frequency tables show you how often a given value occurs.     
+`table()`: The top row of the output is the value, and the bottom row is the frequency of the value.      
+
+```{r}
+table(mtcars2$mpgcategory)
+```
+
+<br>
+
+<h3 id = '1.2'></h3>
+## Bar Graph    
+
+Reference: **Data Visualization with ggplot2 [(I)](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html) [(II)
+](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html) [(III)](https://bourbon0212.github.io/NTU-CS-X/Week4/Data_Visualization_with_ggplot2__Part_3_.html)** 
+
+#### **Bar Plot: Categorical Variable**   
+`barplot()`: `Base` function for bar plot.    
+
+* `ylab = '*'`: Add a label to the y axis.    
+* `names.arg = '*'`: X axis labels to the bars.     
+    
+```{r}
+barplot(table(mtcars2$mpgcategory), ylab = 'Number of Cars', names.arg = c('High','Low'))
+```
+
+<br>
+
+#### **Histograms: Continuous Variable**   
+`hist()`: `Base` function for histogram.        
+
+* `main = '*'`: Title.    
+* `ylim = c(*, *)`: Set the range of y axis.    
+* `xlab = '*'`: Title for x axis.   
+    
+```{r}
+hist(mtcars$carb, main = "Carburetors", ylim = c(0,20), xlab = 'Number of Carburetors', col = 'lightblue')
+```
+
+<br>
+
+<h3 id = '1.3'></h3>
+## Numeric Summarise
+
+* Mean: `mean()`      
+* Median: `median()`          
+* Mode: `sort(table(), decreasing = T)[1]`      
+* Quantiles: `quantile()` e.g. the first quartile = `quantile()[2]`   
+* Outliers: `1.5*IQR` below the first quartile or `1.5*IQR` above the third quartile      
+* Standard Deviation: `sd()`      
+* Variance: `var()` = `sum((x - mean(x))^2)/(n-1)`      
+* Range: `diff(range())`      
+* Interquartile Range: `IQR()`      
+* Z-scores: `x - mean(x)/sd(x)`     
+    + Distribution & Z-scores   
+    + `95%`: `2` ~ `-2` 
+    + Outliers: `>3` or `<-3`   
+<div style="width:300px; height:200px">    
+![](D:\Desktop\1.gif)
+</div>
+
+<br>
+
+<h2 id = '2'></h2>
+# **Probability**
+
+<h3 id = '2.1'></h3>
+## Basis
+
+#### **Sample Space**   
+
+    You have a bag containing three A and two E scrabble letters.     
+    Consider the samplespace of drawing three letters from the bag without replacing them(each trial is dependent).
+```{r}
+samplespace <- c('AAA', 'AAE', 'AEA', 'EAA', 'EEA', 'EAE', 'AEE')
+```
+
+    The sample space contains each combination of A and E,      
+    except for three E's because this is not possible with only two E letters.      
+
+#### **Dependent**
+
+    In your scrabble letter bag you have three A's and two E's.           
+    You take one letter out at a time, and return each letter to the bag before continuing with the following draw.       
+```{r}
+# What is the probability of AAE?
+aae <- 3/5 * 3/5 * 2/5
+# What is the probability of EAE?
+eae <- 2/5 * 2/5 * 3/5
+# What is the probability of AAA or EEA?
+aaaeea <- 3/5 * 3/5 * 3/5 + 2/5 * 2/5 * 3/5
+```
+
+#### **Independent**    
+
+    This time, you take one letter out of the bag at a time,          
+    but you do not return the leters to the bag before continuing with the following draw.        
+```{r}
+# What is the probability of AAE?
+aae <- 3/5 * 2/4 * 2/3
+# What is the probability of EAE?
+eae <- 2/5 * 3/4 * 1/3
+# What is the probability of AAA or EEA?
+aaaeea <- 3/5 * 2/4 * 1/3 + 2/5 * 1/4 * 3/3
+```
+
+#### **Probability Terms**
+* Complement: `1 - x`     
+* Independent intersecting events: Two events that do not influence each other and can occur similtaneously.    
+* Disjoint exhaustive events: Mutually exclusive, so only one of the events can happen at a time.     
+
+<br>
+
+<h3 id = '2.2'></h3>
+## Rules
+
+#### **Union**    
+> **`P(A or B) = P(A) + P(B) - P(A and B)`**
+
+    The probability of picking a flower that is at least partly blue is 0.4. 
+    The probability of picking a flower that is at least partly pink is 0.2.
+    Q: alculate the probability of picking a flower that is blue, pink or both?
+```{r}
+0.2 + 0.4 - (0.2 * 0.4)
+```
+
+#### **Conditional Probability**
+> **`P(A|B) = P(A + B)/P(B)`**
+
+    '|' means 'given', under `B` condition, the probability that `A` will happen.    
+#### **Independence**
+> **`P(A|B) = P(A)`**
+
+    The probability of one event is independent of another 
+    if the probability of the first event occuring is unaffected by whether or not the other event occurs.
+
+#### **Bayesian Probability**
+> **`P(A|B) = (P(B|A) * P(A))/P(B)`**
+
+    Information about A is can help tell us whether B will happen or not.
+    Because any information you have will reduces the sample space of possible events that can occur. 
+    
+<br>
+
+<h2 id = '3'></h2>
+# **Probability Distributions**  
+
+* Probability **Density** Functions: Relate to probability distributions of continuous variables.
+* Probability **Mass** Functions: Relate to the probability distributions discrete variables.     
+
+<h3 id = '3.1'></h3>
+## Density Function   
+
+#### **Example: Simulated Normal Distribution**
+
+* `dnorm`: Gives the density.   
+* `pnorm`: Gives the distribution function.   
+* `qnorm`: Gives the quantile function.     
+* `rnorm`: Generates random deviates.   
+
+To get a probability,     
+
+* You will need to consider an interval under the curve of the probability density function.      
+* Probabilities here are thus considered surface areas.     
+```{r}
+# Simulate some random normally distributed data
+set.seed(11225)
+data <- rnorm(10000)
+
+# Calculate the density of data and store it in the variable density
+density <- dnorm(data)
+
+# Make a plot with as x variable data and as y variable density
+plot(data, density)
+```
+
+<br>
+
+<h3 id = '3.2'></h3>
+## Mass Function
+
+```{r}
+data <- data.frame(outcome = 0:5, probs = c(0.1, 0.2, 0.3, 0.2, 0.1, 0.1))
+data
+```
+
+    Q: Make a histogram of the probability distribution.
+```{r}
+barplot(data$probs, names.arg = c(0:5))
+```
+
+#### **Cumulative Probability** 
+
+    Q: Probability that x is 0, smaller/equal to 1, smaller/equal to 2, and smaller/equal to 3.   
+```{r}
+# Using cumsum() for cumulative sum.
+cumsum(data$probs[1:4])
+```
+
+<br>
+
+#### **Expected Value - The Mean**
+* The mean of a probability distribution is calculated by taking the weighted average of all possible values that a random variable can take.   
+* In the case of a **discrete** variable, you calculate the sum of each possible value times its probability.         
+
+<br></br>
+    
+    Q: Calculate the expected probability value.
+```{r}
+expected_score <- sum(data$outcome * data$probs)
+expected_score
+```
+
+<br>
+
+#### **Variance & Standard Deviation**
+* Variance
+    + The variance is often taken as a measure of spread of a distribution.       
+    + It is the sum of the squared difference between the individual observation and multiplied by their probabilities.    
+* Standard Deviation
+    +  Take variance's square root.   
+
+> <div style="width:200px; height:30px">    
+> ![](D:\Desktop\2.png)
+> </div> 
+
+    Q: Calculate the variance and store it in a variable called variance.     
+```{r}
+variance <- sum((data$outcome -expected_score)^2 * data$probs)
+variance
+```
+
+    Q: Calculate the standard deviation and store it in a variable called std.
+```{r}
+std <- sqrt(variance)
+std
+```
+
+<br>
+
+<h3 id = '3.3'></h3>
+## Normal Distribution
+
+#### **`pnorm()` & Cumulative Probability**   
+
+    Hair length is considered to be normally distributed with a mean of 25 cm and a standard deviation of 5. 
+    Q: The probability that a woman's hair length is less than 30.
+```{r}
+pnorm(30, mean = 25, sd = 5)
+```
+
+    Q: The probability of a woman having a hair length larger or equal to 30 centimers.
+```{r}
+pnorm(30, mean = 25, sd = 5, lower.tail = FALSE)
+```
+
+Let's visualize this.     
+Note that the first example is visualized on the left, while the second example is visualized on the right.   
+
+<div style="width:600px; height:500px">    
+![](D:\Desktop\3.png)
+</div>
+
+<br>
+
+#### **`qnorm()` & Quantile**
+
+    Sometimes we have a probability that we want to associate with a value.     
+    This is basically the opposite situation as the situation described in the previous question.     
+    Q: The value of a woman's hair length that corresponds with the 0.2 quantile.
+```{r}
+qnorm(0.2, mean = 25, sd = 5)
+```
+
+<div style="width:600px; height:500px">    
+![](D:\Desktop\4.png)
+</div>
+
+#### **Standard Normal Distribution & Z-scores**
+
+* A special form of the normal probability distribution is the standard normal distribution, also known as the z-distribution.    
+* A z distribution has a mean of `0` and a standard deviation of `1`.   
+* Transform to z-scores.    
+    + The values of a variable subtract the mean.   
+    + Divide this by the standard deviation.    
+  
+> <div style="width:100px; height:50px">    
+> ![](D:\Desktop\5.png)
+> </div>
+
+
+    A woman with a hair length of 38 centimers and the average hair length was 25 centimers and the standard deviation was 5 centimers.    
+    Q: Change to z-scores.    
+```{r}
+round(((38 - 25) / 5), 1)
+```
+
+<br>
+
+<h3 id = '3.4'></h3>
+## Binomial Distribution
+
+* The binomial distribution is **discrete** distribution which is important for discrete variables.  
+* Some conditions that need to be met before you can consider a random variable to binomially distributed.      
+    + **Bernoulli trial**: A phenomenon or trial with two possible outcomes and a constant probability of success.    
+    + All trials are independent.   
+* **`n`**: Observation of a certain number of trials.   
+* **`x`**: The number of successes in which we are interested.    
+
+* Mean
+
+> **`n * p`**
+
+* Standard Deviation
+
+> **`sqrt(n * p * (1-p))`**
+
+
+    An exam consisting of 25 multiple choice questions. 
+    Each questions has 5 possible answers. 
+    This means that the probability of answering a question correctly by chance is `0.2`.
+    
+    Q: The mean of this distribution.
+```{r}
+25 * 0.2
+```
+
+
+    Q: The standard deviation.
+```{r}
+sqrt(25 * 0.2 * 0.8)
+```
+
+<br>
+
+#### **`dbnominom()`, `pbinom()` & `qnorm()`**
+* `dbinom()`: Calculates an exact probability.
+* `pbinom()`: Calculate an interval of probabilities.   
+* `qbinom()`: Calculate the value that is associated with certain quantile.   
+
+<br></br>
+
+    Q: Probability of answering 5 questions correctly.
+```{r}
+dbinom(x = 5, size = 25, prob = 0.2)
+```
+
+
+    Q: Probability of answering at least 5 questions correctly.
+```{r}
+pbinom(q = 4, size = 25, prob = 0.2, lower.tail = F)
+```
+
+
+    Q: Calculate the 60th percentile.   
+```{r}
+qbinom(p = 0.6, size = 25, prob = 0.2)
+```
+
+<br>
+
+<h2 id = '4'></h2>
+# **Sampling Distributions**  
+
+<h3 id = '4.1'></h3>
+## Population & Sampling    
+In this lab we have access to the entire population.         
+In real life, this is rarely the case. Often we gather information by taking a sample from a population.    
+
+<br>
+
+#### **Sampling from Population**
+
+In this section you can see that the more you've sampled, the closer value  to the actual `mean` you'll get.
+```{r message = F}
+library(ggplot2)
+# Use sample(), randomly sample 200 diamonds' prices.    
+sample_price <- sample(diamonds$price, size = 200)
+mean(sample_price)
+
+# Use for loop do many samples and comare their means.
+# Empty vector sample means
+sample_means <- NULL
+
+# Take 200 samples from diamonds' prices.
+for (i in 1:500){
+  samp <- sample(diamonds$price, 200)
+  sample_means[i] <- mean(samp)
+}
+
+# Calculate the prices mean, that is, the mean of diamonds' prices and print it.
+mean(diamonds$price)
+
+# Calculate the mean of the sample means, that is, sample_means.
+mean(sample_means)
+```
+
+<br>
+
+<h3 id = '4.2'></h3>
+## Summary Statistics of Sampling
+
+So far, you should be familiar with **Variance** & **Standard Deviation**.    
+But the caculation of **Population** & **Sample** is subtly different.    
+
+#### **Variance & Standard Deviation of Population**
+The denominator is `n` when computing statistics of population.   
+
+> <div style="width:200px; height:60px">    
+> ![](D:\Desktop\8.png)
+> </div>
+> <div style="width:200px; height:60px">    
+> ![](D:\Desktop\9.png)
+> </div>
+
+<br>
+
+#### **Variance & Standard Deviation of Sampling**
+However, the denominator is `n - 1 ` when computing statistics of sampling.   
+The functions in R `base`: `var()` & `sd()` are calculating statistics of sampling.
+
+> <div style="width:200px; height:60px">    
+> ![](D:\Desktop\6.png)
+> </div>
+> <div style="width:200px; height:60px">    
+> ![](D:\Desktop\7.png)
+> </div>
+
+<br>
+
+#### **Standard Error of the Mean**
+
+* The standard deviation measures the amount of variability or dispersion for a subject set of data from the mean.    
+* The standard error of the mean measures how far the sample mean of the data is likely to be from the true population mean.    
+* The SEM is always smaller than the SD.      
+
+> <div style="width:200px; height:40px">    
+> ![](D:\Desktop\10.png)
+> </div>
+
+<br>
+
+<h3 id = '4.3'></h3>
+## The Central Limit Theorem
+
+> *"Provided that the sample size is sufficiently large, the sampling distribution of the sample mean is approximately normally distributed even if the variable of interest is not normally distributed in the population"*
+
+The sampling distribution, just as the central limit theorem states, is normally distributed!
+```{r}
+# A Histogram of Diamonds' Prices
+hist(diamonds$price)
+
+# A Histogram of sample_means
+hist(sample_means)
+```
+
+<br>
+
+<h3 id = '4.4'></h3>
+## Interpretation of Z-scores
+
+We can use `pnorm()` to transfer z-scores into probability.   
+Here's a example diamond which costs 4400 dollars.    
+```{r}
+# Z-score caculation.
+sampling_sd <- sd(diamonds$price)/sqrt(200)
+Z <- (4400 - mean(diamonds$price)) / sampling_sd
+Z
+
+# Calculate the area under the curve left of the observation
+pnorm(q = Z, lower.tail = TRUE)
+
+# Calculate the area under the curve right of the observation
+pnorm(q = Z, lower.tail = FALSE)
+```
+
+<br>
+
+<h3 id = '4.5'></h3>
+## Sampling Distributions and Proportions
+
+In all the examples that we have seen, we worked with continuous variables such as diamondsl prices.    
+However, in practice we often work with proportions such as the proportion.   
+Here's the formula of standard deviation working on **Sampling Distributions on Proportions**
+
+> <div style="width:120px; height:60px">    
+> ![](D:\Desktop\11.png)
+> </div>
+
+
+    We took a sample of 200 from the population of London and based on this sample we concluded that London's population is 10% hipster. 
+    The mean of the sampling distribution thus is 10%.
+```{r}
+# Sample proportion
+proportion_hipsters <- 0.10
+
+# Standard deviation of the sampling distribution
+sample_sd <- sqrt(0.1 * 0.9 / 200)
+```
+
+
+    After that, we took a random sample of 200 people from London's general population, and a proportion of 0.13 of these people were hipsters. 
+    We however know that in the population of London, the proportion of hipsters is 0.10. 
+    What is the probability of finding a sample of 200 with a proportion of 0.13 or more hipsters?
+```{r}
+# Calculate the probability
+pnorm(0.13, mean = 0.10, sd = sample_sd, lower.tail = FALSE)
+```
+
+<br>
+
+<h2 id = '5'></h2>
+# **Confidence Intervals** 
+

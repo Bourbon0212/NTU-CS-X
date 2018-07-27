@@ -19,6 +19,7 @@ write.table(data_table, file = "data.CSV", sep = ",")
 # Import data
 library(formattable)
 library(dplyr)
+setwd("D:/GitHub/NTU-CS-X/Week4")
 data <- read.csv('./data.csv') 
 data %>%
   formattable(align = "l") %>%
@@ -119,6 +120,7 @@ According to this plot & anova test, we can conclude that:
 
 ### Regression
 ```{r}
+library(coefplot)
 m2 <- lm(GDP ~ Openness + Region - 1, 
          data = data)
 coefplot(m2, xlab = 'GDP Estimated', ylab = 'Regress Varaibles', title = 'Response = GDP')
