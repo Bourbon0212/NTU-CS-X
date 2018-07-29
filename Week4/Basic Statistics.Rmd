@@ -25,8 +25,17 @@ output: html_document
     + [Interpretation of Z-scores](#4.4)
     + [Sampling Distributions and Proportions](#4.5)    
 * [Confidence Intervals](#5)     
-
-
+    + [Definition of CI](#5.1)    
+    + [Z-score, CI & Normal Distribution](#5.2)     
+    + [CI on Proportion](#5.3)    
+    + [Determination on Sample Size](#5.4)      
+* [Hypothesis Testing](#6)    
+    + [Significance Testing](#6.1)    
+    + [One-sided vs. Two-tailed](#6.2)      
+    + [Hypothesis Testing and Binomial Distribution](#6.3)
+    + [T Distribution](#6.4)
+    + [T Distribution & CI](#6.5)
+    
 <h2 id = '1'></h2>
 # **Exploring Data**    
 
@@ -105,7 +114,7 @@ hist(mtcars$carb, main = "Carburetors", ylim = c(0,20), xlab = 'Number of Carbur
 * Interquartile Range: `IQR()`      
 * Z-scores: `x - mean(x)/sd(x)`     
     + Distribution & Z-scores   
-    + `95%`: `2` ~ `-2` 
+    + `95.46%`: `2` ~ `-2` 
     + Outliers: `>3` or `<-3`   
 <div style="width:300px; height:200px">    
 ![](D:\Desktop\1.gif)
@@ -205,10 +214,10 @@ aaaeea <- 3/5 * 2/4 * 1/3 + 2/5 * 1/4 * 3/3
 
 #### **Example: Simulated Normal Distribution**
 
-* `dnorm`: Gives the density.   
-* `pnorm`: Gives the distribution function.   
-* `qnorm`: Gives the quantile function.     
-* `rnorm`: Generates random deviates.   
+* `dnorm()`: Gives the density.   
+* `pnorm()`: Gives the distribution function.   
+* `qnorm()`: Gives the quantile function.     
+* `rnorm()`: Generates random deviates.   
 
 To get a probability,     
 
@@ -328,6 +337,7 @@ qnorm(0.2, mean = 25, sd = 5)
 ![](D:\Desktop\4.png)
 </div>
 
+<h4 id = 'z'></h4>
 #### **Standard Normal Distribution & Z-scores**
 
 * A special form of the normal probability distribution is the standard normal distribution, also known as the z-distribution.    
@@ -367,6 +377,11 @@ round(((38 - 25) / 5), 1)
 
 > **`sqrt(n * p * (1-p))`**
 
+* Standard Error
+
+> <div style="width:120px; height:60px">    
+> ![](D:\Desktop\11.png)
+> </div>
 
     An exam consisting of 25 multiple choice questions. 
     Each questions has 5 possible answers. 
@@ -385,7 +400,7 @@ sqrt(25 * 0.2 * 0.8)
 
 <br>
 
-#### **`dbnominom()`, `pbinom()` & `qnorm()`**
+#### **`dbinom()`, `pbinom()` & `qbinom()`**
 * `dbinom()`: Calculates an exact probability.
 * `pbinom()`: Calculate an interval of probabilities.   
 * `qbinom()`: Calculate the value that is associated with certain quantile.   
@@ -480,7 +495,7 @@ The functions in R `base`: `var()` & `sd()` are calculating statistics of sampli
 
 <br>
 
-#### **Standard Error of the Mean**
+#### **Standard Error of the Mean: Standard Deviation of Sampling**
 
 * The standard deviation measures the amount of variability or dispersion for a subject set of data from the mean.    
 * The standard error of the mean measures how far the sample mean of the data is likely to be from the true population mean.    
@@ -510,9 +525,9 @@ hist(sample_means)
 
 <h3 id = '4.4'></h3>
 ## Interpretation of Z-scores
-
+Z-score: a margin of error.   
 We can use `pnorm()` to transfer z-scores into probability.   
-Here's a example diamond which costs 4400 dollars.    
+Here's an example diamond which costs 4400 dollars.    
 ```{r}
 # Z-score caculation.
 sampling_sd <- sd(diamonds$price)/sqrt(200)
@@ -531,14 +546,17 @@ pnorm(q = Z, lower.tail = FALSE)
 <h3 id = '4.5'></h3>
 ## Sampling Distributions and Proportions
 
-In all the examples that we have seen, we worked with continuous variables such as diamondsl prices.    
-However, in practice we often work with proportions such as the proportion.   
-Here's the formula of standard deviation working on **Sampling Distributions on Proportions**
+In all the examples that we have seen, we worked with continuous variables such as diamonds' prices.    
+However, in practice we often work with proportions such as percentage of hipsters in the population of London.   
+Here's the formula of standard deviation working on **Proportions**
 
 > <div style="width:120px; height:60px">    
 > ![](D:\Desktop\11.png)
 > </div>
 
+* NOTE: This formula is also the standard error for a [binomial distribution](#6.3).    
+
+<br>
 
     We took a sample of 200 from the population of London and based on this sample we concluded that London's population is 10% hipster. 
     The mean of the sampling distribution thus is 10%.
@@ -564,3 +582,356 @@ pnorm(0.13, mean = 0.10, sd = sample_sd, lower.tail = FALSE)
 <h2 id = '5'></h2>
 # **Confidence Intervals** 
 
+<h3 id = '5.1'></h3>
+## Definition of CI   
+A confidence interval tells you how **confident** you are about an interval.    
+The wider the interval is the confidence is higher.
+On the countrary, the narrower the interval is, the more precise it is.   
+
+    Your road rage study suggested that a proportion of 0.375 of your sample felt that they had road rage. 
+    The 95% confidence interval was from 0.308 to 0.442. 
+    Q: What does this mean?
+    
+    We are 95% sure that the road rage proportion in the population will lie between 0.308 and 0.442.   
+
+<h3 id = '5.2'></h3>    
+## Z-score, CI & Normal Distribution    
+
+We've discussed [**Standard Normal Distribution & Z-scores**](#z) before,     
+and now you should realize the realtionship between `SD` & `Z-scores`.   
+
+<div style="width:600px; height:370px">    
+![](D:\Desktop\12.jpg)
+</div>
+
+* `68.26%` of data: A SD from the mean.   
+* `95.46%` of data: Two SDs from the mean.    
+* `99.74%` of data: Three SDs from the mean.  
+    + observations above this threshold are considered as outliers.   
+
+For more presice definition of the Z-scores of `68%`, `95%` & `99%`.      
+
+<br></br>
+
+<div style="width:600px; height:200px">   
+![](D:\Desktop\13.gif)
+</div>
+
+<h3 id = '5.3'></h3>
+## CI on Proportion
+
+
+    According to a questionnaire sampling from `200` people, `35%` said that they had roadrage.
+    Q: Find the standard error of p.
+```{r}
+se <- sqrt(0.35*0.65/200)
+se
+```
+
+
+    Q: Calculate the upper & lower level of the 95% confidence interval
+
+```{r}
+# Upper level CI
+0.35 + 1.96*se
+
+# Lower level of CI
+0.35 -1.96*se
+```
+
+<br>
+
+<h3 id = '5.4'></h3>
+## Determination on Sample Size
+
+
+    You're interested in looking at how many days in the week students drink alcohol, 
+    and need to know what kind of sample size to use.
+    You expect that about 95% of people will consume an alcoholic drink between 1 and 6 days in the week.
+    
+    Q: What is the expected mean number of drinking days?
+```{r}
+(1 + 6) / 2
+```
+
+
+    Q: What is the standard deviation number of drinking days?
+```{r}
+s <- (3.5 - 1) / 2
+s
+```
+If the data is normally distributed betwen 1 and 6,         
+you would expect that the midpoint of these values would be the mean.       
+If 95% of normally distributed values lie between 1 and 6,    
+then the distance between either of these values and the mean must be two standard deviations.    
+
+    
+    Q: Calculate the neccessary sample size with a confidence interval of 95% & a margin of error of 0.2.
+For answering this question, you need the following formula.    
+
+> **`Sample Size = Population SD ^2 * Z-score ^2 /  margin of error ^2`**   
+
+```{r}
+# Assign the standard deviation squared to new object "ss"
+ss <- 1.25^2
+# Assign the value of the Z-score squared to new object "zs"
+zs <- 1.96^2
+# Assign the value of the margin of error squared to the new object "ms"
+ms <- 0.2^2
+# Calculate the neccessary sample size
+ss * zs / ms
+```
+
+<br>
+
+#### **Sample Size: Safe Approach**   
+This example work on proportion:    
+For safe approach `p = 0.5` which is the value above which the output p*(1-p) cannot get any larger.    
+
+
+    Now you're conducting a study on what proportion of students drink alcohol and want to know what sample size to use for a confidence interval of `95%`, with a margin of error of `0.05`.
+```{r}
+# Assign the value of p(1-p) to object "p"
+p <- 0.5*0.5
+# Assign the value of the Z-score to new object "z"
+z <- 1.96
+# Assign the value of the margin of error squared to the new object "ms"
+ms <-0.0025
+# Calculate the neccessary sample size
+p * z^2 / ms
+```
+
+<br>
+
+<h2 id = '6'></h2>
+# **Hypothesis Testing**
+
+<h3 id = '6.1'></h3>
+## Significance Testing
+
+Often in quantitative social science research, you will deal with a **null hypothesis (H0)** and an **alternative hypothesis (H1)**.    
+The way we do hypothesis testing in most of social science research is:   
+
+* We assume that the null hypothesis is true and that we look at the probability of our data under the null hypothesis.     
+* If this probability is very small, we reject the null hypothesis and at least temporarily accept the alternative hypothesis.      
+* We take a significance level(`α = 0.05` or `0.01`).     
+* We compare the p value that we find to the significance level against which we testing.     
+
+<br>
+
+    Given that we have tested against a significance level of 0.05 and found a p value of 0.03
+    Q: Do we accept the null hypothesis or the alternative hypothesis? 
+    Q: What does a p value of 0.03 mean?
+
+    We accept the alternative hypothesis. A p value of `0.03` means that there is only a 3% probability of obtaining a result equally or more extreme assuming that the null hypothesis is true.
+
+<br>
+
+<h3 id = '6.2'></h3>
+## One-sided vs. Two-tailed    
+
+
+    An example the sampling distribution of the beard length of samples of `40` scandinavian hipsters.
+    The mean here is `25` and the standard deviation of population is `3.5`.
+    So the stand error is `0.55` = `round(3.5 / sqrt(40), 2)`
+
+#### **One-sided**
+
+<div style="width:600px; height:400px">   
+![](D:\Desktop\14.png)
+</div>
+
+    The red area is considered the rejection region when we are doing a one-sided hypothesis where the alternative hypothesis checks whether the population mean of the beard length of scandinavian hipsters is larger than 25 millimeters.
+```{r}
+# Calculate the value of cut_off
+qnorm(0.95, mean = 25, sd = 0.55)
+```
+25.90 is the starting value of the rejection region.    
+Consider our example mentioned above with a mean beard length of 25 and a standard error of 0.55.   
+
+
+    Imagine that we found a sample mean of 25.95 with a sample size of 40. 
+    Whether this result is significant depends on the test we do. 
+    If we would do a one-sided hypothesis test against a 5% significance level, 
+    we would only have to test for the effect in one direction.
+    
+```{r}
+# Calculate the z score and assign it to a variable called z_value
+z_value <- round((25.95 - 25) / round(3.5 / sqrt(40), 2), 2)
+z_value
+# Calculate the corresponding p value and store it in the variable called p_value
+# We set the lower tail equal to FALSE 
+# because pnorm() calculates the cumulative probability until the value of 1.81 
+# and we want to know the probability of finding a value of 1.81 or larger.
+pnorm(z_value, lower.tail = F)
+```
+See that the p value is smaller than 0.05?      
+When testing against a significance level of 0.05, we have actually found a significant result.   
+
+<br>
+
+#### **Two-tailed**
+
+<div style="width:600px; height:400px">   
+![](D:\Desktop\15.png)
+</div>
+
+    The red area is considered the rejection region when we are doing a two-tailed hypothesis test.   
+    This corresponds to the alternative hypothesis which checks whether the population mean of the beard length of scandinavian hipsters is not equal to 25 millimeters. As you can see the 0.05 probability is divided into two chunks of 0.025.   
+```{r}
+# Calculate the value of the variable lower_cut_off
+round(qnorm(0.025, mean = 25, sd = 0.55), 2)
+
+# Calculate the value of the variable upper_cut_off
+round(qnorm(0.975, mean = 25, sd = 0.55), 2)
+```
+`23.92` & `26.08` indicate the start of the rejection region.     
+Consider our example mentioned above with a mean beard length of 25 and a standard error of 0.55.
+
+
+    If we would however do a two-sided hypothesis test, we should not only look for P(>z_value). 
+    In this case we should test for both P(>z_value) & (<-z_value).
+    Since the Z distribution we are working with is symmetric, we could multiply the outcome by 2.
+```{r}
+# Calculate the z score and assign it to a variable called z_value
+z_value <- round((25.95 - 25) / round(3.5 / sqrt(40), 2), 2)
+z_value
+# Calculate the corresponding p value and store it in the variable called p_value
+pnorm(z_value, lower.tail = F) * 2
+```
+This time, p value is larger than 0.05.     
+In this case would work reject the null hypothesis if we would do a one-sided hypothesis test.    
+However, we would fail to reject it if we would do a two-sided hypothesis test.     
+
+<br>
+
+<h3 id = '6.3'></h3>
+## Hypothesis Testing and Binomial Distribution
+Recap: [What is **Binomial Distribution**?](#3.4)
+
+* Deals with discrete random variables.   
+* Gives probabilities for counts with binary data.    
+
+Let's go back to an example we worked with in earlier labs.   
+
+
+    Each question has 5 options, it makes sense that the probability of guessing 1 question correctly is 0.2. 
+    Now suppose we have a student who answered 12 out of 25 correctly and we believe that this student did better than merely guessing.
+    
+    Q: What could be our corresponding hypotheses?
+    
+    A: H0: p = 0.20, H1: p > 0.20
+    
+    Q: Calculate the probability of answering 12 or more questions given that the student is merely guessing.
+```{r}
+pbinom(11, size = 25, prob = 0.2, lower.tail = F )
+```
+`pbinom(12, size = 25, prob = 0.20)` calculates the area under the curve for values below 12 and equal to 12.     
+However, we need to know the area ABOVE 12.     
+We can get the value by setting `lower.tail = F` or we can subtract the probability(`<=12`) from the total area of 1.     
+The remaining value will be the probability of a score that is equal to or larger than 12.      
+
+Since `p_value = 0.0015 < 0.05`, H0 (the student is merely guessing) is **rejected**.   
+
+<br>
+
+Here's another example using summary statistics of sampling on proportion:     
+
+* Calculate the mean (the expected probability) of our distribution.    
+* Its standard deviation.   
+* Verify how many standard deviations the observed probability is removed from the expected probability (the z score).    
+
+```{r}
+# Calculate the mean (expected probability) and assign it to a variable called average
+average <- 0.2
+
+# Calculate the standard error and assign it to a variable called se
+se <- sqrt(0.2 * 0.8 / 25)
+
+# Calculate the z value and assign it to a variable z_value
+z_value <- (12/25 - average) / se
+
+# Calculate the p value and store it in a variable p_value
+pnorm(z_value, lower.tail = F)
+```
+    
+<br>
+
+<h3 id = '6.4'></h3>
+## T Distribution
+
+* When comparing means of continuous variables we use a t distribution instead of the normal distribution.    
+* The main reason to use the t distribution here is because we often have to deal with small samples.
+* Functions of T ditrubution:     
+    * `dt()`: Gives the density.    
+    * `pt()`: Gives the distribution function.    
+    * `qt()`: Gives the quantile function.      
+    * `rt()`: Generates random deviates.    
+* Stand Error of T distribution
+
+> <div style="width:100px; height:60px">    
+> ![](D:\Desktop\16.png)
+> </div>
+
+* T Value
+
+> <div style="width:100px; height:50px">    
+> ![](D:\Desktop\17.png)
+> </div>
+
+<br>    
+
+     They say that Dutch people are among the tallest in the world with an average male height of 185 centimeters with a standard deviation of 5 centimers. 
+     We take a sample of 50 males from this population and find an average height of 186.5 centimeters which is above the population mean.
+      
+<br>
+
+    For t distribution, we must caculate degrees-of-freedom(df) which is equal to the sample size - 1.
+    Q: We want to do a one-sided hypothesis test where we check whether the population mean of Dutch male height is larger than 185 and we use a significance level of 0.05.
+```{r}
+# Calculate the critical cut off value
+round(qt(p = 0.95, df = 49), 2)
+```
+
+
+    Q: T test statistics and whether this statistics is larger than the cut-off value.
+```{r}
+# Calculate the standard error and store it in the variable se
+se <- 5/sqrt(50)
+se
+# Calculate the t value and store it in a variable called t_value
+t_value <- (186.5 - 185) / se
+t_value
+# Calculate the p value and store it in a variable called p_value
+pt(t_value, df = 49, lower.tail = F)
+```
+Apparently, since `p-value = 0.019 < 0.05` this statistics is larger than the cut-off value.    
+
+<br>
+
+<h3 id = '6.5'></h3>
+## T Distribution & CI
+You can calculate a confidence interval by taking the mean and adding and subtracting its standard error multiplied by the given t value or z value.    
+Usually confidence intervals are expressed as a two-sided range as we will also do in this exercise.    
+
+```{r}
+# Calculate the t value and store it in the variable t_value
+# Two-tailed test -> 0.975
+t_value <- round(qt(p = 0.975, df = 49), 2)
+t_value
+# Calculate a 95% confidence interval as a vector
+conf_interval <- c(186.5 - t_value * 0.71, 186.5 + t_value * 0.71)
+conf_interval
+```
+We have calculated a confidence interval with a lower bound of 185.07 and an upper bound of 187.93.   
+This means that we are `95%` confident that our confidence interval does **not** contain the population mean.    
+<br>
+
+#### **Conclusion of Example Question**   
+
+By checking whether the confidence interval contains our population mean,     
+we are essentially doing the same as testing a hypothesis.      
+For instance, we started out with assuming the population mean of the height of Dutch males is 185 centimers.       
+This could be our null hypothesis.      
+Our alternative hypothesis could be the fact that the Dutch male height is different from 185 centimeters.      
+After testing, we would **reject** the null hypothesis because the confidence interval does not contain the population mean.        
