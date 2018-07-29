@@ -445,7 +445,7 @@ library(ggplot2)
 sample_price <- sample(diamonds$price, size = 200)
 mean(sample_price)
 
-# Use for loop do many samples and comare their means.
+# Use for loop do many samples and compare their means.
 # Empty vector sample means
 sample_means <- NULL
 
