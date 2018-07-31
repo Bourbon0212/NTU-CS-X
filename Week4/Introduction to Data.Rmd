@@ -1,0 +1,367 @@
+---
+title: "Introduction to Data"
+author: "Bourbon0212"
+date: "2018年7月30日"
+output: html_document
+---
+* [Language of Data](#1)    
+    + [Types of Variables](#1.1)    
+    + [Categorical Data in R](#1.2)   
+    + [Discretize Variables](#1.3)    
+    + [Visualization with `ggplot2`](#1.4)
+* [Study Types and Cautionary Tales](#2)        
+    + [Study Types](#2.1)     
+    + [Random Sampling & Random Assignment](#2.2)   
+    + [Simpson’s paradox](#2.3)   
+* [Sampling Strategies & Experimental Design](#3)   
+    + [Sampling Strategies](#3.1)        
+    + [Sampling in R](#3.2)     
+    + [Principles of Experimental Design](#3.3)
+
+<h2 id = '1'></h2>
+# **Language of Data**
+
+* Rows as Observations.   
+* Columns as Variables.
+```{r, message = F}
+# Loading Data for Exercise.
+library(openintro)
+library(dplyr)
+data(email50)
+```
+
+<h3 id = '1.1'></h3>
+## Types of Variables
+
+* Variable types helps us determine:    
+    + Summary statistics to calculate.    
+    + Types of visualization to make.   
+    + Statistical methods that are appropriate for answering questions.   
+* Numerical(quantitative) Variables: numerical values.      
+    + Continuous: infinitie number of values within a given range, often measured.    
+    + Discrete: specific set of numerical values that can be counted or enumerated, often counted.    
+* Categorical(qualitative) Variables: limited number of distinct categories.    
+    + Ordinal: finite number of values within a given range, often measured.    
+```{r}
+glimpse(email50)
+```
+
+<h3 id = '1.2'></h3>
+## Categorical Data in R
+* Often stored as factors in R.   
+    + Important use: Statistical modeling.    
+    + Sometimes might be undesirable, sometimes it's essential.   
+* Common in subgroup analysis.    
+    + Only interested in a subset of the data.    
+    + Filter for specific levels of categorical variable.   
+
+#### **Filter Data**
+```{r}
+# Subset of emails with big numbers: email50_big
+email50_big <- email50 %>%
+  filter(number == 'big')
+```
+
+#### **Drop Unused Levels**
+```{r}
+# Table of the number variable
+table(email50_big$number)
+
+# Drop levels
+email50_big$number <- droplevels(email50_big$number)
+
+# Another table of the number variable
+table(email50_big$number)
+```
+
+<br>
+
+<h3 id = '1.3'></h3>
+## Discretize Variables
+* `ifelse('logical test', 'if true', 'if false')`    
+
+#### **Using `ifelse()`**
+```{r}
+# Calculate median number of characters: med_num_char
+med_num_char <- median(email50$num_char)
+
+# Create num_char_cat variable in email50
+email50_fortified <- email50 %>%
+  mutate(num_char_cat = ifelse(num_char < med_num_char, 'below median', 'at or above median'))
+  
+# Count emails in each category
+email50_fortified %>%
+  count(num_char_cat)
+```
+The median marks the 50th percentile, or midpoint, of a distribution,     
+so half of the emails should fall in one category and the other half in the other.      
+<br>
+
+#### **Combining Levels of a Different Factor**
+```{r message = F}
+# Create number_yn column in email50
+email50_fortified <- email50 %>%
+  mutate(number_yn = case_when(
+    number == 'none' ~ "No", # if number is "none", make number_yn "no"
+    number != 'none' ~ "Yes"  # if number is not "none", make number_yn "yes"
+    )
+  )
+  
+# Visualize number_yn
+library(ggplot2)
+ggplot(email50_fortified, aes(x = number_yn)) +
+  geom_bar()
+```
+
+<h3 id = '1.4'></h3>
+## Visualization with `ggplot2`
+Reference: **Data Visualization with ggplot2 [(I)](https://bourbon0212.github.io/NTU-CS-X/Week2/Data_Visualization_with_ggplot2__Part_1_.html) [(II)
+](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html) [(III)](https://bourbon0212.github.io/NTU-CS-X/Week4/Data_Visualization_with_ggplot2__Part_3_.html)** 
+```{r}
+# Scatterplot of exclaim_mess vs. num_char
+ggplot(email50, aes(x = num_char, y = exclaim_mess, color = factor(spam))) +
+  geom_point()
+```
+
+`ggplot2` automatically creates a helpful legend for the plot,    
+telling you which color corresponds to each level of the spam variable. 
+
+<br>
+
+<h2 id = '2'></h2>
+# **Study Types and Cautionary Tales**
+
+<h3 id = '2.1'></h3>
+## Study Types
+
+* Observational Study
+    + Collect data in a way that does not directly interfere with how the data rise.    
+    + Only correlation can be inferred.   
+* Experiment
+    + Randomly assign subjects to various treatments.   
+    + Causation can be inferred.    
+
+<br>
+
+#### **Example1: Screens at Bedtime & Attention Span**
+<div style="width:600px; height:400px">    
+![](D:\Desktop\1.png)
+</div>     
+
+#### **Example2: Which is faster? Arial or Helvetica**
+
+    A study is designed to evaluate whether people read text faster in Arial or Helvetica font. A group of volunteers who agreed to be a part of the study are randomly assigned to two groups: one where they read some text in Arial, and another where they read the same text in Helvetica. At the end, average reading speeds from the two groups are compared. 
+    
+    Q: What type of study is this?
+    
+    A: Experiment.
+    
+#### **Example3: `gapminder`**
+```{r}
+# Glimpse data
+library(gapminder)
+glimpse(gapminder)
+```
+
+Since there is no way to randomly assign countries to attributes,     
+this is an observational study.   
+
+<br>
+
+<h3 id = '2.2'></h3>
+## Random Sampling & Random Assignment
+
+* Random Sampling: Casual     
+    + At selection of subjects from population.
+    + Helps generalizability of results.
+* Random Assignment: Generalizable     
+    + Assignment of subjects to various treatments.
+    + Helps infer causation from results.
+
+<div style="width:600px; height:400px">    
+![](D:\Desktop\7.png)
+</div>
+
+<br>
+
+    One of the early studies linking smoking and lung cancer compared patients who are already hospitalized with lung cancer to similar patients without lung cancer (hospitalized for other reasons), and recorded whether each patient smoked. Then, proportions of smokers for patients with and without lung cancer were compared.
+    
+    Q: Does this study employ random sampling and/or random assignment?
+    
+    A: Neither random sampling nor random assignment.
+    Random assignment is not employed because the conditions are not imposed on the patients by the people conducting the study.    
+    Random sampling is not employed because the study records the patients who are already hospitalized,    
+    so it wouldn't be appropriate to apply the findings back to the population as a whole.    
+
+<br>
+
+<h3 id = '2.3'></h3>
+## Simpson's paradox
+
+<div style="width:600px; height:400px">    
+![](D:\Desktop\2.png)
+</div> 
+
+Here we can see that the trend between x1 and y(gray dashed line), is reversed when x2(the grouping variable) is considered.   
+If we don't consider x2, the relationship between x1 and y is positive.   
+If we do consider x2, we see that within each group the relationship between x1 and y is actually negative.   
+
+<br>
+
+#### **Example: `ucb_admit`**
+
+#### Overall
+```{r, echo = F}
+ucb_admit <- as.data.frame(UCBAdmissions) %>% 
+  slice(rep(1:n(), Freq)) %>% 
+  select(-Freq)
+```
+```{r}
+# Count number of male and female applicants admitted
+ucb_admission_counts <- ucb_admit %>%
+  count(Gender, Admit)
+ucb_admission_counts
+# Proportion of males admitted overall
+ucb_admission_counts %>%
+  group_by(Gender) %>%
+  mutate(prop = n / sum(n)) %>%
+  filter(Admit == "Admitted")
+```
+It looks like 44% of males were admitted versus only 30% of females, but there's more to the story.     
+<br>
+
+#### Within most Departments
+```{r}
+# Proportion of males admitted for each department
+ucb_admission_counts <- ucb_admit %>%
+  # Counts by department, then gender, then admission status
+  count(Dept, Gender, Admit)
+ucb_admission_counts
+ucb_admission_counts  %>%
+  # Group by department, then gender
+  group_by(Dept, Gender) %>%
+  # Create new variable
+  mutate(prop = n / sum(n)) %>%
+  # Filter for male and admitted
+  filter(Gender == "Female", Admit == "Admitted")
+```
+
+We can see that the proportion of males admitted varies wildly between departments.   
+Within most departments, female applicants are more likely to be admitted.
+
+<br>
+
+#### Conclusion of the Example
+* Overall: Males more likely to be admitted.    
+* Within Most Departments: Felmales more likely to get admitted.    
+* When controlling for department, relationship between gender & admission is reversed.   
+* Potential Reason:
+    + Women tended to apply tp competitive departments with low admission rates.    
+    + Men tended to apply to less competitive departments with high admission rates.    
+    
+<br>
+
+<h2 id = '3'></h2>
+# **Sampling Strategies & Experimental Design**
+
+<h3 id = '3.1'></h3>
+## Sampling Strategies
+
+    Example: Randomly drawing names from a hat.
+<div style="width:300px; height:160px">    
+![](D:\Desktop\3.png)
+</div> 
+* **Simple Random Sample**    
+    + Randomly select cases from the population.    
+    + Each case is equally likely to be selected.     
+
+<br>
+
+    Example: If we wanted to make sure that people from low, medium, and high socioeconomic status are equally represented in a study, we would first divide our population into three groups as such and then sample from within each group.
+<div style="width:300px; height:160px">    
+![](D:\Desktop\4.png)
+</div> 
+* **Stratified Sample**
+    + We first divide the population into homogeneous groups, called strata.    
+    + Then we randomly sample from within each stratum.   
+
+<br>
+
+<div style="width:300px; height:160px">    
+![](D:\Desktop\5.png)
+</div> 
+* **Cluster Sample**
+    + Divide the population into clusters.      
+    + Randomly sample a few clusters.     
+    + Sample all observations within these clusters.    
+    + The clusters, unlike strata in stratified sampling, are heterogeneous within themselves.
+    + Each cluster is similar to the others, such that we can get away with sampling from just a few of the clusters.
+
+<br>
+    
+    Cluster and multistage sampling are often used for economical reasons.
+    Example: one might divide a city into geographic regions that are on average similar to each other and then sample randomly from a few randomly picked regions in order to avoid traveling to all regions.
+<div style="width:300px; height:160px">    
+![](D:\Desktop\6.png)
+</div> 
+* **Multistage Sample**
+    + Multistage sampling adds another step to cluster sampling.
+    + Divide the population into clusters.   
+    + Randomly sample a few clusters.   
+    + Randomly sample observations from within those clusters.    
+
+<br>
+
+<h3 id = '3.2'></h3>
+## Sampling in R
+
+#### **Simple Random Sample**
+```{r}
+us_regions <- get(load('D:/Downloads/us_regions.RData'))
+# Simple random sample: states_srs
+states_srs <- us_regions %>%
+  sample_n(size = 8)
+
+# Count states by region
+states_srs %>%
+  count(region)
+```
+
+<br>
+
+#### **Stratified Sample**
+```{r}
+# Stratified sample
+states_str <- us_regions %>%
+  group_by(region) %>%
+  sample_n(size = 2)
+
+# Count states by region
+states_str %>%
+  group_by(region) %>%
+  count(region)
+```
+
+<br>
+
+<h3 id = '3.3'></h3>
+## Principles of Experimental Design
+    
+* Control: Compare the treatment of interest to a control group.    
+* Randomize: Randomly assign subjects to treatments.    
+* Replicate: Collect a sufficiently large sample within a study or to replicate the entire study.   
+* Block: Account for the potential effect of known or suspected confounding variables.
+
+#### **Identifying Components of a Study**
+
+    A researcher designs a study to test the effect of light and noise levels on exam performance of students. The researcher also believes that light and noise levels might have different effects on males and females, so she wants to make sure both genders are represented equally under different conditions.
+    
+    There are 2 explanatory variables (light and noise), 1 blocking variable (gender), and 1 response variable (exam performance).
+#### **Experimental Design Terminology**
+
+    'Explanatory' variables are conditions you can impose on the experimental units, while 'blocking' variables are characteristics that the experimental units come with that you would like to control for.
+#### **Connect Blocking and Stratifying**
+
+    In random sampling, we use 'stratifying' to control for a variable. In random assignment, we use 'blocking' to achieve the same goal.
+
+<br>
