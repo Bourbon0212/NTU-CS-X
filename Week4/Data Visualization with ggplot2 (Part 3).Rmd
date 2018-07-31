@@ -4,3 +4,135 @@ author: "Bourbon0212"
 date: "2018年7月31日"
 output: html_document
 ---
+
+* [Data Visualization with ggplot2 (Part 2)](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html)    
+* [Statistical Plots](#1)   
+    + [Refresher](#1.1)   
+    
+<h2 id = '1'></h2>
+# **Statistical Plots**   
+
+<h3 id = '1.1'></h3>
+## Refresher
+
+#### **Example1: `ggplotmovies`**   
+
+    'movies_small' is a random sample of 1000 observations from the larger movies dataset, that's inside the ggplot2movies package. 
+    The dataset contains information on movies from IMDB.
+    The variable votes is the number of IMDB users who have rated a movie and the rating is the average rating for the movie.
+```{r, message = F}
+library(ggplot2movies)
+library(ggplot2)
+# Sample 1000 movies from ggplot2movies
+set.seed(123)
+movies_small <- movies[sample(nrow(movies), 1000), ]
+movies_small$rating <- factor(round(movies_small$rating))
+
+# Build a scatter plot with mean and 95% CI
+ggplot(movies_small, aes(x = rating, y = votes)) +
+  geom_point() +
+  stat_summary(fun.data = "mean_cl_normal",
+               geom = 'crossbar',
+               width = 0.2,
+               col = 'red') +
+  scale_y_log10()
+```
+
+#### **Example2: `diamonds`**
+```{r}
+ggplot(diamonds, aes(x = carat, y = price, col = color)) +
+  geom_point(alpha = 0.5, size = 0.5, shape = 16) +
+  # To get nice formatting we're using the expression() function for the labels.
+  scale_x_log10(expression(log[10](Carat)), limits = c(0.1,10)) +
+  scale_y_log10(expression(log[10](Price)), limits = c(100,100000)) +
+  scale_color_brewer(palette = "YlOrRd") +
+  coord_equal() +
+  theme_classic()
+```
+
+<h3 id = '1.2'></h3>
+## Box Plots
+
+#### **5-number Summary**
+<div style="width:600px; height:400px">    
+![](D:\Desktop\1.png)
+</div>
+
+* Each part of the inner box reflects 25 percent of the data.   
+* Outlier: `1.5 * IQR` below `Q1` or above `Q3`.    
+
+#### **Example1: `ggplotmovies`** 
+```{r}
+# Sample 10000 movies from ggplot2movies
+set.seed(123)
+movies_small <- movies[sample(nrow(movies), 10000), ]
+movies_small$rating <- factor(round(movies_small$rating))
+
+# Add a boxplot geom
+d <- ggplot(movies_small, aes(x = rating, y = votes)) +
+  geom_point() +
+  geom_boxplot() +
+  stat_summary(fun.data = "mean_cl_normal",
+               geom = "crossbar",
+               width = 0.2,
+               col = "red")
+
+# Untransformed plot
+d
+
+# Transform the scale
+d + scale_y_log10()
+
+# Transform the coordinates
+d + coord_trans(y = "log10")
+```
+
+* Notice the difference between the normal distribution estimation (red boxes) and boxplots (less prone to outliers) are.     
+* We use `scale_y_log10()` & `coord_trans(y = 'log10')` for transforming the scale.   
+    + `scale_` functiion makes transformation before calculating the statistics.    
+    + `coord_` function makes transformation after calculating the statistics.    
+    + Reference: [**Zooming in with `scale_` & `coord_`**](https://bourbon0212.github.io/NTU-CS-X/Week3/Data_Visualization_with_ggplot2__Part_2_.html#2.1)     
+    
+<br>
+
+#### **Convert Continuous Variables into Ordinal**
+
+*  Going from a continuous to a categorical variable reduces the amount of information, but sometimes that helps us understand the data. 
+* `cut_interval(x, n)` makes `n` groups from vector `x` with equal range.     
+* `cut_number(x, n)` makes `n` groups from vector `x` with (approximately) equal numbers of observations.     
+* `cut_width(x, width)` makes groups of `width` from vector `x`.      
+
+<br>
+
+#### **Example2: `diamonds`**
+```{r}
+p <- ggplot(diamonds, aes(x = carat, y = price))
+# Use cut_interval
+p + geom_boxplot(aes(group = cut_interval(carat, n = 10)))
+
+# Use cut_number
+p + geom_boxplot(aes(group = cut_number(carat, n = 10)))
+
+# Use cut_width
+p + geom_boxplot(aes(group = cut_width(carat, width = 0.25)))
+```
+
+<br>
+
+<h3 id = '1.3'></h3>
+## Density Plots
+
+```{r}
+test_data <- get(load('D:/Downloads/test_datasets.RData'))
+# Calculating density: d
+d <- density(test_data$norm)
+
+# Use which.max() to calculate mode
+mode <- d$x[which.max(d$y)]
+
+# Finish the ggplot call
+ggplot(test_data, aes(x = norm)) +
+  geom_density() +
+  geom_rug() +
+  geom_vline(xintercept = mode, col = "red")
+```
