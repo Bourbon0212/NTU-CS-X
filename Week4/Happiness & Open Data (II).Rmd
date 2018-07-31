@@ -6,10 +6,15 @@ output: html_document
 ---
 
 * [Happiness & Open Data (I)](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)
-* Preparation   
-* Analysis
-* Conclusion
+* [Preparation](#1)   
+* [Analysis](#2)    
+    + [Openness & Region](#2.1)   
+    + [Happiness & Region](#2.2)    
+    + [GDP & Region](#2.3)    
+    + [Happiness & GDP](#2.4)   
+* [Conclusion](#3)    
 
+<h2 id = '1'></h2>
 # **Preparation**
 ```{r eval = F}
 # Export the data we've collected from (I) to a csv
@@ -28,8 +33,10 @@ data %>%
 
 <br>
 
+<h2 id = '2'></h2>
 # **Analysis**    
 
+<h3 id = '2.1'></h3>
 ## **Openness & Region**   
 
 ### Errorbar Plot
@@ -61,8 +68,73 @@ According to this plot & anova test, we can conclude that:
 * In `Sub-Saharan Africa` and `Central and Easttern Europe` the openness of some countries are `0`.     
 * It's obvious that `Region` has noting to do with `Openness` in Ocenia.    
 
+### Regression
+```{r}
+library(coefplot)
+m1 <- lm(Openness ~ Region - 1, 
+         data = data)
+coefplot(m1, xlab = 'Openness Estimated', ylab = 'Regress Varaibles', title = 'Response = Openness')
+```
+
+```{r}
+# 把資料與迴歸分析的預測值、殘差與影響度放進資料
+fit_m1 <- data.frame(data[, c("Region","Openness")], fitted = fitted(m1), resid = resid(m1),
+                     infl = influence(m1)$hat)
+```
+
+```{r}
+# 依地區疊合真實觀測值與預測值
+ggplot(data = fit_m1, aes(x = Openness, group = Region )) +
+ stat_density(geom = 'path', position = 'identity') +
+ stat_density(geom = 'path', position = 'identity', aes(x = fitted)) +
+ geom_vline(xintercept = c(with(data, tapply(Openness,Region, mean))), linetype = 'dotted')+
+ facet_grid(Region ~ .) +
+ labs(x = 'Openness', y = 'Density')
+```
+
+```{r}
+# 看殘差分配，依快樂指數，檢視常態與變異數同質假設
+ggplot(data = fit_m1, aes(x = scale(resid)), group = Region ) +
+ stat_density(geom = 'path', position = 'identity', aes(col = Region)) +
+ scale_linetype_manual(values = 10:1) +
+ guides(linetype = guide_legend(reverse = TRUE)) +
+ labs(x = '標準化殘差', y = 'Density') +
+ theme(legend.position = c(.15, .8))
+```
+
+```{r}
+library(lattice)
+# 看看殘差的 Q-Q 圖，依快樂指數。檢視常態假設
+qqmath(~ scale(resid) | Region, data = fit_m1, type = c('p', 'g', 'r'),
+       xlab = '常態位數', ylab = '標準化殘差', layout = c(2, 3),
+       pch = '.', cex = 2)
+```
+
+```{r, message = F, warning = F}
+library(MASS)
+# 畫預測值與殘差的散佈圖，檢查線性與等分散假設
+ggplot(data = fit_m1, aes(x = fitted, y = scale(resid), group = Region )) +
+  geom_point(pch = 20, size = 1) +
+  stat_smooth(method = 'rlm', se = F) +
+  facet_grid(Region ~ .) +
+  labs(x = 'Openness Estimated', y = '標準化殘差')
+
+# 呈現影響值（影響估計結果過大的值）與標準化殘差
+ggplot(data = fit_m1, aes(x = infl, y = scale(resid), group = Region)) +
+ geom_text(aes(label = rownames(fit_m1)), cex = 2) +
+ geom_hline(yintercept = 0, linetype = 'dotted') +
+ facet_grid(Region ~ .) +
+ labs(x = '影響值', y = '標準化殘差')
+```
+
+```{r, warning = F}
+# 看看影響值
+summary(influence(m1)$hat)
+```
+
 <br>
 
+<h3 id = '2.2'></h3>
 ## **Happiness & Region**    
 
 ### Errorbar Plot
@@ -89,8 +161,74 @@ According to this plot & anova test, we can conclude that:
 * Oceanian are the happiest people of all the regions.    
 * The countries of `Happiness` in `SouthEastern Asia` & `Middle East & Northern Africa` are the least centralized.    
 
+
+### Regression
+```{r}
+library(coefplot)
+m2 <- lm(Happiness ~ Region - 1, 
+         data = data)
+coefplot(m2, xlab = 'Happiness Estimated', ylab = 'Regress Varaibles', title = 'Response = Happiness')
+```
+
+```{r}
+# 把資料與迴歸分析的預測值、殘差與影響度放進資料
+fit_m2 <- data.frame(data[, c("Region","Happiness")], fitted = fitted(m2), resid = resid(m2),
+                     infl = influence(m2)$hat)
+```
+
+```{r}
+# 依地區疊合真實觀測值與預測值
+ggplot(data = fit_m2, aes(x = Happiness, group = Region )) +
+ stat_density(geom = 'path', position = 'identity') +
+ stat_density(geom = 'path', position = 'identity', aes(x = fitted)) +
+ geom_vline(xintercept = c(with(data, tapply(Happiness,Region, mean))), linetype = 'dotted')+
+ facet_grid(Region ~ .) +
+ labs(x = 'Happiness', y = 'Density')
+```
+
+```{r}
+# 看殘差分配，依快樂指數，檢視常態與變異數同質假設
+ggplot(data = fit_m2, aes(x = scale(resid)), group = Region ) +
+ stat_density(geom = 'path', position = 'identity', aes(col = Region)) +
+ scale_linetype_manual(values = 10:1) +
+ guides(linetype = guide_legend(reverse = TRUE)) +
+ labs(x = '標準化殘差', y = 'Density') +
+ theme(legend.position = c(.15, .8))
+```
+
+```{r}
+library(lattice)
+# 看看殘差的 Q-Q 圖，依快樂指數。檢視常態假設
+qqmath(~ scale(resid) | Region, data = fit_m2, type = c('p', 'g', 'r'),
+       xlab = '常態位數', ylab = '標準化殘差', layout = c(2, 3),
+       pch = '.', cex = 2)
+```
+
+```{r, message = F, warning = F}
+library(MASS)
+# 畫預測值與殘差的散佈圖，檢查線性與等分散假設
+ggplot(data = fit_m2, aes(x = fitted, y = scale(resid), group = Region )) +
+  geom_point(pch = 20, size = 1) +
+  stat_smooth(method = 'rlm', se = F) +
+  facet_grid(Region ~ .) +
+  labs(x = 'Happiness Estimated', y = '標準化殘差')
+
+# 呈現影響值（影響估計結果過大的值）與標準化殘差
+ggplot(data = fit_m2, aes(x = infl, y = scale(resid), group = Region)) +
+ geom_text(aes(label = rownames(fit_m2)), cex = 2) +
+ geom_hline(yintercept = 0, linetype = 'dotted') +
+ facet_grid(Region ~ .) +
+ labs(x = '影響值', y = '標準化殘差')
+```
+
+```{r, warning = F}
+# 看看影響值
+summary(influence(m2)$hat)
+```
+
 <br>
 
+<h3 id = '2.3'></h3>
 ## **GDP & Region**  
 
 ### Errorbar Plot
@@ -121,11 +259,70 @@ According to this plot & anova test, we can conclude that:
 ### Regression
 ```{r}
 library(coefplot)
-m2 <- lm(GDP ~ Openness + Region - 1, 
+m3 <- lm(GDP ~ Region - 1, 
          data = data)
-coefplot(m2, xlab = 'GDP Estimated', ylab = 'Regress Varaibles', title = 'Response = GDP')
+coefplot(m3, xlab = 'GDP Estimated', ylab = 'Regress Varaibles', title = 'Response = GDP')
 ```
 
+```{r}
+# 把資料與迴歸分析的預測值、殘差與影響度放進資料
+fit_m3 <- data.frame(data[, c("Region","GDP")], fitted = fitted(m3), resid = resid(m3),
+                     infl = influence(m3)$hat)
+```
+
+```{r}
+# 依地區疊合真實觀測值與預測值
+ggplot(data = fit_m3, aes(x = GDP, group = Region )) +
+ stat_density(geom = 'path', position = 'identity') +
+ stat_density(geom = 'path', position = 'identity', aes(x = fitted)) +
+ geom_vline(xintercept = c(with(data, tapply(GDP,Region, mean))), linetype = 'dotted')+
+ facet_grid(Region ~ .) +
+ labs(x = 'GDP', y = 'Density')
+```
+
+```{r}
+# 看殘差分配，依快樂指數，檢視常態與變異數同質假設
+ggplot(data = fit_m3, aes(x = scale(resid)), group = Region ) +
+ stat_density(geom = 'path', position = 'identity', aes(col = Region)) +
+ scale_linetype_manual(values = 10:1) +
+ guides(linetype = guide_legend(reverse = TRUE)) +
+ labs(x = '標準化殘差', y = 'Density') +
+ theme(legend.position = c(.15, .8))
+```
+
+```{r}
+library(lattice)
+# 看看殘差的 Q-Q 圖，依快樂指數。檢視常態假設
+qqmath(~ scale(resid) | Region, data = fit_m3, type = c('p', 'g', 'r'),
+       xlab = '常態位數', ylab = '標準化殘差', layout = c(2, 3),
+       pch = '.', cex = 2)
+```
+
+```{r, message = F, warning = F}
+library(MASS)
+# 畫預測值與殘差的散佈圖，檢查線性與等分散假設
+ggplot(data = fit_m3, aes(x = fitted, y = scale(resid), group = Region )) +
+  geom_point(pch = 20, size = 1) +
+  stat_smooth(method = 'rlm', se = F) +
+  facet_grid(Region ~ .) +
+  labs(x = 'GDP Estimated', y = '標準化殘差')
+
+# 呈現影響值（影響估計結果過大的值）與標準化殘差
+ggplot(data = fit_m3, aes(x = infl, y = scale(resid), group = Region)) +
+ geom_text(aes(label = rownames(fit_m3)), cex = 2) +
+ geom_hline(yintercept = 0, linetype = 'dotted') +
+ facet_grid(Region ~ .) +
+ labs(x = '影響值', y = '標準化殘差')
+```
+
+```{r, warning = F}
+# 看看影響值
+summary(influence(m3)$hat)
+```
+
+<br>
+
+<h3 id = '2.4'></h3>
 ## **Happiness & GDP**
 
 ### Linear Model
@@ -159,3 +356,45 @@ ggplot(data, aes(x = Happiness, y = GDP, group = Region)) +
   theme(strip.text.x = element_text(angle = 90), strip.background = element_blank(),
         panel.grid = element_blank(), panel.background = element_blank())
 ```
+
+Now, we're going to analysis whether other factors have influence on `GDP` or not.
+```{r, warning = F, message = F}
+analysis<-data[,c("GDP","Happiness","Openness","Freedom","Trust","Health")]
+# 看看基本統計量
+colMeans(analysis)
+# 兩兩散佈圖
+library(heplots)
+scatterplotMatrix(~ GDP + Happiness + Openness + Freedom + Trust + Health, data = analysis,
+  pch = '.', cex = 3, smooth = FALSE, reg.line = FALSE, ellipse = TRUE,
+  diagonal = 'none', lower.panel = NULL)
+# 相關性
+library(corrplot)
+corrplot(cor(analysis), method = 'ellipse', order = 'hclust', addrect = 6,
+         type = 'upper', tl.pos = 'tp')
+corrplot(cor(analysis), add = TRUE, type = 'lower', method = 'number',
+         order = 'hclust', col = 'black', diag = FALSE, tl.pos = 'n', cl.pos = 'n')
+# 解釋5個變項
+summary(m4 <- lm(GDP ~ Happiness + Openness + Freedom + Trust + Health, data = analysis))
+
+# 相關性繪圖
+library(effects)
+plot(allEffects(m4), main = '', grid = T)
+```
+
+Apparently, we can see the correlation between GDP & Happiness, GDP & Health, GRP & Trust are relatively high.    
+Here's the summary of these linear model.   
+```{r}
+library(lm.beta)
+summary(lm.beta(m4))
+```
+
+<br>
+
+<h2 id = '3'></h2>
+# **Conclusion**
+
+First, the tests tell us that the significance is strong between each region no matter what variables we choose in openness, happiness or GDP.       
+Second, according to the scatter plots of 'GDP & Region', 'Happiness & Region',     
+we conclude that there is a strong relationship between these two variables.    
+Third, we made some plots about these two variables and confirmed the assumption.   
+Finally, we add some new variables to the model and see their influnces on GDP.     
