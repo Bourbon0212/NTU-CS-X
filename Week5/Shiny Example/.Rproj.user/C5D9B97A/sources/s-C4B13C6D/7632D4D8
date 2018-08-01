@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533107497824.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "7632D4D8",
+    "lastKnownWriteTime" : 1533107583,
+    "last_content_update" : 1533107583202,
+    "path" : "D:/GitHub/NTU-CS-X/Week5/Shiny Example/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+        "cursorPosition" : "19,38",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
