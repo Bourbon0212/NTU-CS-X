@@ -1,30 +1,33 @@
 library(shiny)
+library(ggmap)
 library(ggplot2)
+library(viridis)
+library(RColorBrewer)
+library(raster)
 
 function(input, output) {
+  # Data
+  res <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike_res.csv')
   
-  dataset <- reactive({
-    diamonds[sample(nrow(diamonds), input$sampleSize),]
-  })
   
   output$plot <- renderPlot({
     
-    p <- ggplot(dataset(), aes(x=input$x, y=input$y)) + geom_point()
+    # Map
+    map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
     
-    if (input$color != 'None')
-      p <- p + aes_string(color=input$color)
+    res.stat.map <- ggmap(map) %+% res + aes_string(x = "lng", y = "lat", z = input$time) +
+      stat_summary_2d(fun = median, alpha = 0.6) +
+      scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), space = 'Lab') +
+      labs(x = "Longitude", y = "Latitude") +
+      coord_map() +
+      ggtitle('Remaining Amount of Youbike in Taipei')
     
-    facets <- paste(input$facet_row, '~', input$facet_col)
-    if (facets != '. ~ .')
-      p <- p + facet_grid(facets)
-    
-    if (input$jitter)
-      p <- p + geom_jitter()
-    if (input$smooth)
-      p <- p + geom_smooth()
-    
-    print(p)
+    print(res.stat.map)
     
   }, height=700)
+  
+  output$x <- renderPrint({
+    print(input$time)
+  })
   
 }
