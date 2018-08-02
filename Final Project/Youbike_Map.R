@@ -5,7 +5,10 @@ library(viridis)
 library(RColorBrewer)
 library(raster)
 library(tidyr)
+library(tweenr)
 library(magick)
+library(stringr)
+library(lubridate)
 
 res <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res.csv')
 sbi <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_sbi.csv')
@@ -14,7 +17,7 @@ sbi <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_sbi.csv')
 map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
 
 # Map + Data
-res.stat.map <- ggmap(map) %+% res + aes(x = lng, y = lat, z = X307) +
+res.stat.map <- ggmap(map, darken = c(0.5, "white")) %+% res + aes(x = lng, y = lat, z = X307) +
   stat_summary_2d(fun = median, alpha = 0.6) +
   scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), space = 'Lab') +
   labs(x = "Longitude", y = "Latitude") +
@@ -23,13 +26,19 @@ res.stat.map <- ggmap(map) %+% res + aes(x = lng, y = lat, z = X307) +
 
 print(res.stat.map)
 
-res_g <- gather(res, time, per, X307:X318)
+
+# res3
+res3 <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res3.csv')
+res3_g <- gather(res3, time, per, X2018.08.01..07.00:X2018.08.01..23.59)
+res3_g$time <- str_replace(res3_g$time, 'X', '')
+res3_g$time <- ymd_hm(res3_g$time)
 
 # Animation
-res.stat.map.ani <- ggmap(map) %+% res + aes(x = lng, y = lat, z = X307, frame = time) +
+res.stat.map.ani <- ggmap(map, darken = c(0.5, "white")) %+% res3_g + aes(x = lng, y = lat, z = per) +
   stat_summary_2d(fun = median, alpha = 0.6) +
   scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), space = 'Lab') +
-  labs(x = "Longitude", y = "Latitude") +
-  coord_map()
+  labs(title = 'Time: {frame_time}', x = "Longitude", y = "Latitude") +
+  coord_map() +
+  transition_time(time)
 
-gg_animate(res.stat.map.ani, interval = 1.0, filename = 'vocab.gif')
+print(res.stat.map.ani)

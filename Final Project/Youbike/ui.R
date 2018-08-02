@@ -1,9 +1,13 @@
 library(shiny)
 library(ggmap)
 library(ggplot2)
+library(gganimate)
+library(tweenr)
+library(magick)
 library(RColorBrewer)
-library(raster)
-library(DT)
+library(stringr)
+library(tidyr)
+library(lubridate)
 
 # Data
 res <- read.csv('data/Youbike_res.csv')
@@ -16,7 +20,7 @@ navbarPage(
     tags$p("It takes a few seconds loading the map."),
     br(),
     mainPanel(
-      plotOutput('jitter')
+      plotOutput('animation')
     )
   ),
   tabPanel(

@@ -1,13 +1,20 @@
 library(shiny)
 library(ggmap)
 library(ggplot2)
+library(gganimate)
+library(tweenr)
+library(magick)
 library(RColorBrewer)
-library(raster)
-library(DT)
+library(stringr)
+library(tidyr)
+library(lubridate)
 
 function(input, output) {
   # Data
   res <- read.csv('data/Youbike_res.csv')
+  res3 <- read.csv('data/Youbike_res3.csv')
+  res3_g <- gather(res3, time, per, X7:X24)
+  res3_g$time <- str_replace(res3_g$time, 'X', '')
   
   # Location
   output$jitter <- renderPlot({
@@ -39,5 +46,19 @@ function(input, output) {
     
   }, height = 800)
   
-  
+  # animation
+  output$animation <- renderPlot({
+    #Map
+    map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
+    
+    res.stat.map.ani <- ggmap(map, darken = c(0.5, "white")) %+% res3_g + aes_string(x = "lng", y = "lat", z = 'per') +
+      stat_summary_2d(fun = median, alpha = 0.6) +
+      scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), limits = c(0, 1), breaks = seq(0, 1, by = 0.25)) +
+      labs(title = 'Time: {closest_state}', x = "Longitude", y = "Latitude") +
+      coord_map()
+      
+    
+    print(res.stat.map.ani)
+    
+  }, height = 800)
 }
