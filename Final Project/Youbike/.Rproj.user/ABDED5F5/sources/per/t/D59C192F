@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533126658310.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2669393265",
+    "id" : "D59C192F",
+    "lastKnownWriteTime" : 1533142385,
+    "last_content_update" : 1533142385963,
+    "path" : "D:/GitHub/NTU-CS-X/Final Project/Youbike/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+        "cursorPosition" : "32,130",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

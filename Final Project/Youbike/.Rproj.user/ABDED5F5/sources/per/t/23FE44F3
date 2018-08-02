@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533132042425.000,
+    "dirty" : false,
+    "encoding" : "BIG5",
+    "folds" : "",
+    "hash" : "2075562401",
+    "id" : "23FE44F3",
+    "lastKnownWriteTime" : 1533132273,
+    "last_content_update" : 1533132273670,
+    "path" : "D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_sbi.csv",
+    "project_path" : "data/Youbike_sbi.csv",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}
