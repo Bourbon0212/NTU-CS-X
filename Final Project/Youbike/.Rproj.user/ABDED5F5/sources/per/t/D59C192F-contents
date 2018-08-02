@@ -1,9 +1,6 @@
 library(shiny)
 library(ggmap)
 library(ggplot2)
-library(gganimate)
-library(tweenr)
-library(magick)
 library(RColorBrewer)
 library(stringr)
 library(tidyr)
@@ -47,18 +44,12 @@ function(input, output) {
   }, height = 800)
   
   # animation
-  output$animation <- renderPlot({
-    #Map
-    map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
+  output$animation <- renderImage({
+    filename <- normalizePath(file.path('./data/ani3.gif'))
     
-    res.stat.map.ani <- ggmap(map, darken = c(0.5, "white")) %+% res3_g + aes_string(x = "lng", y = "lat", z = 'per') +
-      stat_summary_2d(fun = median, alpha = 0.6) +
-      scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), limits = c(0, 1), breaks = seq(0, 1, by = 0.25)) +
-      labs(title = 'Time: {closest_state}', x = "Longitude", y = "Latitude") +
-      coord_map()
-      
+    # Return a list containing the filename and alt text
+    list(src = filename)
     
-    print(res.stat.map.ani)
-    
-  }, height = 800)
+  }, deleteFile = FALSE)
+  
 }
