@@ -1,4 +1,5 @@
 library(shiny)
+library(shinythemes)
 library(ggmap)
 library(ggplot2)
 library(RColorBrewer)
@@ -12,7 +13,7 @@ res <- read.csv('data/Youbike_res.csv')
 navbarPage(
   'Youbike Analysis',
   tabPanel(
-    'Introduction',
+    'Raw Data',
     tags$h1("Welcome to Youbike Analysis!"),
     tags$p("It takes a few seconds loading the map."),
     br(),
