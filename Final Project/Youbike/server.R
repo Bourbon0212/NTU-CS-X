@@ -34,7 +34,7 @@ function(input, output) {
   res5 <- read.csv('data/Youbike_res5.csv')
   res5_g <- gather(res5, time, per, 6:23)
   
-  res6 <- read.csv('data/Youbike_res3.csv') # CSV
+  res6 <- read.csv('data/Youbike_res6.csv')
   res6_g <- gather(res6, time, per, 6:23)
   
   res7 <- read.csv('data/Youbike_res3.csv') # CSV
