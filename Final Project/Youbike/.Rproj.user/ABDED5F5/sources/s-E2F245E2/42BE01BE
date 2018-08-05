@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533436311366.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "42BE01BE",
+    "lastKnownWriteTime" : 32933049022349359,
+    "last_content_update" : 1533436311366,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1230E339",
+        "caption" : "sbi",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=sbi&cache_key=1230E339",
+        "displayedObservations" : 400,
+        "environment" : "",
+        "object" : "sbi",
+        "preview" : 0,
+        "totalObservations" : 400,
+        "variables" : 17
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

@@ -2,7 +2,7 @@ library(shiny)
 library(ggplot2)
 
 # Data
-res <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike_res.csv')
+res <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res.csv')
 
 
 fluidPage(

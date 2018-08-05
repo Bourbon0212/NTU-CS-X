@@ -20,32 +20,25 @@ function(input, output) {
   sbi_g <- gather(sbi, time, quan, 6:ncol(sbi))
   
   res1 <- read.csv('data/Youbike_res3.csv') # CSV
-  colnames(res1)[6:23] <- c(7:24) 
-  res1_g <- gather(res1, time, per, '7':'24')
+  res1_g <- gather(res1, time, per, 6:23)
 
   res2 <- read.csv('data/Youbike_res3.csv') # CSV
-  colnames(res2)[6:23] <- c(7:24)
-  res2_g <- gather(res2, time, per, '7':'24')
+  res2_g <- gather(res2, time, per, 6:23)
   
   res3 <- read.csv('data/Youbike_res3.csv')
-  colnames(res3)[6:23] <- c(7:24)
-  res3_g <- gather(res3, time, per, '7':'24')
+  res3_g <- gather(res3, time, per, 6:23)
   
   res4 <- read.csv('data/Youbike_res4.csv')
-  colnames(res4)[6:23] <- c(7:24)
-  res4_g <- gather(res4, time, per, '7':'24')
+  res4_g <- gather(res4, time, per, 6:23)
   
   res5 <- read.csv('data/Youbike_res5.csv')
-  colnames(res5)[6:23] <- c(7:24)
-  res5_g <- gather(res5, time, per, '7':'24')
+  res5_g <- gather(res5, time, per, 6:23)
   
-  res6 <- read.csv('data/Youbike_res3.csv') # CSV
-  colnames(res6)[6:23] <- c(7:24)
-  res6_g <- gather(res6, time, per, '7':'24')
+  res6 <- read.csv('data/Youbike_res6.csv')
+  res6_g <- gather(res6, time, per, 6:23)
   
   res7 <- read.csv('data/Youbike_res3.csv') # CSV
-  colnames(res7)[6:23] <- c(7:24)
-  res7_g <- gather(res7, time, per, '7':'24')
+  res7_g <- gather(res7, time, per, 6:23)
   
   dataset <- list(res1, res2, res3, res4, res5, res6, res7)
   dataset_g <- list(res1_g, res2_g, res3_g, res4_g, res5_g, res6_g, res7_g)
@@ -77,17 +70,17 @@ function(input, output) {
     # Reactive data inout
   data_day <- reactive({
     req(input$day1)
-    temp <- data.frame(dataset_g[[as.numeric(input$day1)]])
+    data.frame(dataset_g[[as.numeric(input$day1)]])
   })
   
   data_time <- reactive({
     req(input$time1)
-    temp <- data_day() %>%
+    data_day() %>%
       filter(time == input$time1)
   })
   
   output$data <- DT::renderDataTable({
-    req(input$day)
+    req(input$day1)
     DT::datatable(data = data_time(), 
                   options = list(pageLength = 5), 
                   rownames = FALSE)
@@ -103,10 +96,11 @@ function(input, output) {
   # Heat Map
     # Reactive data inout
   data_day1 <- reactive({
-    req(input$day)
-    temp <- data.frame(dataset[[as.numeric(input$day1)]])
+    req(input$day1)
+    data.frame(dataset[[as.numeric(input$day1)]])
   })
   
+    
   output$heat <- renderPlot({
     # Map
     map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
@@ -117,7 +111,7 @@ function(input, output) {
       labs(x = "Longitude", y = "Latitude") +
       coord_map() +
       ggtitle('Remaining Percentage of Youbike in Taipei') +
-      geom_jitter(shape = 1, col = 'grey')
+      geom_jitter(shape = 1)
     res.stat.map
   }, height = 480)
   
