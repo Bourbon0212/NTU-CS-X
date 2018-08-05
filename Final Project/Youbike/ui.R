@@ -4,13 +4,13 @@ library(ggmap)
 library(ggplot2)
 library(RColorBrewer)
 library(stringr)
-library(tidyverse)
 library(tidyr)
 library(dplyr)
 library(readr)
 library(lubridate)
 library(DT)
 library(tools)
+library(vcd)
 
 # Data
 res <- read.csv('data/Youbike_res.csv')
@@ -19,6 +19,17 @@ navbarPage(
   # Theme
   theme = shinytheme('flatly'),
   'Youbike Analysis',
+  tabPanel(
+    'Introduction',
+    
+    sidebarPanel(
+      h2('Introduction')
+    ),
+    
+    mainPanel(
+      HTML('<iframe width="960" height="540" src="https://www.youtube.com/embed/wMW9yLWHTnk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>')
+    )
+  ),
   
   tabPanel(
     'Raw Data',
@@ -56,8 +67,7 @@ navbarPage(
                               'Thursday' = '4',
                               'Friday' = '5',
                               'Saturday' = '6',
-                              'Sunday' = '7'),
-                  selected = 'Wednesday'),
+                              'Sunday' = '7')),
       
       hr(),
       # Time Input
@@ -90,7 +100,7 @@ navbarPage(
                   tabPanel(title = 'Map',
                            br(),
                            tags$p('Please wait, it takes a few seconds to load the map.'),
-                           tags$p('You can point at specific Youbike station for more information.'),
+                           tags$p('You can point at specific Youbike station for more information in the below.'),
                            plotOutput('heat', hover = "plot_hover"),
                            br(),
                            br(),
@@ -111,8 +121,11 @@ navbarPage(
                            h5("Built with",
                               img(src = "https://raw.githubusercontent.com/thomasp85/gganimate/master/man/figures/logo.png", height = "30px"),
                               ".")),
-                  # Tab 3 : Bar Chart
-                  tabPanel(title = 'Bar Chart'),
+                  # Tab 3 : Summary
+                  tabPanel(title = 'Summary',
+                           br(),
+                           plotOutput('barchart')
+                           ),
                   # Tab 4 : Data
                   tabPanel(title = 'Data',
                            br(),
@@ -121,5 +134,48 @@ navbarPage(
                            br(),
                            downloadButton(outputId = "download_data", label = "Download .CSV")))
       
+    )
+  ),
+  tabPanel(
+    'Mosaic Plots',
+    
+    sidebarPanel(
+      h2('Chi-Squared Test'),
+      hr(),
+      selectInput(inputId = 'day2',
+                  label = 'Day',
+                  choices = c('Monday' = '1',
+                              'Tuesday' = '2',
+                              'Wednesday' = '3',
+                              'Thursday' = '4',
+                              'Friday' = '5',
+                              'Saturday' = '6',
+                              'Sunday' = '7'))
+    ),
+    
+    mainPanel(
+      tabsetPanel(type = 'tabs',
+                  # Tab 1: Mosaic
+                  tabPanel(title = 'Mosaic',
+                           br(),
+                           tags$p('The higher the residual, the more overrepresented a segment is.'),
+                           tags$p('The lower the residual, the more underrepresented a segment is.'),
+                           tags$p('The size of each rectangle represents the quantity of bikes then.'),
+                           plotOutput('mosaic')),
+                  
+                  # Tab 2: Residuals
+                  tabPanel(title = 'Residual',
+                           br(),
+                           DT::dataTableOutput(outputId = "residual")),
+                  
+                  # Tab 3: Expected
+                  tabPanel(title = 'Expected',
+                           br(),
+                           DT::dataTableOutput(outputId = "expected")),
+                  
+                  # Tab 4: Observation
+                  tabPanel(title = 'Observation',
+                           br(),
+                           DT::dataTableOutput(outputId = "observation")))
     )
   ))

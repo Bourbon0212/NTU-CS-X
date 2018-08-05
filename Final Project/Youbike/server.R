@@ -3,7 +3,6 @@ library(shinythemes)
 library(ggmap)
 library(ggplot2)
 library(RColorBrewer)
-library(tidyverse)
 library(stringr)
 library(tidyr)
 library(dplyr)
@@ -11,6 +10,7 @@ library(readr)
 library(lubridate)
 library(DT)
 library(tools)
+library(vcd)
 
 function(input, output) {
   # Data
@@ -21,27 +21,43 @@ function(input, output) {
   
   res1 <- read.csv('data/Youbike_res3.csv') # CSV
   res1_g <- gather(res1, time, per, 6:23)
+  sbi1 <- read.csv('data/Youbike_sbi3.csv') # CSV
+  sbi1_g <- gather(sbi1, time, quan, 6:23)
 
   res2 <- read.csv('data/Youbike_res3.csv') # CSV
   res2_g <- gather(res2, time, per, 6:23)
+  sbi2 <- read.csv('data/Youbike_sbi3.csv') # CSV
+  sbi2_g <- gather(sbi2, time, quan, 6:23)
   
   res3 <- read.csv('data/Youbike_res3.csv')
   res3_g <- gather(res3, time, per, 6:23)
+  sbi3 <- read.csv('data/Youbike_sbi3.csv')
+  sbi3_g <- gather(sbi3, time, quan, 6:23)
   
   res4 <- read.csv('data/Youbike_res4.csv')
   res4_g <- gather(res4, time, per, 6:23)
+  sbi4 <- read.csv('data/Youbike_sbi4.csv')
+  sbi4_g <- gather(sbi4, time, quan, 6:23)
   
   res5 <- read.csv('data/Youbike_res5.csv')
   res5_g <- gather(res5, time, per, 6:23)
+  sbi5 <- read.csv('data/Youbike_sbi5.csv')
+  sbi5_g <- gather(sbi5, time, quan, 6:23)
   
   res6 <- read.csv('data/Youbike_res6.csv')
   res6_g <- gather(res6, time, per, 6:23)
+  sbi6 <- read.csv('data/Youbike_sbi6.csv')
+  sbi6_g <- gather(sbi6, time, quan, 6:23)
   
   res7 <- read.csv('data/Youbike_res3.csv') # CSV
   res7_g <- gather(res7, time, per, 6:23)
+  sbi7 <- read.csv('data/Youbike_sbi3.csv') # CSV
+  sbi7_g <- gather(sbi7, time, quan, 6:23)
   
   dataset <- list(res1, res2, res3, res4, res5, res6, res7)
   dataset_g <- list(res1_g, res2_g, res3_g, res4_g, res5_g, res6_g, res7_g)
+  datasbi <- list(sbi1, sbi2, sbi3, sbi4, sbi5, sbi6, sbi7)
+  datasbi_g <- list(sbi1_g, sbi2_g, sbi3_g, sbi4_g, sbi5_g, sbi6_g, sbi7_g)
   rawdata <- list(res_g, sbi_g)
   
   
@@ -94,7 +110,7 @@ function(input, output) {
   
   
   # Heat Map
-    # Reactive data inout
+    # Reactive data input
   data_day1 <- reactive({
     req(input$day1)
     data.frame(dataset[[as.numeric(input$day1)]])
@@ -130,4 +146,65 @@ function(input, output) {
       dplyr::select(sna, sarea, input$time1)
   })
   
+  # Bar Chart
+  output$barchart<- renderPlot({
+    ggplot(data = data_day1(),aes_string(x = 'sarea', y = mean('per'))) +
+      geom_bar()
+  })
+  
+  
+  # Mosaic Plot
+    
+    #Reactive data for mosaic
+  data_day2 <- reactive({
+    req(input$day2)
+    data.frame(datasbi_g[[as.numeric(input$day2)]])
+  })
+  
+  output$mosaic <- renderPlot({
+    mosaic(with(data_day2(), tapply(quan, list(sarea, time), FUN=sum)), shade = T, color = T, labeling = labeling_border(rot_labels = c(90, 90, 0, 0)))
+  }, height = 600)
+  
+    # Residual
+  output$residual <- DT::renderDataTable({
+    DT::datatable(data = round(chisq.test(with(data_day2(), tapply(quan, list(sarea, time), FUN=sum)))$residuals, 2),
+                  options = list(pageLength = 12))
+  })
+  
+    # Expected
+  output$expected <- DT::renderDataTable({
+    DT::datatable(data = round(chisq.test(with(data_day2(), tapply(quan, list(sarea, time), FUN=sum)))$expected, 0),
+                  options = list(pageLength = 12))
+  })
+  
+    # Observation
+  output$observation <- DT::renderDataTable({
+    DT::datatable(data = with(data_day2(), tapply(quan, list(sarea, time), FUN=sum)),
+                  options = list(pageLength = 12))
+  })
+  
+  # Summary
+  
+  # Function to save range for use in ggplot
+  gg_range <- function(x) {
+    data.frame(ymin = min(x), # Min
+               ymax = max(x)) # Max
+  }
+  
+  # Function to get quantiles
+  med_IQR <- function(x) {
+    data.frame(y = median(x), # Median
+               ymin = quantile(x)[2], # 1st quartile
+               ymax = quantile(x)[4])  # 3rd quartile
+  }
+  output$barchart<- renderPlot({
+    ggplot(data_day1(), aes_string(x = 'sarea', y = input$time1)) +
+      geom_point(shape = 1, alpha = 0.5, position = position_jitter(width = 0.1)) +
+      stat_summary(fun.data = med_IQR, geom = 'linerange', col = "#0088A8", size = 3, alpha = 0.8) +
+      stat_summary(fun.data = gg_range, geom = 'linerange', width = 0.2, col = "#0088A8", alpha = 0.2, size = 3) +
+      stat_summary(geom = 'point', fun.y = median,
+                   size = 3,
+                   fill = '#CCEEFF', col = 'red', shape = 21) +
+      ggtitle('Five-number Summary Plot')
+  })
 }

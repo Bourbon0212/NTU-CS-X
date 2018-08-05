@@ -41,3 +41,7 @@ res.stat.map.ani <- ggmap(map, darken = c(0.5, "white")) %+% res3_g + aes(x = ln
   transition_states(time, transition_length = 1, state_length = 1) 
 
 print(res.stat.map.ani)
+
+# Location
+ggmap(map, darken = c(0.5, "white")) %+% res + aes(x = lng, y = lat) +
+  geom_jitter()
