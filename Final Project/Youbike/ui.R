@@ -15,6 +15,17 @@ library(vcd)
 # Data
 res <- read.csv('data/Youbike_res.csv')
 
+# Line Plot Data
+sbi <- read.csv('data/Youbike_sbi(1).csv')
+sbi_line <- sbi %>% gather( Time, value, X2018.8.1.7:X2018.8.4.9, na.rm = TRUE)
+sbi_line <- select(sbi_line,sarea,Time,value)
+sbi_line <- sbi_line %>% group_by(sarea, Time) %>% summarise(mean = mean(value), sum = sum(value))
+sbi_line$Time <- str_replace(sbi_line$Time, 'X', '')
+sbi_line$Time <- ymd_h(sbi_line$Time)
+sbi_line <- separate(sbi_line, Time, c("day", "hour"),sep = " ",remove = FALSE)
+
+all_regions <- sort(unique(sbi_line$sarea))
+
 navbarPage(
   # Theme
   theme = shinytheme('flatly'),
@@ -178,4 +189,39 @@ navbarPage(
                            br(),
                            DT::dataTableOutput(outputId = "observation")))
     )
-  ))
+  ),
+  tabPanel(
+    'Line Plots',
+           sidebarPanel(
+             h2('Line Plots'),
+             hr(),
+             dateRangeInput(inputId = "Time",
+                            label = "Time:",
+                            start = "2018-08-01",
+                            end = "2018-08-04",
+                            min = "2018-08-01", max = "2018-08-07",
+                            startview="date"),
+             
+             selectInput(inputId = "sarea",
+                         label = "Region:",
+                         choices = all_regions,
+                         multiple = T,
+                         selected = '大安區')
+           ),
+           
+           mainPanel(
+             tabsetPanel(type = 'tabs',
+                         
+                         # Tab 1: Mean
+                         tabPanel(title = 'Mean',
+                                  br(),
+                                  plotOutput(outputId = "line_mean")),
+                         # Tab 2: Sum
+                         tabPanel(title = 'Sum',
+                                  br(),
+                                  plotOutput(outputId = 'line_sum'))
+                         )
+           )
+           )
+  
+  )

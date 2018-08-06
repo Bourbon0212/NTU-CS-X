@@ -207,4 +207,52 @@ function(input, output) {
                    fill = '#CCEEFF', col = 'red', shape = 21) +
       ggtitle('Five-number Summary Plot')
   })
+  
+  # Line Plot Data
+  sbi <- read.csv('data/Youbike_sbi(1).csv')
+  sbi_line <- sbi %>% gather( Time, value, X2018.8.1.7:X2018.8.4.9, na.rm = TRUE)
+  sbi_line <- select(sbi_line,sarea,Time,value)
+  sbi_line <- sbi_line %>% group_by(sarea, Time) %>% summarise(mean = mean(value), sum = sum(value))
+  sbi_line$Time <- str_replace(sbi_line$Time, 'X', '')
+  sbi_line$Time <- ymd_h(sbi_line$Time)
+  sbi_line <- separate(sbi_line, Time, c("day", "hour"),sep = " ",remove = FALSE)
+  
+  all_regions <- sort(unique(sbi_line$sarea))
+  
+  min_date <- min(sbi_line$Time)
+  max_date <- max(sbi_line$Time)
+  
+  
+  shade <- read.csv('data/shade.csv')
+  shade$x1<-ymd_h(shade$x1)
+  shade$x2<-ymd_h(shade$x2)
+  
+  # Line Plot: mean
+  
+  selected <- reactive({
+    req(input$Time)
+    req(input$sarea)
+    sbi_line %>% 
+      filter(sarea == input$sarea) %>%
+      filter(day >= as.Date(input$Time[1], "%Y-%m-%d") & day <= as.Date(input$Time[2], "%Y-%m-%d"))
+  })
+  
+  output$line_mean <- renderPlot({
+    
+    ggplot() + 
+      geom_line(data = selected(), aes_string(x = 'Time', y = 'mean', color = 'sarea'))+
+      geom_rect(data = shade, mapping = aes_string(xmin = 'x1', xmax = 'x2', ymin = -Inf, ymax = Inf), fill = '#DDDDDD') +
+      ylim(8,25)
+  }, height = 600)
+  
+  # Line Plot: Sum
+  
+  output$line_sum <- renderPlot({
+    
+    ggplot() + 
+      geom_line(data = selected(), aes_string(x = 'Time', y = 'sum', color = 'sarea'))+
+      geom_rect(data = shade, mapping = aes_string(xmin = 'x1', xmax = 'x2', ymin = -Inf, ymax = Inf), fill = '#DDDDDD') +
+      ylim(100, 1100)
+  }, height = 600)
+  
 }
