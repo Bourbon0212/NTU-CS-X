@@ -28,7 +28,7 @@ print(res.stat.map)
 
 
 # res
-res3 <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res6.csv')
+res3 <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res7.csv')
 res3_g <- gather(res3, time, per, X7:X24)
 res3_g$time <- str_replace(res3_g$time, 'X', '')
 
@@ -36,7 +36,7 @@ res3_g$time <- str_replace(res3_g$time, 'X', '')
 res.stat.map.ani <- ggmap(map, darken = c(0.5, "white")) %+% res3_g + aes(x = lng, y = lat, z = per) +
   stat_summary_2d(fun = median, alpha = 0.6) +
   scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), space = 'Lab') +
-  labs(title = 'Saturday, {closest_state}', x = "Longitude", y = "Latitude") +
+  labs(title = 'Sunday, {closest_state}', x = "Longitude", y = "Latitude") +
   coord_map() +
   transition_states(time, transition_length = 1, state_length = 1) 
 

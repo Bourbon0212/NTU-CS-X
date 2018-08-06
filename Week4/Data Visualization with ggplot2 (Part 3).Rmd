@@ -19,7 +19,14 @@ output: html_document
         + [Weighted Density Plots](#1.3.4)    
     + [2D Density Plots](#1.4)    
         + [2D Density Plots with `viridis`](#1.4.1)     
-* [Plots for Specific Data Types](#2)   
+* [Plots for Specific Data Types](#2)     
+    + [Pairs & Matrix](#2.1)      
+    + [Ternary Plots](#2.2)     
+    + [Network Plots](#2.3)     
+    + [Diagnostic Plots](#2.4)    
+    + [Choropleths](#2.5)   
+    + [Cartographic Maps](#2.6)     
+    + [Animations](#2.7)    
 
 <h2 id = '1'></h2>
 # **Statistical Plots**   
@@ -327,3 +334,287 @@ p +
 
 <h2 id = '2'></h2>
 # **Plots for Specific Data Types** 
+
+
+<h3 id = '2.1'></h3>
+## Pairs & Matrix
+
+```{r, message = F, warning = F}
+# mtcars_fact: categorical variables have been converted into actual factor columns.
+mtcars_fact <- mtcars
+mtcars_fact$cyl <- factor(mtcars$cyl)
+mtcars_fact$vs <- factor(mtcars$vs)
+mtcars_fact$am <- factor(mtcars$am)
+mtcars_fact$gear <- factor(mtcars$gear)
+mtcars_fact$carb <- factor(mtcars$carb)
+
+# ggpairs
+library(GGally)
+ggpairs(mtcars_fact[1:3])
+
+# pairs
+pairs(iris[1:4])
+
+# chart.Correlation
+library(PerformanceAnalytics)
+chart.Correlation(iris[1:4])
+
+library(ggplot2)
+library(reshape2)
+
+cor_list <- function(x) {
+  L <- M <- cor(x)
+  
+  M[lower.tri(M, diag = TRUE)] <- NA
+  M <- melt(M)
+  names(M)[3] <- "points"
+  
+  L[upper.tri(L, diag = TRUE)] <- NA
+  L <- melt(L)
+  names(L)[3] <- "labels"
+  
+  merge(M, L)
+}
+
+# Calculate xx with cor_list
+library(dplyr)
+xx <- iris %>%
+  group_by(Species) %>%
+  do(cor_list(.[1:4]))
+head(xx)
+
+# Finish the plot
+ggplot(xx, aes(x = Var1, y = Var2)) +
+  geom_point(aes(col = points, size = abs(points)), shape = 16) +
+  geom_text(aes(col = labels,  size = abs(labels), label = round(labels, 2))) +
+  scale_size(range = c(0, 6)) +
+  scale_color_gradient2("r", limits = c(-1, 1)) +
+  scale_y_discrete("", limits = rev(levels(xx$Var1))) +
+  scale_x_discrete("") +
+  guides(size = FALSE) +
+  geom_abline(slope = -1, intercept = nlevels(xx$Var1) + 1) +
+  coord_fixed() +
+  facet_grid(. ~ Species) +
+  theme(axis.text.y = element_text(angle = 45, hjust = 1),
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.background = element_blank())
+```
+
+<br>
+
+<h3 id = '2.2'></h3>
+## Ternary Plots
+
+#### **For Small Dataset: Bar Chart**
+```{r, , message = F}
+library(dplyr)
+africa <- get(load('D:/Downloads/africa.RData'))
+africa_sample <- sample_n(africa, size = 50)
+
+# Explore africa
+str(africa)
+str(africa_sample)
+
+# Add an ID column from the row.names
+africa_sample$ID <- row.names(africa_sample)
+
+# Gather africa_sample
+library(tidyr)
+africa_sample_tidy <- gather(africa_sample, key, value, -ID)
+head(africa_sample_tidy)
+
+# Finish the ggplot command
+ggplot(africa_sample_tidy, aes(x = factor(ID), y = value, fill = key)) +
+  geom_col() +
+  coord_flip()
+```
+
+#### **For Large Dataset: Ternary Plots**
+```{r, eval = F}
+# Currently not supported by ggplot2 (20180806)
+library(ggplot2)
+library(ggtern)
+# Original plot:
+ggtern(data = africa, aes(x = Sand, y = Silt, z = Clay)) +
+  geom_point(shape = 16, alpha = 0.2)
+
+# Plot 1
+ggtern(africa, aes(x = Sand, y = Silt, z = Clay)) +
+  geom_density_tern()
+
+# Plot 2
+ggtern(africa, aes(x = Sand, y = Silt, z = Clay)) +
+  stat_density_tern(geom = 'polygon', aes(fill = ..level.., alpha = ..level..)) +
+  guides(fill = FALSE)
+```
+
+<br>
+
+<h3 id = '2.3'></h3>
+## Network Plots
+
+```{r}
+library(geomnet)
+# Merge edges and vertices
+mmnet <- merge(madmen$edges, madmen$vertices,
+               by.x = "Name1", by.y = "label",
+               all = TRUE)
+head(mmnet)
+
+# Plot
+ggplot(data = mmnet, aes(from_id = Name1, to_id = Name2)) +
+  geom_net(aes(col = Gender), size = 6, linewidth = 1, labelon = T, fontsize = 3, labelcolour = 'black')
+
+# Modify
+pink_and_blue <- c(female = "#FF69B4", male = "#0099ff")
+
+ggplot(data = mmnet, aes(from_id = Name1, to_id = Name2)) +
+  geom_net(aes(col = Gender),
+           size = 6,
+           linewidth = 1,
+           labelon = TRUE,
+           fontsize = 3,
+           labelcolour = "black",
+           # Make the graph directed
+           directed = T) +
+  # Add manual color scale         
+  scale_color_manual(values = pink_and_blue) +
+  # Set x-axis limits
+  xlim(-0.05, 1.05) +
+  # Set void theme
+  theme_void()
+```
+
+<br>
+
+<h3 id = '2.4'></h3>
+## Diagnostic Plots
+
+* `ggfortify`: An all-purpose plot converter between `base` graphics and `ggplot2` `grid` graphics.   
+
+#### **`lm`**
+```{r}
+# Create linear model: res
+res <- lm(Volume ~ Girth, data = trees)
+
+# Plot res (base)
+plot(res)
+
+# Import ggfortify and use autoplot()
+# ncol = 2 to convert this to a ggplot2 plot.
+library(ggfortify)
+autoplot(res, ncol =2)
+```
+
+#### **`mts` or `ts`**
+
+Time series objects (class `mts` or `ts`) also have their own methods for `plot()`.     
+`ggfortify` can also take advantage of this functionality.
+```{r, message = F}
+library(vars)
+Canda <- data('Canada')
+class(Canada)
+# Inspect structure of Canada
+str(Canada)
+
+# Call plot() on Canada
+plot(Canada)
+
+# Call autoplot() on Canada
+autoplot(Canada)
+```
+
+#### **`dist`**
+
+* `cmdscale()`: From the stats package performs Classical Multi-Dimensional Scaling and returns point coodinates as a matrix.   
+
+```{r, message = F}
+# Autoplot + ggplot2 tweaking
+autoplot(eurodist) + 
+  coord_fixed()
+
+# Autoplot of MDS
+autoplot(cmdscale(eurodist, eig = TRUE), 
+         label = TRUE, 
+         label.size = 3, 
+         size = 0)
+```
+
+#### **Kmeans & Cluster**
+
+* `kmeans()`, a function in the `stats` package, to perform clustering on `iris[-5]` with 3 groups.   
+```{r}
+# Perform clustering
+iris_k <- kmeans(iris[-5], 3)
+
+# Autoplot: color according to cluster, plus shape according to species
+autoplot(iris_k, data = iris, frame = T, shape = 'Species')
+```
+
+<br>
+
+<h3 id = '2.5'></h3>
+## Choropleths
+
+* `geom_polygon()`: Make a choropleths like drawing a polygon.    
+
+#### **Using `ggplot2::map_data()`**
+
+```{r, message = F, warning = F}
+# Get the map data
+library(ggplot2)
+usa<- map_data('usa')
+
+library(ggmap)
+# Build the map
+ggplot(usa, aes(x = long, y = lat, group = group)) +
+  geom_polygon() +
+  coord_map() +
+  theme_nothing()
+```
+
+#### **Read from Shapefiles**
+
+* Use `readOGR()` to read in the shapefiles and store the data as germany.    
+    + `dsn`, data source name, the folder of the shapefiles. Should be "shapes".    
+    + `layer`, the level you are interested in. You want state information, so "DEU_adm1".    
+```{r, message = F, warning = F}
+# All required packages are available
+# Import shape information: germany
+library(rgdal)
+germany <- readOGR(dsn = 'D:/Downloads/shape_files', layer = 'DEU_adm1')
+
+# fortify germany: bundes
+library(ggfortify)
+bundes <- fortify(germany)
+
+# Plot map of germany
+library(ggmap)
+ggplot(bundes, aes(x = long, y = lat, group = group)) +
+    geom_polygon(fill = '#DDDDDD', col = 'white') +
+    coord_map() +
+    theme_nothing()
+
+# Import unemployment of germany
+unemp <- read.table('D:/Downloads/germany_unemployment.txt', header = T)
+
+# re-add state names to bundes
+bundes$state <- factor(as.numeric(bundes$id))
+levels(bundes$state) <- germany$NAME_1
+
+# Merge bundes and unemp: bundes_unemp
+bundes_unemp <- merge(bundes, unemp)
+
+# Update the ggplot call
+library(ggthemes)
+ggplot(bundes_unemp, aes(x = long, y = lat, group = group, fill = unemployment)) +
+  geom_polygon() +
+  coord_map()
+  #theme_map()  
+  #Cause legend & map overlapping
+```
+
+<br>
+
+<h3 id = '2.6'></h3>
+## Cartographic Maps

@@ -195,6 +195,7 @@ navbarPage(
            sidebarPanel(
              h2('Line Plots'),
              hr(),
+             h5('Pick dates between 2018-08-01 and 2018-08-07.'),
              dateRangeInput(inputId = "Time",
                             label = "Time:",
                             start = "2018-08-01",

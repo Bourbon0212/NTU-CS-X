@@ -49,9 +49,9 @@ function(input, output) {
   sbi6 <- read.csv('data/Youbike_sbi6.csv')
   sbi6_g <- gather(sbi6, time, quan, 6:23)
   
-  res7 <- read.csv('data/Youbike_res3.csv') # CSV
+  res7 <- read.csv('data/Youbike_res7.csv')
   res7_g <- gather(res7, time, per, 6:23)
-  sbi7 <- read.csv('data/Youbike_sbi3.csv') # CSV
+  sbi7 <- read.csv('data/Youbike_sbi7.csv')
   sbi7_g <- gather(sbi7, time, quan, 6:23)
   
   dataset <- list(res1, res2, res3, res4, res5, res6, res7)
