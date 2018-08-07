@@ -9,7 +9,8 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 ### [Week1](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week1)
 ### [Week2](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week2)
 ### [Week3](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week3)
-### [Week4](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week4)      
+### [Week4](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week4)    
+### [Week4](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week5)    
 ### [Final Project](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Final%20Project)    
 ## Homework
 * [hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)   
