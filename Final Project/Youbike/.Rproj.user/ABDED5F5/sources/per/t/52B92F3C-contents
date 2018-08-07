@@ -219,7 +219,7 @@ function(input, output) {
   
   # Line Plot Data
   sbi <- read.csv('data/Youbike_sbi(1).csv')
-  sbi_line <- sbi %>% gather( Time, value, X2018.8.1.7:X2018.8.4.9, na.rm = TRUE)
+  sbi_line <- sbi %>% gather( Time, value, X2018.8.1.7:X2018.8.7.24, na.rm = TRUE)
   sbi_line <- select(sbi_line,sarea,Time,value)
   sbi_line <- sbi_line %>% group_by(sarea, Time) %>% summarise(mean = mean(value), sum = sum(value))
   sbi_line$Time <- str_replace(sbi_line$Time, 'X', '')
