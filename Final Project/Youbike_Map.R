@@ -39,7 +39,7 @@ ggmap(map, darken = c(0.7, "white")) +
                fill = NA, col = "#000000", width = 0.1)
 
 # res
-res3 <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res7.csv')
+res3 <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_res2.csv')
 res3_g <- gather(res3, time, per, X7:X24)
 res3_g$time <- str_replace(res3_g$time, 'X', '')
 
