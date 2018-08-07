@@ -11,17 +11,19 @@ library(lubridate)
 library(DT)
 library(tools)
 library(vcd)
+library(rgdal)
+library(ggfortify)
 
 function(input, output) {
   # Data
   res <- read.csv('data/Youbike_res.csv')
   res_g <- gather(res, time, per, 6:ncol(res))
-  sbi <- read.csv('data/Youbike_sbi.csv')
+  sbi <- read.csv('data/Youbike_sbi(1).csv')
   sbi_g <- gather(sbi, time, quan, 6:ncol(sbi))
   
-  res1 <- read.csv('data/Youbike_res3.csv') # CSV
+  res1 <- read.csv('data/Youbike_res1.csv')
   res1_g <- gather(res1, time, per, 6:23)
-  sbi1 <- read.csv('data/Youbike_sbi3.csv') # CSV
+  sbi1 <- read.csv('data/Youbike_sbi1.csv')
   sbi1_g <- gather(sbi1, time, quan, 6:23)
 
   res2 <- read.csv('data/Youbike_res3.csv') # CSV
@@ -60,6 +62,9 @@ function(input, output) {
   datasbi_g <- list(sbi1_g, sbi2_g, sbi3_g, sbi4_g, sbi5_g, sbi6_g, sbi7_g)
   rawdata <- list(res_g, sbi_g)
   
+  # Shape File
+  taipei <- readOGR(dsn = 'data/taipei_town', layer = 'Taipei_town')
+  taipei <- fortify(taipei)
   
   #  Raw Data
   
@@ -119,10 +124,14 @@ function(input, output) {
     
   output$heat <- renderPlot({
     # Map
-    map <- get_map(location = c(min(res$lng), min(res$lat), max(res$lng), max(res$lat)), maptype = "toner-lite")
+    map <- get_map(location = c(min(taipei$long), min(taipei$lat), max(taipei$long), max(taipei$lat)), maptype = "toner-lite")
     
-    res.stat.map <- ggmap(map, darken = c(0.5, "white")) %+% data_day1() + aes_string(x = "lng", y = "lat", z = input$time1) +
-      stat_summary_2d(fun = median, alpha = 0.6) +
+    res.stat.map <- ggmap(map, darken = c(0.6, "white")) %+% data_day1() + aes_string(x = "lng", y = "lat", z = input$time1) +
+      stat_summary_2d(fun = median, alpha = 0.8) +
+      geom_polygon(data = taipei,
+                   aes(x = long, y = lat, group = group),
+                   fill = NA, col = "#666666",
+                   inherit.aes = FALSE) +
       scale_fill_gradientn(name = 'Median', colours = brewer.pal(11, "RdYlGn"), limits = c(0, 1), breaks = seq(0, 1, by = 0.25)) +
       labs(x = "Longitude", y = "Latitude") +
       coord_map() +
@@ -150,7 +159,7 @@ function(input, output) {
   output$barchart<- renderPlot({
     ggplot(data = data_day1(),aes_string(x = 'sarea', y = mean('per'))) +
       geom_bar()
-  })
+  }, height = 600)
   
   
   # Mosaic Plot
@@ -233,7 +242,7 @@ function(input, output) {
     req(input$Time)
     req(input$sarea)
     sbi_line %>% 
-      filter(sarea == input$sarea) %>%
+      filter(sarea %in% input$sarea) %>%
       filter(day >= as.Date(input$Time[1], "%Y-%m-%d") & day <= as.Date(input$Time[2], "%Y-%m-%d"))
   })
   
@@ -242,7 +251,7 @@ function(input, output) {
     ggplot() + 
       geom_line(data = selected(), aes_string(x = 'Time', y = 'mean', color = 'sarea'))+
       geom_rect(data = shade, mapping = aes_string(xmin = 'x1', xmax = 'x2', ymin = -Inf, ymax = Inf), fill = '#DDDDDD') +
-      ylim(8,25)
+      ylim(5,25)
   }, height = 600)
   
   # Line Plot: Sum

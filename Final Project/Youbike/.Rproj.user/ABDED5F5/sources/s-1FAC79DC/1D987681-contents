@@ -11,6 +11,8 @@ library(lubridate)
 library(DT)
 library(tools)
 library(vcd)
+library(rgdal)
+library(ggfortify)
 
 # Data
 res <- read.csv('data/Youbike_res.csv')
