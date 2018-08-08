@@ -19,7 +19,7 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 * [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)         
 * [hw3(TFIDF/PCA/Kmeans).html](https://bourbon0212.github.io/NTU-CS-X/Week3/TFIDF_-_PCA_-_Kmeans.html)    
 * [hw4(Regression).html](https://bourbon0212.github.io/NTU-CS-X/Week4/Happiness___Open_Data__II_.html)    
-* [FYoubike Analysis](https://bourbon0212.shinyapps.io/Youbike/)
+* [Final Project: Youbike Analysis](https://bourbon0212.shinyapps.io/Youbike/)
 ## Notes
 * [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)
 * [Intermediate R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2)
