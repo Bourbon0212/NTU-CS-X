@@ -11,7 +11,7 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 ### [Week3](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week3)
 ### [Week4](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week4)    
 ### [Week5](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Week5)    
-### [Final Project](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Final%20Project)    
+### [Final Project](https://github.com/Bourbon0212/NTU-CS-X/tree/master/Final%20Project)        
 ## Homework
 * [hw1.html](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html)   
 * [hw2(Part1).html + BONUS](https://bourbon0212.github.io/NTU-CS-X/Week2/hw2_part1.html)    
@@ -19,7 +19,8 @@ Intro：嗨，大家好，我是龔泓愷，興趣是看看3C相關科技新聞�
 * [hw3(EDA).html](https://bourbon0212.github.io/NTU-CS-X/Week3/Happiness_and_Open_Data.html)         
 * [hw3(TFIDF/PCA/Kmeans).html](https://bourbon0212.github.io/NTU-CS-X/Week3/TFIDF_-_PCA_-_Kmeans.html)    
 * [hw4(Regression).html](https://bourbon0212.github.io/NTU-CS-X/Week4/Happiness___Open_Data__II_.html)    
-* [Final Project: Youbike Analysis](https://bourbon0212.shinyapps.io/Youbike/)
+* [Final Project: Youbike Analysis](https://bourbon0212.shinyapps.io/Youbike/)    
+* [Final Project: Powerpoint](https://github.com/Bourbon0212/NTU-CS-X/blob/master/Final%20Project/暑假報告ppt.pptx)     
 ## Notes
 * [Introduction to R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#1)
 * [Intermediate R](https://bourbon0212.github.io/NTU-CS-X/Week1/hw1.html#2)
