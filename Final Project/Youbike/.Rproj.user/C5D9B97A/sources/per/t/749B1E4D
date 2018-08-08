@@ -5,13 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1912442658",
+    "hash" : "1435373032",
     "id" : "749B1E4D",
-    "lastKnownWriteTime" : 1533373855,
-    "last_content_update" : 1533373855,
+    "lastKnownWriteTime" : 1533695974,
+    "last_content_update" : 1533695974929,
     "path" : "D:/GitHub/NTU-CS-X/Final Project/Youbike/ui.R",
     "project_path" : "ui.R",
     "properties" : {
+        "cursorPosition" : "278,47",
+        "scrollLine" : "0"
     },
     "relative_order" : 1,
     "source_on_save" : false,

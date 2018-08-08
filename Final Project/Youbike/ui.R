@@ -268,21 +268,16 @@ navbarPage(
            mainPanel(width = 8,
                      tabsetPanel(type = 'tabs',
                                  
-                                 #Tab 1: All Week
-                                 tabPanel(title = 'All Week',
-                                          br()
-                                          #plotOutput('con_allweek')
-                                          ),
                                  
                                  #Tab 2: Weekdays
                                  tabPanel(title = 'Weekdays',
-                                          br()
-                                          #plotOutput('con_allweek')
+                                          br(),
+                                          plotOutput('con_weekdays')
                                           ),
                                  #Tab 1: Weekends
                                  tabPanel(title = 'Weekends',
-                                          br()
-                                          #plotOutput('con_allweek')
+                                          br(),
+                                          plotOutput('con_weekends')
                                           )
                      ))
   ),
