@@ -27,7 +27,6 @@ output: html_document
     + [Choropleths](#2.5)   
     + [Cartographic Maps](#2.6)     
     + [Animations](#2.7)    
-* [`ggplot2` Internals](#3)   
     
 
 <h2 id = '1'></h2>
@@ -677,8 +676,4 @@ print(res.stat.map.ani)
 ![](D:\Desktop\4.gif)
 </div>
 
-<br>
-
-<h2 id = '3'></h2>
-# **`ggplot2` Internals**
 
