@@ -4,7 +4,7 @@ library(ggplot2)
 library(RColorBrewer)
 
 # Bike
-sbi <- read.csv('D:/GitHub/NTU-CS-X/Final Project/Youbike/data/Youbike_sbi3.csv')
+sbi <- read.csv('C:/Users/dx788/Desktop/workdaymean.csv')
 sbi_g <- gather(sbi, time, quan, 6:23)
 
 # Table

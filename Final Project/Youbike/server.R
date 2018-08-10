@@ -248,9 +248,9 @@ function(input, output) {
   
   output$line_mean <- renderPlot({
     
-    ggplot() + 
-      geom_line(data = selected(), aes_string(x = 'Time', y = 'mean', color = 'sarea'))+
-      geom_rect(data = shade, mapping = aes_string(xmin = 'x1', xmax = 'x2', ymin = -Inf, ymax = Inf), fill = '#DDDDDD') +
+    ggplot(data = selected(), aes_string(x = 'Time', y = 'mean', color = 'sarea')) + 
+      geom_point() +
+      geom_line() +
       ylim(5,25)
   }, height = 600)
   
@@ -262,6 +262,26 @@ function(input, output) {
       geom_line(data = selected(), aes_string(x = 'Time', y = 'sum', color = 'sarea'))+
       geom_rect(data = shade, mapping = aes_string(xmin = 'x1', xmax = 'x2', ymin = -Inf, ymax = Inf), fill = '#DDDDDD') +
       ylim(100, 1100)
+  }, height = 600)
+  
+  
+  
+  # Conclusion: Weekdays
+  
+  weekdays <- read.csv('data/workdaymean.csv')
+  weekdays_g <- gather(weekdays, time, quan, 6:23)
+  
+  output$con_weekdays <- renderPlot({
+    mosaic(with(weekdays_g, tapply(quan, list(sarea, time), FUN=sum)), shade = T, color = T, labeling = labeling_border(rot_labels = c(90, 90, 0, 0)))
+  }, height = 600)
+  
+  # Conclusion: Weekends
+  
+  weekends <- read.csv('data/holidaymean.csv')
+  weekends_g <- gather(weekends, time, quan, 6:23)
+  
+  output$con_weekends <- renderPlot({
+    mosaic(with(weekends_g, tapply(quan, list(sarea, time), FUN=sum)), shade = T, color = T, labeling = labeling_border(rot_labels = c(90, 90, 0, 0)))
   }, height = 600)
   
 }

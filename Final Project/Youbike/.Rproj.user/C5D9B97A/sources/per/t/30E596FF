@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533696407609.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1590457613",
+    "id" : "30E596FF",
+    "lastKnownWriteTime" : 1533696421,
+    "last_content_update" : 1533696422013,
+    "path" : "D:/GitHub/NTU-CS-X/Final Project/Youbike/data/holidaymean.csv",
+    "project_path" : "data/holidaymean.csv",
+    "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}
